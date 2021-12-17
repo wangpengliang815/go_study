@@ -2,6 +2,8 @@ package main
 
 import (
 	"fmt"
+	"math"
+	"unsafe"
 )
 
 func main() {
@@ -18,8 +20,7 @@ func main() {
 	name3 := name2 + "hello"
 	fmt.Println(name3)
 
-	"const"关键字可以出现在任何"var"关键字出现的地方
-	区别是常量必须有初始值
+	//"const"关键字可以出现在任何"var"关键字出现的地方,区别是常量必须有初始值
 	const n = 20
 	// 常量表达式可以执行任意精度数学计算
 	const d = 10000 / n
