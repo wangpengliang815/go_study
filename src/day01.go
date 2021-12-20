@@ -3,30 +3,121 @@ package main
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
+	"math"
 	"runtime"
+	"unsafe"
 )
 
 func main() {
+	// 变量
+	variableTest()
 
+	// 常量
+	constTest()
+
+	// 数字字面量语法
+	numberLiteralsSyntaxTest()
+
+	// 返回变量占用的字节数
+	getSizeofTest()
+
+	// 以不同进制显示
+	convertOutputTest()
+
+	// 浮点数类型float
 	floatTest()
 
+	// float精度丢失问题
 	floatPrecisionLossTest()
 
+	// 使用第三方包解决float精度丢失问题
 	floatPrecisionLossSolveTest()
 
+	// 使用科学计数法表示浮点数
 	float64ScientificTest()
-	var s1 string = "wangpengliang"
-	var s2 string = `wangpengliang`
-	fmt.Println(s1, s2)
 
+	// 枚举
 	enumTest()
 
+	// 数组
 	arrayTest()
 }
 
-// @title floatTest
-// @description   浮点数类型float
-// @auth     WangPengLiang
+// 变量
+func variableTest() {
+	printRunFuncName()
+	var name string // 省略表达式，使用字符串对应的零值初始化（空字符串）
+	var age int     // 省略表达式，使用数值类型对应的零值初始化（0）
+	fmt.Println(name, age)
+
+	// 简单声明变量方式
+	name2 := "hello"
+	fmt.Println(name2)
+	// 字符串拼接
+	name3 := name2 + "world"
+	fmt.Println(name3)
+
+	// 前者表示所见即所得的(除了回车符)。后者所表示的值中转义符会起作用
+	var s1 string = "WangPengLiang"
+	var s2 string = `WangPengLiang`
+	fmt.Println(s1, s2)
+}
+
+// 常量
+func constTest() {
+	printRunFuncName()
+	const n = 20        //"const"关键字可以出现在任何"var"关键字出现的地方,区别是常量必须有初始值
+	const d = 10000 / n // 常量表达式可以执行任意精度数学计算
+	fmt.Println(d)
+	fmt.Println(int64(d))    // 数值型常量没有具体类型，除非指定一个类型，比如显式类型转换
+	fmt.Println(math.Sin(n)) // 数值型常量可以在程序的逻辑上下文中获取类型，比如变量赋值或者函数调用，例如，对于math包中的Sin函数,它需要一个float64类型的变量
+}
+
+// 数字字面量语法
+func numberLiteralsSyntaxTest() {
+	printRunFuncName()
+	v1 := 0b00101101 //代表二进制的 101101，相当于十进制的 45
+	fmt.Printf("value:%v type:%T \n", v1, v1)
+	v2 := 0o377 //代表八进制的377，相当于十进制的 255
+	fmt.Printf("value:%v type:%T \n", v2, v2)
+	v3 := 0x1p-2 //代表十六进制的 1 除以 2²，也就是 0.25
+	fmt.Printf("value:%v type:%T \n", v3, v3)
+	v4 := 123_456 // 使用“_”分隔数字
+	fmt.Printf("value:%v type:%T \n", v4, v4)
+}
+
+// 返回变量占用的字节数
+func getSizeofTest() {
+	var value int8 = 120
+	fmt.Printf("%T\n", value)
+	fmt.Println(unsafe.Sizeof(value))
+}
+
+// 以不同进制显示
+func convertOutputTest() {
+	printRunFuncName()
+	// 十进制
+	var a int = 10
+	fmt.Printf("%d \n", a)
+	fmt.Printf("%b \n", a) // 占位符%b表示二进制
+
+	// 八进制以0开头
+	var b int = 077
+	fmt.Printf("%o \n", b)
+
+	// 十六进制 以 0x 开头
+	var c int = 0xff
+	fmt.Printf("%x \n", c)
+	fmt.Printf("%X \n", c)
+	fmt.Printf("%d \n", c)
+
+	// int不同长度转换
+	var num1 int8 = 127
+	num2 := int32(num1)
+	fmt.Printf("value:%v type:%T \n", num2, num2)
+}
+
+// 浮点数类型float
 func floatTest() {
 	printRunFuncName()
 	var f float64 = 3.1415926
@@ -35,9 +126,7 @@ func floatTest() {
 	fmt.Printf("值:%v--类型:%T \n", f, f) // 浮点数默认类型是float64
 }
 
-// @title floatPrecisionLossTest
-// @description   float精度丢失问题
-// @auth     WangPengLiang
+//  float精度丢失问题
 func floatPrecisionLossTest() {
 	printRunFuncName()
 	d := 1129.6
@@ -133,9 +222,7 @@ func floatPrecisionLossSolveTest() {
 	fmt.Println(result)
 }
 
-// @title float64ScientificTest
-// @description   科学计数法表示浮点类型
-// @auth     WangPengLiang
+// 科学计数法表示浮点类型
 func float64ScientificTest() {
 	n1 := 5.1234e2
 	n2 := 5.1234e2
@@ -143,9 +230,7 @@ func float64ScientificTest() {
 	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
 }
 
-// @title enumTest
-// @description   Go没有枚举,使用const+iota模拟
-// @auth     WangPengLiang
+// Go没有枚举,使用const+iota模拟
 func enumTest() {
 	const (
 		Sunday    = iota // 0
@@ -165,9 +250,7 @@ func enumTest() {
 	fmt.Println(A, B, C, D)
 }
 
-// @title arrayTest
-// @description   数组
-// @auth     WangPengLiang
+// 数组
 func arrayTest() {
 	var a [3]int = [3]int{1, 2, 3}
 	fmt.Println(a[0])
