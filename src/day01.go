@@ -162,7 +162,7 @@ func floatPrecisionLossSolveTest() {
 	// 加法 Add
 	var f1 float64 = 2.1
 	var i1 int = 3
-	fmt.Println(decimal.NewFromFloat(f1).Add(decimal.NewFromFloat(float64(i1)))) // "2.1 + 3": float和int相加=>output: "5.1"
+	fmt.Println(decimal.NewFromFloat(f1).Add(decimal.NewFromFloat(float64(i1)))) // 2.1 + 3: float和int相加=>output: "5.1"
 
 	var f2 float64 = 2.1
 	var f3 float64 = 3.1
@@ -202,7 +202,7 @@ func floatPrecisionLossSolveTest() {
 
 	var n11 int = 2
 	var n12 int = 3
-	fmt.Println(decimal.NewFromFloat(float64(n11)).Div(decimal.NewFromFloat(float64(n12)))) // 2 ➗ 3 = 0.6666666666666667  =>  output: "0.6666666666666667"
+	fmt.Println(decimal.NewFromFloat(float64(n11)).Div(decimal.NewFromFloat(float64(n12)))) // 2 / 3 = 0.6666666666666667  =>  output: "0.6666666666666667"
 
 	// 	float64 和 int 相除
 	var num13 float64 = 2.1
