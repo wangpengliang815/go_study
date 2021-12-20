@@ -1,11 +1,10 @@
-/*package main
+package main
 
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
 	"runtime"
 )
-
 
 func main() {
 
@@ -24,7 +23,6 @@ func main() {
 
 	arrayTest()
 }
-
 
 // @title floatTest
 // @description   浮点数类型float
@@ -218,4 +216,3 @@ func printRunFuncName() {
 	f := runtime.FuncForPC(pc[0])
 	fmt.Println("FuncName:", f.Name()+"========================================================>")
 }
-*/

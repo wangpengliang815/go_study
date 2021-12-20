@@ -9,9 +9,7 @@ import (
 
 func main() {
 	variableTest()
-
 	constTest()
-
 	// 返回变量占用的字节数
 	var value int8 = 120
 	fmt.Printf("%T\n", value)
@@ -20,38 +18,35 @@ func main() {
 	// int不同长度转换
 	var num1 int8 = 127
 	num2 := int32(num1)
-	fmt.Printf("值:%v 类型%T", num2, num2)
+	fmt.Printf("value:%v type:%T \n", num2, num2)
 
+	// 数字字面量语法
 	numberLiteralsSyntaxTest()
 
+	// 以不同进制显示
 	convertOutputTest()
 
-	var s1 string = "wangpengliang"
-	var s2 string = `wangpengliang`
+	// 前者表示所见即所得的(除了回车符)。后者所表示的值中转义符会起作用
+	var s1 string = "WangPengLiang"
+	var s2 string = `WangPengLiang`
 	fmt.Println(s1, s2)
 }
 
-// @title variableTest
-// @description   变量
-// @auth     WangPengLiang
 func variableTest() {
 	printRunFuncName()
 	var isCheck = false // 省略变量类型，根据value推断变量类型
-	var name string     //省略表达式，使用字符串对应的零值初始化（空字符串）
-	var age int         //省略表达式，使用数值类型对应的零值初始化（0）
+	var name string     // 省略表达式，使用字符串对应的零值初始化（空字符串）
+	var age int         // 省略表达式，使用数值类型对应的零值初始化（0）
 	fmt.Println(isCheck, name, age)
 
 	// 简单声明变量方式
-	name2 := "lizimeng"
+	name2 := "world"
 	fmt.Println(name2)
 	// 字符串拼接
 	name3 := name2 + "hello"
 	fmt.Println(name3)
 }
 
-// @title constTest
-// @description   常量
-// @auth     WangPengLiang
 func constTest() {
 	printRunFuncName()
 	const n = 20        //"const"关键字可以出现在任何"var"关键字出现的地方,区别是常量必须有初始值
@@ -67,13 +62,13 @@ func constTest() {
 func numberLiteralsSyntaxTest() {
 	printRunFuncName()
 	v1 := 0b00101101 //代表二进制的 101101，相当于十进制的 45
-	fmt.Printf("值:%v 类型%T \n", v1, v1)
+	fmt.Printf("value:%v type:%T \n", v1, v1)
 	v2 := 0o377 //代表八进制的377，相当于十进制的 255
-	fmt.Printf("值:%v 类型%T \n", v2, v2)
+	fmt.Printf("value:%v type:%T \n", v2, v2)
 	v3 := 0x1p-2 //代表十六进制的 1 除以 2²，也就是 0.25
-	fmt.Printf("值:%v 类型%T \n", v3, v3)
+	fmt.Printf("value:%v type:%T \n", v3, v3)
 	v4 := 123_456 // 使用“_”分隔数字
-	fmt.Printf("值:%v 类型%T \n", v4, v4)
+	fmt.Printf("value:%v type:%T \n", v4, v4)
 }
 
 // @title convertOutputTest
@@ -88,7 +83,6 @@ func convertOutputTest() {
 
 	// 八进制以0开头
 	var b int = 077
-
 	fmt.Printf("%o \n", b)
 
 	// 十六进制 以 0x 开头
