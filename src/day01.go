@@ -1,61 +1,42 @@
 package main
 
 import (
+	"bufio"
 	"fmt"
 	"github.com/shopspring/decimal"
-	"math"
+	"os"
 	"runtime"
 	"unsafe"
 )
 
 func main() {
-	// 变量
-	variableTest()
-
-	// 常量
-	constTest()
-
-	// 数字字面量语法
-	numberLiteralsSyntaxTest()
-
-	// 返回变量占用的字节数
-	getSizeofTest()
-
-	// 以不同进制显示
-	convertOutputTest()
-
-	// 浮点数类型float
-	floatTest()
-
-	// float精度丢失问题
-	floatPrecisionLossTest()
-
-	// 使用第三方包解决float精度丢失问题
-	floatPrecisionLossSolveTest()
-
-	// 使用科学计数法表示浮点数
-	float64ScientificTest()
-
 	// 枚举
-	enumTest()
-
-	// 数组
-	arrayTest()
+	outputTest()
 }
 
 // 变量
 func variableTest() {
 	printRunFuncName()
+	// 变量声明第一种：指定变量类型但不赋值，使用默认值
 	var name string // 省略表达式，使用字符串对应的零值初始化（空字符串）
 	var age int     // 省略表达式，使用数值类型对应的零值初始化（0）
 	fmt.Println(name, age)
 
-	// 简单声明变量方式
-	name2 := "hello"
-	fmt.Println(name2)
-	// 字符串拼接
-	name3 := name2 + "world"
-	fmt.Println(name3)
+	// 变量声明第二种方式：类型推断
+	var address = "beijing"
+	fmt.Println(address)
+
+	// 变量声明第三种方式：简短声明
+	sex := "男"
+	fmt.Println(sex)
+
+	// 多变量声明
+	var name1, name2, name3 string
+	name1, name2, name3 = "1", "2", "3"
+	fmt.Println(name1, name2, name3)
+	// 或者直接赋值
+	var name4, name5, name6 = "1", "2", "3"
+	fmt.Println(name4, name5, name6)
 
 	// 前者表示所见即所得的(除了回车符)。后者所表示的值中转义符会起作用
 	var s1 string = "WangPengLiang"
@@ -66,11 +47,100 @@ func variableTest() {
 // 常量
 func constTest() {
 	printRunFuncName()
-	const n = 20        //"const"关键字可以出现在任何"var"关键字出现的地方,区别是常量必须有初始值
-	const d = 10000 / n // 常量表达式可以执行任意精度数学计算
-	fmt.Println(d)
-	fmt.Println(int64(d))    // 数值型常量没有具体类型，除非指定一个类型，比如显式类型转换
-	fmt.Println(math.Sin(n)) // 数值型常量可以在程序的逻辑上下文中获取类型，比如变量赋值或者函数调用，例如，对于math包中的Sin函数,它需要一个float64类型的变量
+	// 显式类型定义,常量名称推荐全大写
+	const LENGTH int = 10
+	// 隐式类型定义
+	const WIDTH = 20
+	// 多重定义
+	const a, b, c = 1, false, "hello world"
+	fmt.Println(a, b, c)
+
+	area := LENGTH * WIDTH
+	fmt.Println(area)
+}
+
+// Go没有枚举,使用const+iota模拟
+func enumTest() {
+	// 普通常量组
+	const (
+		Windows = 0
+		Linux
+		MaxOS
+	)
+	// 普通常量组如果不指定类型和初始化值，则与上一行非空常量右值相同
+	fmt.Println(Windows, Linux, MaxOS)
+
+	/*
+	 结合iota实现枚举
+	 第一个 iota 等于0，每当 iota 在新的一行被使用时，它的值都会自动加 1
+	*/
+	const (
+		Sunday    = iota // 0
+		Monday           // 1,通常省略后续行行表达式。
+		Tuesday          // 2
+		Wednesday        // 3
+		Thursday         // 4
+		Friday           // 5
+		Saturday         // 6
+	)
+	fmt.Println(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
+
+	const (
+		a1 = iota    // 0
+		a2           // 1
+		b1 = "hello" // 独立值hello,iota+=1
+		b2           //如不指定类型和初始化值，则与上一行非空常量右值相同,所以是hello;iota+=1
+		c1 = iota    //恢复自增,4
+		c2           //5
+	)
+	fmt.Println(a1, a2, b1, b2, c1, c2)
+
+	// TODO: 关于iota的更多用法需要专门学习下
+	const (
+		A, B = iota, iota << 10 // 0, 0 << 10
+		C, D                    // 1, 1 << 10
+	)
+	fmt.Println(A, B, C, D)
+}
+
+// 输入输出
+/*
+格式化打印占位符：
+			%v,原样输出
+			%T，打印类型
+			%t,bool类型
+			%s，字符串
+			%f，浮点
+			%d，10进制的整数
+			%b，2进制的整数
+			%o，8进制
+			%x，%X，16进制
+				%x：0-9，a-f
+				%X：0-9，A-F
+			%c，打印字符
+			%p，打印地址
+*/
+func outputTest() {
+	/*******************************************fmt包****************/
+	// 普通输出
+	fmt.Print("hello world")
+	// 输出后换行
+	fmt.Println("hello world2")
+	// 格式化输出
+	name := "WangPengLiang"
+	fmt.Printf("type:%T value:%v", name, name)
+
+	fmt.Println()
+	fmt.Println("please input you name")
+	var input string
+	fmt.Scanln(&input) //读取键盘输入，通过操作地址赋值给input.阻塞式
+	fmt.Println("you name is：" + input)
+
+	/*******************************************bufio包：https://golang.google.cn/pkg/bufio/****************/
+	fmt.Println("please  again input you name")
+	reader := bufio.NewReader(os.Stdin)
+	value, _ := reader.ReadString('\n')
+	fmt.Println("you name is：：", value)
 }
 
 // 数字字面量语法
@@ -88,12 +158,13 @@ func numberLiteralsSyntaxTest() {
 
 // 返回变量占用的字节数
 func getSizeofTest() {
+	printRunFuncName()
 	var value int8 = 120
 	fmt.Printf("%T\n", value)
 	fmt.Println(unsafe.Sizeof(value))
 }
 
-// 以不同进制显示
+// 以不同进制定义变量
 func convertOutputTest() {
 	printRunFuncName()
 	// 十进制
@@ -228,26 +299,6 @@ func float64ScientificTest() {
 	n2 := 5.1234e2
 	n3 := 5.1234e-2
 	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
-}
-
-// Go没有枚举,使用const+iota模拟
-func enumTest() {
-	const (
-		Sunday    = iota // 0
-		Monday           // 1,通常省略后续行行表达式。
-		Tuesday          // 2
-		Wednesday        // 3
-		Thursday         // 4
-		Friday           // 5
-		Saturday         // 6
-	)
-	fmt.Println(Sunday, Monday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
-
-	const (
-		A, B = iota, iota << 10 // 0, 0 << 10
-		C, D                    // 1, 1 << 10
-	)
-	fmt.Println(A, B, C, D)
 }
 
 // 数组
