@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// 枚举
-	floatTest()
+	sliceTest()
 }
 
 // 浮点数类型float
@@ -30,7 +30,8 @@ func floatPrecisionLossTest() {
 	fmt.Println(m1 - m2) // 此处结果应该是4.4，实际打印4.3999999999999995
 }
 
-// 使用第三方包解决float精度丢失问题：go get github.com/shopspring/decimal 文档：https://pkg.go.dev/github.com/shopspring/decimal#section-readme
+// 使用第三方包解决float精度丢失问题：go get github.com/shopspring/decimal
+// 文档：https://pkg.go.dev/github.com/shopspring/decimal#section-readme
 func floatPrecisionLossSolveTest() {
 	a := decimal.NewFromFloat(1129.6)
 	b := decimal.NewFromInt(100)
@@ -132,13 +133,31 @@ func arrayTest() {
 		fmt.Println(b[i])
 	}
 
+	// 使用range遍历数组
+	for i, item := range b { //range returns both the index and value
+		fmt.Printf("%d the element of is %v \n", i, item)
+	}
+
+	// 如果需要值并希望忽略索引，可以通过使用_ blank标识符替换索引来实现
+	for _, item := range b { //range returns both the index and value
+		fmt.Printf("element of is %v \n", item)
+	}
+	// go同样支持多维数组
+	array := [3][4]int{
+		{0, 1, 2, 3},   /*  第一行索引为 0 */
+		{4, 5, 6, 7},   /*  第二行索引为 1 */
+		{8, 9, 10, 11}, /*  第三行索引为 2 */
+	}
+	for i, item := range array {
+		fmt.Printf("%d the element of is %v \n", i, item)
+	}
 	// 数组比较：数组可以直接进行比较，当数组内的元素都一样的时候表示两个数组相等。
 	q := [...]int{11, 22, 33}
 	w := [...]int{11, 22, 33}
 	fmt.Println(q == w)
 	fmt.Println(q == b)
 
-	// 数组作为函数参数传入用的是值传递的方式，就是拷贝。在函数内改变数组元素并不影响外层数组
+	// 数组是值类型：意味着当它被分配给一个新变量时，将把原始数组的副本分配给新变量。如果对新变量进行了更改不会在原始数组中反映
 	e := [...]int{11, 22, 33}
 	fmt.Println(e[0])
 	arrayTest2(e)
@@ -157,4 +176,25 @@ func arrayTest2(arr [3]int) {
 
 func arrayTest3(arr *[3]int) {
 	arr[0] = 100
+}
+
+// Slice切片
+func sliceTest() {
+	// 创建一个整型切片
+	// 其长度和容量都是 5 个元素
+	slice := make([]int, 5)
+	fmt.Println(slice)
+
+	// 创建一个整型切片
+	// 其长度为 3 个元素，容量为 5 个元素
+	slice2 := make([]int, 3, 5)
+	fmt.Println(slice2)
+
+	//1、make
+	a := make([]int32, 0, 5)
+	//2、[]int32{}
+	b := []int32{1, 2, 3}
+	//3、new([]int32)
+	c := *new([]int32)
+	fmt.Println(a, b, c)
 }
