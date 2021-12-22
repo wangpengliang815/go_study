@@ -7,7 +7,7 @@ import (
 
 func main() {
 	// 枚举
-	sliceTest()
+	stringTest()
 }
 
 // 浮点数类型float
@@ -116,6 +116,33 @@ func float64ScientificTest() {
 	n2 := 5.1234e2
 	n3 := 5.1234e-2
 	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
+}
+
+// 字符串
+func stringTest() {
+	// 字符串字面量
+	var s1 string = "hello"
+	var s2 string = `hello`
+	fmt.Println(s1, s2)
+
+	// 内置函数len:返回字符串的字节数;
+	s := "abc北京"
+	fmt.Printf("字节长度：%d \n", len(s)) // output:9
+	// 返回字符串每个字节的值
+	for i := 0; i < len(s); i++ {
+		fmt.Println(s[i])
+	}
+	//获取字符串中字符的个数
+	r := []rune(s)
+	fmt.Println(len(r))
+
+	// 字符串截取：
+	str := "abcdefg"
+	t1 := str[1:4] //startIndex=1,endIndex=4
+	t2 := str[:4]  //省略第一个索引从0开始，startIndex=0,endIndex=4
+	t3 := str[1:]  //省略第二个索引，从1开始截取到末尾
+	// t4 := str[:10] //runtime error: slice bounds out of range [:10] with length 7 数组越界
+	fmt.Println(t1, t2, t3)
 }
 
 // 数组
