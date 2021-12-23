@@ -3,11 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
+	"strings"
 )
 
 func main() {
-	// 枚举
-	stringTest()
+	stringsTest()
 }
 
 // 浮点数类型float
@@ -125,7 +125,7 @@ func stringTest() {
 	var s2 string = `hello`
 	fmt.Println(s1, s2)
 
-	// 内置函数len:返回字符串的字节数;
+	// 内置函数len:返回字符串的字节数
 	s := "abc北京"
 	fmt.Printf("字节长度：%d \n", len(s)) // output:9
 	// 返回字符串每个字节的值
@@ -143,6 +143,64 @@ func stringTest() {
 	t3 := str[1:]  //省略第二个索引，从1开始截取到末尾
 	// t4 := str[:10] //runtime error: slice bounds out of range [:10] with length 7 数组越界
 	fmt.Println(t1, t2, t3)
+
+	// 字符串拼接
+	q1 := "hello"
+	q2 := ",world"
+	q3 := q1 + q2
+	fmt.Println(q3)
+
+	// 字符串遍历
+	p := "abc你好"
+	for i := 0; i < len(p); i++ {
+		fmt.Printf("%c", p[i])
+	}
+	// 使用range解决非单字节字符显示问题
+	for _, v := range p {
+		fmt.Printf("%c", v)
+	}
+
+	// 字符串修改
+	// 修改字符串中的字节：使用[]byte
+	ss := "hello world"
+	value := []byte(ss) // 转换为[]byte
+	value[5] = ','      // 将空格替换为“,”
+	fmt.Printf("%s\n", ss)
+	fmt.Printf("%s\n", value)
+
+	// 修改字符串中的字符：用[]rune
+	sss := "一梦三两年"
+	value2 := []rune(sss) // 转换为[]rune
+	value2[2] = '四'
+	value2[3] = '五'
+	fmt.Println(sss)
+	fmt.Println(string(value2))
+}
+
+// 内置strings包常见用法
+func stringsTest() {
+	s := "helloworld"
+	fmt.Printf("string:%q\n", s)
+	fmt.Printf("rune(char):%q\n", []rune(s))
+	fmt.Printf("rune(hex):%x\n", []rune(s))
+	fmt.Printf("bytes(hex):% x\n", []byte(s))
+
+	// 判断一个字符串中是否包含某个子串
+	fmt.Printf("%t\n", strings.Contains(s, "world"))
+	// 检查字符串是不是以某个子串开始
+	fmt.Printf("%t\n", strings.HasPrefix(s, "hello"))
+	// 检查字符串是不是以某个子串结束
+	fmt.Printf("%t\n", strings.HasSuffix(s, "world"))
+
+	// Contains Vs ContainsAny
+	fmt.Println(strings.Contains("failure", "a & o")) // false
+	fmt.Println(strings.Contains("foo", ""))          // true
+	fmt.Println(strings.Contains("", ""))             // true
+
+	fmt.Println(strings.ContainsAny("failure", "a & o")) // true
+	fmt.Println(strings.ContainsAny("foo", ""))          // false
+	fmt.Println(strings.ContainsAny("", ""))             // false
+	fmt.Println(strings.ContainsAny("好树结好果", "好树"))      // true
 }
 
 // 数组
