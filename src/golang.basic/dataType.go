@@ -3,7 +3,6 @@ package main
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
-	"strings"
 )
 
 func main() {
@@ -179,28 +178,27 @@ func stringTest() {
 
 // 内置strings包常见用法
 func stringsTest() {
-	s := "helloworld"
-	fmt.Printf("string:%q\n", s)
-	fmt.Printf("rune(char):%q\n", []rune(s))
-	fmt.Printf("rune(hex):%x\n", []rune(s))
-	fmt.Printf("bytes(hex):% x\n", []byte(s))
+	s := "helloworld 世界你好"
+	fmt.Printf("string:%q\n", s)              // 原文格式输出
+	fmt.Printf("rune(char):%q\n", []rune(s))  // 输出[]rune切片
+	fmt.Printf("rune(hex):%x\n", []rune(s))   // 采用16进制数表示
+	fmt.Printf("bytes(hex):% x\n", []byte(s)) // 输出[]byte切片
+	//// 判断一个字符串中是否包含某个子串
+	//fmt.Printf("%t\n", strings.Contains(s, "world"))
+	//// 检查字符串是不是以某个子串开始
+	//fmt.Printf("%t\n", strings.HasPrefix(s, "hello"))
+	//// 检查字符串是不是以某个子串结束
+	//fmt.Printf("%t\n", strings.HasSuffix(s, "world"))
 
-	// 判断一个字符串中是否包含某个子串
-	fmt.Printf("%t\n", strings.Contains(s, "world"))
-	// 检查字符串是不是以某个子串开始
-	fmt.Printf("%t\n", strings.HasPrefix(s, "hello"))
-	// 检查字符串是不是以某个子串结束
-	fmt.Printf("%t\n", strings.HasSuffix(s, "world"))
-
-	// Contains Vs ContainsAny
-	fmt.Println(strings.Contains("failure", "a & o")) // false
-	fmt.Println(strings.Contains("foo", ""))          // true
-	fmt.Println(strings.Contains("", ""))             // true
-
-	fmt.Println(strings.ContainsAny("failure", "a & o")) // true
-	fmt.Println(strings.ContainsAny("foo", ""))          // false
-	fmt.Println(strings.ContainsAny("", ""))             // false
-	fmt.Println(strings.ContainsAny("好树结好果", "好树"))      // true
+	//// Contains Vs ContainsAny
+	//fmt.Println(strings.Contains("failure", "a & o")) // false
+	//fmt.Println(strings.Contains("foo", ""))          // true
+	//fmt.Println(strings.Contains("", ""))             // true
+	//
+	//fmt.Println(strings.ContainsAny("failure", "a & o")) // true
+	//fmt.Println(strings.ContainsAny("foo", ""))          // false
+	//fmt.Println(strings.ContainsAny("", ""))             // false
+	//fmt.Println(strings.ContainsAny("好树结好果", "好树"))      // true
 }
 
 // 数组
