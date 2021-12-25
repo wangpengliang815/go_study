@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"github.com/shopspring/decimal"
+	"strings"
 )
 
 func main() {
@@ -183,22 +184,32 @@ func stringsTest() {
 	fmt.Printf("rune(char):%q\n", []rune(s))  // 输出[]rune切片
 	fmt.Printf("rune(hex):%x\n", []rune(s))   // 采用16进制数表示
 	fmt.Printf("bytes(hex):% x\n", []byte(s)) // 输出[]byte切片
-	//// 判断一个字符串中是否包含某个子串
-	//fmt.Printf("%t\n", strings.Contains(s, "world"))
-	//// 检查字符串是不是以某个子串开始
-	//fmt.Printf("%t\n", strings.HasPrefix(s, "hello"))
-	//// 检查字符串是不是以某个子串结束
-	//fmt.Printf("%t\n", strings.HasSuffix(s, "world"))
+	// 判断一个字符串中是否包含某个子串
+	fmt.Printf("%t\n", strings.Contains(s, "world"))
+	// 检查字符串是不是以某个子串开始
+	fmt.Printf("%t\n", strings.HasPrefix(s, "hello"))
+	// 检查字符串是不是以某个子串结束
+	fmt.Printf("%t\n", strings.HasSuffix(s, "world"))
 
-	//// Contains Vs ContainsAny
-	//fmt.Println(strings.Contains("failure", "a & o")) // false
-	//fmt.Println(strings.Contains("foo", ""))          // true
-	//fmt.Println(strings.Contains("", ""))             // true
-	//
-	//fmt.Println(strings.ContainsAny("failure", "a & o")) // true
-	//fmt.Println(strings.ContainsAny("foo", ""))          // false
-	//fmt.Println(strings.ContainsAny("", ""))             // false
-	//fmt.Println(strings.ContainsAny("好树结好果", "好树"))      // true
+	// Contains Vs ContainsAny
+	fmt.Println(strings.Contains("failure", "a & o")) // false
+	fmt.Println(strings.Contains("foo", ""))          // true
+	fmt.Println(strings.Contains("", ""))             // true
+
+	fmt.Println(strings.ContainsAny("failure", "a & o")) // true
+	fmt.Println(strings.ContainsAny("foo", ""))          // false
+	fmt.Println(strings.ContainsAny("", ""))             // false
+	fmt.Println(strings.ContainsAny("好树结好果", "好树"))      // true
+
+	// 获取子串索引
+	fmt.Println(strings.Index("hello world", "world")) // 6
+	fmt.Println(strings.Index("hello world", "hi"))    // -1
+	// lastIndex返回匹配到的最后一个字符串的索引
+	fmt.Println(strings.LastIndex("hello world,world", "world")) // 12
+	// 使用 `IndexRune` 函数查找中文字符出现的位置
+	fmt.Println(strings.IndexRune("一梦三两年", '三'))    // 12
+	fmt.Printf("rune(char):%q\n", []rune("一梦三两年"))  // 输出[]rune切片
+	fmt.Printf("bytes(hex):% x\n", []byte("一梦三两年")) // 输出[]byte切片
 }
 
 // 数组
