@@ -2,16 +2,22 @@ package main
 
 import (
 	"fmt"
-	"github.com/shopspring/decimal"
+	"math"
 	"strings"
+	"unicode"
 	"unsafe"
+
+	"github.com/shopspring/decimal"
 )
 
+// 全局常量定义，一旦定义不能修改
+const PI = 3.141592653589793
+
 func main() {
-	sliceTest()
+	stringTest()
 }
 
-// 数字字面量语法，以不同进制定义变量
+// 数字字面量语法，以不同进制定义整形变量
 func numberLiteralsSyntaxTest() {
 	v1 := 0b00101101 //代表二进制的 101101，相当于十进制的 45
 	fmt.Printf("value:%v type:%T \n", v1, v1)
@@ -34,18 +40,20 @@ func getSizeofTest() {
 func convertOutputTest() {
 	// 十进制
 	var a int = 10
-	fmt.Printf("%d \n", a)
-	fmt.Printf("%b \n", a) // 占位符%b表示二进制
+	fmt.Printf("%d \n", a) //%d 表示十进制
+	fmt.Printf("%b \n", a) //%b 表示二进制
 
 	// 八进制以0开头
 	var b int = 077
-	fmt.Printf("%o \n", b)
+	fmt.Printf("%o \n", b) //%o 表示八进制
+	fmt.Printf("%d \n", b) //%o 表示八进制
 
 	// 十六进制 以 0x 开头
 	var c int = 0xff
-	fmt.Printf("%x \n", c)
-	fmt.Printf("%X \n", c)
-	fmt.Printf("%d \n", c)
+	fmt.Printf("%x \n", c) //%x 表示十六进制
+	fmt.Printf("%X \n", c) //%X 表示大写的十六进制
+	fmt.Printf("%d \n", c) //%d 表示十进制
+	fmt.Printf("%T \n", c) //%T 查看变量类型
 
 	// int不同长度转换
 	var num1 int8 = 127
@@ -59,6 +67,9 @@ func floatTest() {
 	fmt.Printf("%f\n", f)              //默认保留6位小数
 	fmt.Printf("%.2f\n", f)            //保留2位小数
 	fmt.Printf("值:%v--类型:%T \n", f, f) // 浮点数默认类型是float64
+
+	fmt.Println(math.MaxFloat32) //输出float32最大值
+	fmt.Println(math.MaxFloat64) //输出float64最大值
 
 	// 科学计数法表示浮点类型
 	n1 := 5.1234e2
@@ -161,6 +172,16 @@ func floatPrecisionLossSolveTest() {
 
 // 字符串
 func stringTest() {
+	// 判断字符串中存在几个汉字
+	name333 := "hello,勒布朗、科比、艾弗森"
+	var count int
+	for _, c := range name333 {
+		if unicode.Is(unicode.Han, c) {
+			count++
+		}
+	}
+	fmt.Println(count)
+
 	// 字符串字面量
 	var s1 string = "hello"
 	var s2 string = `hello`
@@ -188,13 +209,28 @@ func stringTest() {
 	// 字符串拼接
 	q1 := "hello"
 	q2 := ",world"
-	q3 := q1 + q2
-	fmt.Println(q3)
+	fmt.Println(q1 + q2)
+	// %s 代表原样输出
+	fmt.Printf("%s%s\n", q1, q2)
+	// Sprintf拼接,不会直接打印而是生成一个新的字符串
+	var result = fmt.Sprintf("%s%s", q1, q2)
+	fmt.Println(result)
+
+	// 字符串分割
+	url := "www.baidu.com"
+	strArray := strings.Split(url, ".")
+	fmt.Println(strArray)
+	// 字符串Join
+	fmt.Println(strings.Join(strArray, "."))
+	// 前缀判断
+	fmt.Println(strings.HasPrefix(url, "www"))
+	// 后缀判断
+	fmt.Println(strings.HasSuffix(url, "com"))
 
 	// 字符串遍历
 	p := "abc你好"
 	for i := 0; i < len(p); i++ {
-		fmt.Printf("%c", p[i])
+		fmt.Printf("%c \n", p[i])
 	}
 	// 使用range解决非单字节字符显示问题
 	for _, v := range p {
@@ -253,132 +289,80 @@ func stringsTest() {
 	fmt.Printf("bytes(hex):% x\n", []byte("一梦三两年")) // 输出[]byte切片
 }
 
-// 数组
-func arrayTest() {
-	// 数组创建，使用类型零值初始化
-	var a [3]int             // array of 3 integers
-	fmt.Println(a[0])        // print the first element
-	fmt.Println(a[len(a)-1]) // print the last element, a[2]
+// 常量
+func constTest() {
+	// 显式类型定义,常量名称推荐全大写
+	const LENGTH int = 10
+	// 隐式类型定义,其实也是使用类型推导
+	const WIDTH = 20
+	// 多重定义
+	const a, b, c = 1, false, "hello world"
+	fmt.Println(a, b, c)
 
-	// 数组创建使用数字字面值语法
-	var b [3]int = [3]int{1, 2, 3}
-	fmt.Println(b[0])
-	// fmt.Println(a[10]) invalid array index 10 (out of bounds for 3-element array),数组越界
-
-	//如果数组的长度位置出现的是“…”省略号，表示数组的长度是根据初始化值的个数来计算
-	c := [...]int{1, 2, 3}
-	fmt.Println(c[0])
-
-	// 数组遍历
-	for i := 0; i < len(a); i++ {
-		fmt.Printf("key:%d, value:%d\n", i, a[i])
-	}
-
-	// 使用range遍历数组
-	for i, v := range a {
-		fmt.Printf("key:%d, value:%d\n", i, v)
-	}
-
-	// 使用range遍历数组:如果需要值并希望忽略索引，可以通过使用_ blank标识符替换索引来实现
-	for _, v := range a {
-		fmt.Printf("value:%d\n", v)
-	}
-
-	// go同样支持多维数组
-	array := [3][4]int{
-		{0, 1, 2, 3},   /*  第一行索引为 0 */
-		{4, 5, 6, 7},   /*  第二行索引为 1 */
-		{8, 9, 10, 11}, /*  第三行索引为 2 */
-	}
-	for i, item := range array {
-		fmt.Printf("%d the element of is %v \n", i, item)
-	}
-
-	// 数组比较：数组可以直接进行比较，当数组内的元素都一样的时候表示两个数组相等。
-	q := [...]int{11, 22, 33}
-	w := [...]int{11, 22, 33}
-	fmt.Println(q == w)
-	fmt.Println(q == b)
-
-	// 数组是值类型：意味着当它被分配给一个新变量时，将把原始数组的副本分配给新变量。如果对新变量进行了更改不会在原始数组中反映
-	e := [...]int{11, 22, 33}
-	fmt.Println(e[0])
-	arrayTest2(e)
-	fmt.Println(e[0])
-
-	// 使用指针后函数内部对数组的更改将反应到原数组上
-	r := [...]int{11, 22, 33}
-	fmt.Println(r[0])
-	arrayTest3(&r)
-	fmt.Println(r[0])
+	area := LENGTH * WIDTH
+	fmt.Println(area)
 }
 
-func arrayTest2(arr [3]int) {
-	arr[0] = 1
-}
+// Go没有枚举,使用const+iota模拟
+func enumTest() {
+	// 普通常量组
+	const (
+		Windows = 0
+		Linux
+		MaxOS
+	)
+	// 普通常量组如果不指定类型和初始化值，则与上一行非空常量右值相同
+	fmt.Println(Windows, Linux, MaxOS)
 
-func arrayTest3(arr *[3]int) {
-	arr[0] = 100
-}
+	/*
+	 结合iota实现枚举
+	 第一个 iota 等于0，每当 iota 在新的一行被使用时，它的值都会自动加 1
+	*/
+	const (
+		Sunday    = iota // 0
+		Monday           // 1,通常省略后续行行表达式。
+		Tuesday          // 2
+		Wednesday        // 3
+		Thursday         // 4
+		Friday           // 5
+		Saturday         // 6
+	)
+	fmt.Println(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
 
-// Slice切片
-func sliceTest() {
-	// 切片的定义
-	var s1 []int    //定义存放int类型的切片
-	var s2 []string //定义存放string类型的切片
-	fmt.Println(s1, s2)
-	fmt.Println(s1 == nil)
-	fmt.Println(s2 == nil)
-	// 切片初始化
-	s1 = []int{1, 3, 4, 5, 67, 88}
-	s2 = []string{"北京", "上海", "山西"}
-	fmt.Println(s1, s2)
-	fmt.Println(s1 == nil)
-	fmt.Println(s2 == nil)
-	fmt.Printf("len(s1):%d cap(s1):%d \n", len(s1), cap(s1))
-	fmt.Printf("len(s2):%d cap(s2):%d \n", len(s2), cap(s2))
+	// 插队
+	const (
+		a1 = iota    // 0
+		a2           // 1
+		b1 = "hello" // 独立值hello,iota+=1
+		b2           // 如不指定类型和初始化值，则与上一行非空常量右值相同,所以是hello;iota+=1
+		c1 = iota    // 恢复自增,4
+		c2           // 5
+	)
+	fmt.Println(a1, a2, b1, b2, c1, c2)
 
-	// 由数组得到切片
-	a1 := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
-	fmt.Println(a1)
-	fmt.Println(a1[0:4]) // =>[1 2 3 4]基于数组得到切片,从0开始到第4个结束（不包含4）.原则：左包含右不包含
-	fmt.Println(a1[:4])  // =>[1 2 3 4] 省略第一个参数，默认从0开始
-	fmt.Println(a1[3:])  // =>[4 5 6 7 8 9]省略第二个参数，默认到len(a1)结束
-	fmt.Println(a1[:])   // =>[1 2 3 4 5 6 7 8 9] 两个参数都省略，默认从0开始到len(a1-1)结束
+	// 使用_忽略某些值
+	const (
+		d1 = iota
+		d2
+		_
+		d3
+	)
+	fmt.Println(d1, d2, d3)
 
-	// 切片的长度和容量
-	s3 := a1[3:] //[4 5 6 7 8 9]
-	fmt.Println(s3)
-	// 切片的长度是元素的个数，切片的容量是底层数组从切片的第一个元素到最后一个元素
-	fmt.Printf("len(s3):%d cap(s3):%d \n", len(s3), cap(s3))
+	// 定义数量级别
+	const (
+		_  = iota             // _表示将0忽略
+		KB = 1 << (10 * iota) // 表示1左移十位，转换为十进制就是1024
+		MB = 1 << (10 * iota)
+		GB = 1 << (10 * iota)
+		TB = 1 << (10 * iota)
+		PB = 1 << (10 * iota)
+	)
 
-	s4 := a1[4:8] //[5 6 7 8]
-	fmt.Println(s4)
-	fmt.Printf("len(s4):%d cap(s4):%d \n", len(s4), cap(s4))
-
-	//由切片得到切片
-	s5 := s3[2:4]
-	fmt.Println(s5)
-	fmt.Printf("len(s5):%d cap(s5):%d \n", len(s5), cap(s5))
-
-	//// 使用make创建一个长度和容量都为5的切片
-	//slice1 := make([]string, 5)
-	////使用make创建一个长度5，容量为10的切片
-	//slice2 := make([]string, 5, 10)
-	//fmt.Println(slice1, slice2)
-	//// fmt.Println(slice2[6]) // 虽然创建的切片对应底层数组的大小为 10，但是不能访问索引值 5 以后的元素
-	//
-	//// 通过切片字面量创建
-	//slice3 := []int{1, 2, 4, 4}
-	//fmt.Println(slice3)
-	//
-	//// 创建空切片
-	//slice4 := []int{}
-	//slice5 := make([]int, 0)
-	//fmt.Println(slice4, slice5)
-	//
-	//// 通过切片创建切片
-	//slice6 := []int{10, 20, 30, 40, 50}
-	//slice7 := slice6[1:3]
-	//fmt.Println(slice6, slice7)
+	// 多个iota一行定义
+	const (
+		a, b = iota + 1, iota + 2 // a=iota+1 b=iota+2=> 1,2
+		c, d                      // c=iota(1)+1 b=iota(2)+1=> 2,3
+	)
+	fmt.Println(a, b, c, d)
 }

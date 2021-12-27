@@ -6,8 +6,14 @@ import (
 	"os"
 )
 
-func main() {
+// 全局声明变量,如果没有使用不会编译报错
+var (
+	author  string
+	address string
+)
 
+func main() {
+	variableTest()
 }
 
 // 变量
@@ -17,23 +23,30 @@ func variableTest() {
 	var age int     // 省略表达式，使用数值类型对应的零值初始化（0）
 	fmt.Println(name, age)
 
-	// 变量声明第二种方式：类型推断
+	// 批量定义变量,需要注意如果定义的是局部变量，则必须使用。否则编译报错
+	var (
+		name1 string
+		age1  int
+	)
+	fmt.Println(name1, age1)
+
+	// 变量声明第二种方式：类型推导
 	var address = "beijing"
 	fmt.Println(address)
 
-	// 变量声明第三种方式：简短声明
+	// 变量声明第三种方式：简短声明，只能在函数内使用
 	sex := "男"
 	fmt.Println(sex)
 
 	// 多变量声明
-	var name1, name2, name3 string
-	name1, name2, name3 = "1", "2", "3"
-	fmt.Println(name1, name2, name3)
+	var n1, n2, n3 string
+	n1, n2, n3 = "1", "2", "3"
+	fmt.Println(n1, n2, n3)
 	// 或者直接赋值
-	var name4, name5, name6 = "1", "2", "3"
-	fmt.Println(name4, name5, name6)
+	var n4, n5, n6 = "1", "2", "3"
+	fmt.Println(n4, n5, n6)
 
-	// 变量声明第四种方式：使用new()函数
+	// 变量声明第四种方式：使用 new()函数
 	p := new(int)   // p, *int 类型, 指向匿名的 int 变量
 	fmt.Println(*p) // "0"
 	*p = 2          // 设置 int 匿名变量的值为 2
@@ -45,64 +58,6 @@ func variableTest() {
 	fmt.Println(*p1) // *p用户获取指针p指向变量的值
 	*p1 = 2          // 可以重新给*p指针赋值
 	fmt.Println(x)   // "2"
-}
-
-// 常量
-func constTest() {
-	// 显式类型定义,常量名称推荐全大写
-	const LENGTH int = 10
-	// 隐式类型定义
-	const WIDTH = 20
-	// 多重定义
-	const a, b, c = 1, false, "hello world"
-	fmt.Println(a, b, c)
-
-	area := LENGTH * WIDTH
-	fmt.Println(area)
-}
-
-// Go没有枚举,使用const+iota模拟
-func enumTest() {
-	// 普通常量组
-	const (
-		Windows = 0
-		Linux
-		MaxOS
-	)
-	// 普通常量组如果不指定类型和初始化值，则与上一行非空常量右值相同
-	fmt.Println(Windows, Linux, MaxOS)
-
-	/*
-	 结合iota实现枚举
-	 第一个 iota 等于0，每当 iota 在新的一行被使用时，它的值都会自动加 1
-	*/
-	const (
-		Sunday    = iota // 0
-		Monday           // 1,通常省略后续行行表达式。
-		Tuesday          // 2
-		Wednesday        // 3
-		Thursday         // 4
-		Friday           // 5
-		Saturday         // 6
-	)
-	fmt.Println(Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday)
-
-	const (
-		a1 = iota    // 0
-		a2           // 1
-		b1 = "hello" // 独立值hello,iota+=1
-		b2           // 如不指定类型和初始化值，则与上一行非空常量右值相同,所以是hello;iota+=1
-		c1 = iota    // 恢复自增,4
-		c2           // 5
-	)
-	fmt.Println(a1, a2, b1, b2, c1, c2)
-
-	// TODO: 关于iota的更多用法需要专门学习下
-	const (
-		A, B = iota, iota << 10 // 0, 0 << 10
-		C, D                    // 1, 1 << 10
-	)
-	fmt.Println(A, B, C, D)
 }
 
 // 输入输出
