@@ -4,10 +4,53 @@ import (
 	"fmt"
 	"github.com/shopspring/decimal"
 	"strings"
+	"unsafe"
 )
 
 func main() {
-	stringsTest()
+	sliceTest()
+}
+
+// 数字字面量语法，以不同进制定义变量
+func numberLiteralsSyntaxTest() {
+	v1 := 0b00101101 //代表二进制的 101101，相当于十进制的 45
+	fmt.Printf("value:%v type:%T \n", v1, v1)
+	v2 := 0o377 //代表八进制的377，相当于十进制的 255
+	fmt.Printf("value:%v type:%T \n", v2, v2)
+	v3 := 0x1p-2 //代表十六进制的 1 除以 2²，也就是 0.25
+	fmt.Printf("value:%v type:%T \n", v3, v3)
+	v4 := 123_456 // 使用“_”分隔数字
+	fmt.Printf("value:%v type:%T \n", v4, v4)
+}
+
+// 返回变量占用的字节数
+func getSizeofTest() {
+	var value int8 = 120
+	fmt.Printf("%T\n", value)
+	fmt.Println(unsafe.Sizeof(value))
+}
+
+// 借助 fmt 函数不同进制形式显示整数
+func convertOutputTest() {
+	// 十进制
+	var a int = 10
+	fmt.Printf("%d \n", a)
+	fmt.Printf("%b \n", a) // 占位符%b表示二进制
+
+	// 八进制以0开头
+	var b int = 077
+	fmt.Printf("%o \n", b)
+
+	// 十六进制 以 0x 开头
+	var c int = 0xff
+	fmt.Printf("%x \n", c)
+	fmt.Printf("%X \n", c)
+	fmt.Printf("%d \n", c)
+
+	// int不同长度转换
+	var num1 int8 = 127
+	num2 := int32(num1)
+	fmt.Printf("value:%v type:%T \n", num2, num2)
 }
 
 // 浮点数类型float
@@ -16,6 +59,12 @@ func floatTest() {
 	fmt.Printf("%f\n", f)              //默认保留6位小数
 	fmt.Printf("%.2f\n", f)            //保留2位小数
 	fmt.Printf("值:%v--类型:%T \n", f, f) // 浮点数默认类型是float64
+
+	// 科学计数法表示浮点类型
+	n1 := 5.1234e2
+	n2 := 5.1234e2
+	n3 := 5.1234e-2
+	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
 }
 
 //  float精度丢失问题
@@ -108,14 +157,6 @@ func floatPrecisionLossSolveTest() {
 	decimal.DivisionPrecision = 3
 	result := decimal.NewFromFloat(float64(num17)).Div(decimal.NewFromFloat(float64(num18))) // 2/3 = 0.667 =>  output: "0.667"
 	fmt.Println(result)
-}
-
-// 科学计数法表示浮点类型
-func float64ScientificTest() {
-	n1 := 5.1234e2
-	n2 := 5.1234e2
-	n3 := 5.1234e-2
-	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
 }
 
 // 字符串
@@ -214,28 +255,35 @@ func stringsTest() {
 
 // 数组
 func arrayTest() {
-	var a [3]int = [3]int{1, 2, 3}
-	fmt.Println(a[0])
-	// invalid array index 10 (out of bounds for 3-element array),数组越界
-	// fmt.Println(a[10])
+	// 数组创建，使用类型零值初始化
+	var a [3]int             // array of 3 integers
+	fmt.Println(a[0])        // print the first element
+	fmt.Println(a[len(a)-1]) // print the last element, a[2]
 
-	b := [...]int{1, 2, 3} //如果数组的长度位置出现的是“…”省略号，表示数组的长度是根据初始化值的个数来计算
+	// 数组创建使用数字字面值语法
+	var b [3]int = [3]int{1, 2, 3}
 	fmt.Println(b[0])
+	// fmt.Println(a[10]) invalid array index 10 (out of bounds for 3-element array),数组越界
+
+	//如果数组的长度位置出现的是“…”省略号，表示数组的长度是根据初始化值的个数来计算
+	c := [...]int{1, 2, 3}
+	fmt.Println(c[0])
 
 	// 数组遍历
-	for i := 0; i < len(b); i++ {
-		fmt.Println(b[i])
+	for i := 0; i < len(a); i++ {
+		fmt.Printf("key:%d, value:%d\n", i, a[i])
 	}
 
 	// 使用range遍历数组
-	for i, item := range b { //range returns both the index and value
-		fmt.Printf("%d the element of is %v \n", i, item)
+	for i, v := range a {
+		fmt.Printf("key:%d, value:%d\n", i, v)
 	}
 
-	// 如果需要值并希望忽略索引，可以通过使用_ blank标识符替换索引来实现
-	for _, item := range b { //range returns both the index and value
-		fmt.Printf("element of is %v \n", item)
+	// 使用range遍历数组:如果需要值并希望忽略索引，可以通过使用_ blank标识符替换索引来实现
+	for _, v := range a {
+		fmt.Printf("value:%d\n", v)
 	}
+
 	// go同样支持多维数组
 	array := [3][4]int{
 		{0, 1, 2, 3},   /*  第一行索引为 0 */
@@ -245,6 +293,7 @@ func arrayTest() {
 	for i, item := range array {
 		fmt.Printf("%d the element of is %v \n", i, item)
 	}
+
 	// 数组比较：数组可以直接进行比较，当数组内的元素都一样的时候表示两个数组相等。
 	q := [...]int{11, 22, 33}
 	w := [...]int{11, 22, 33}
@@ -274,21 +323,62 @@ func arrayTest3(arr *[3]int) {
 
 // Slice切片
 func sliceTest() {
-	// 创建一个整型切片
-	// 其长度和容量都是 5 个元素
-	slice := make([]int, 5)
-	fmt.Println(slice)
+	// 切片的定义
+	var s1 []int    //定义存放int类型的切片
+	var s2 []string //定义存放string类型的切片
+	fmt.Println(s1, s2)
+	fmt.Println(s1 == nil)
+	fmt.Println(s2 == nil)
+	// 切片初始化
+	s1 = []int{1, 3, 4, 5, 67, 88}
+	s2 = []string{"北京", "上海", "山西"}
+	fmt.Println(s1, s2)
+	fmt.Println(s1 == nil)
+	fmt.Println(s2 == nil)
+	fmt.Printf("len(s1):%d cap(s1):%d \n", len(s1), cap(s1))
+	fmt.Printf("len(s2):%d cap(s2):%d \n", len(s2), cap(s2))
 
-	// 创建一个整型切片
-	// 其长度为 3 个元素，容量为 5 个元素
-	slice2 := make([]int, 3, 5)
-	fmt.Println(slice2)
+	// 由数组得到切片
+	a1 := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
+	fmt.Println(a1)
+	fmt.Println(a1[0:4]) // =>[1 2 3 4]基于数组得到切片,从0开始到第4个结束（不包含4）.原则：左包含右不包含
+	fmt.Println(a1[:4])  // =>[1 2 3 4] 省略第一个参数，默认从0开始
+	fmt.Println(a1[3:])  // =>[4 5 6 7 8 9]省略第二个参数，默认到len(a1)结束
+	fmt.Println(a1[:])   // =>[1 2 3 4 5 6 7 8 9] 两个参数都省略，默认从0开始到len(a1-1)结束
 
-	//1、make
-	a := make([]int32, 0, 5)
-	//2、[]int32{}
-	b := []int32{1, 2, 3}
-	//3、new([]int32)
-	c := *new([]int32)
-	fmt.Println(a, b, c)
+	// 切片的长度和容量
+	s3 := a1[3:] //[4 5 6 7 8 9]
+	fmt.Println(s3)
+	// 切片的长度是元素的个数，切片的容量是底层数组从切片的第一个元素到最后一个元素
+	fmt.Printf("len(s3):%d cap(s3):%d \n", len(s3), cap(s3))
+
+	s4 := a1[4:8] //[5 6 7 8]
+	fmt.Println(s4)
+	fmt.Printf("len(s4):%d cap(s4):%d \n", len(s4), cap(s4))
+
+	//由切片得到切片
+	s5 := s3[2:4]
+	fmt.Println(s5)
+	fmt.Printf("len(s5):%d cap(s5):%d \n", len(s5), cap(s5))
+
+	//// 使用make创建一个长度和容量都为5的切片
+	//slice1 := make([]string, 5)
+	////使用make创建一个长度5，容量为10的切片
+	//slice2 := make([]string, 5, 10)
+	//fmt.Println(slice1, slice2)
+	//// fmt.Println(slice2[6]) // 虽然创建的切片对应底层数组的大小为 10，但是不能访问索引值 5 以后的元素
+	//
+	//// 通过切片字面量创建
+	//slice3 := []int{1, 2, 4, 4}
+	//fmt.Println(slice3)
+	//
+	//// 创建空切片
+	//slice4 := []int{}
+	//slice5 := make([]int, 0)
+	//fmt.Println(slice4, slice5)
+	//
+	//// 通过切片创建切片
+	//slice6 := []int{10, 20, 30, 40, 50}
+	//slice7 := slice6[1:3]
+	//fmt.Println(slice6, slice7)
 }
