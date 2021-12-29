@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 func main() {
-
+	sliceTest()
 }
 
 // 数组
@@ -114,24 +114,20 @@ func sliceTest() {
 	fmt.Println(s5)
 	fmt.Printf("len(s5):%d cap(s5):%d \n", len(s5), cap(s5))
 
-	//// 使用make创建一个长度和容量都为5的切片
-	//slice1 := make([]string, 5)
-	////使用make创建一个长度5，容量为10的切片
-	//slice2 := make([]string, 5, 10)
-	//fmt.Println(slice1, slice2)
-	//// fmt.Println(slice2[6]) // 虽然创建的切片对应底层数组的大小为 10，但是不能访问索引值 5 以后的元素
-	//
-	//// 通过切片字面量创建
-	//slice3 := []int{1, 2, 4, 4}
-	//fmt.Println(slice3)
-	//
-	//// 创建空切片
-	//slice4 := []int{}
-	//slice5 := make([]int, 0)
-	//fmt.Println(slice4, slice5)
-	//
-	//// 通过切片创建切片
-	//slice6 := []int{10, 20, 30, 40, 50}
-	//slice7 := slice6[1:3]
-	//fmt.Println(slice6, slice7)
+	// 使用make创建一个长度和容量都为5的切片
+	slice1 := make([]string, 5)
+	//使用make创建一个长度5，容量为10的切片
+	slice2 := make([]string, 5, 10)
+	fmt.Println(slice1, slice2)
+	// fmt.Println(slice2[6]) // 虽然创建的切片对应底层数组的大小为 10，但是不能访问索引值 5 以后的元素,其实相当于底层数组长度是10但是切片只覆盖到了0~5
+
+	// 切片比较
+	var q1 []int //len(q1)=0;cap(q1)=0;q1==nil
+	fmt.Printf("len(q1):%d cap(q1):%d q1==nil:%t \n", len(q1), cap(q1), q1 == nil)
+	q2 := []int{} //len(q2)=0;cap(q2)=0;q2!=nil
+	fmt.Printf("len(q2):%d cap(q2):%d q2==nil:%t \n", len(q2), cap(q2), q2 == nil)
+	q3 := make([]int, 0) //len(q3)=0;cap(q3)=0;q3!=nil
+	fmt.Printf("len(q3):%d cap(q3):%d q3==nil:%t \n", len(q3), cap(q3), q3 == nil)
+
+	// TODO:待补充
 }
