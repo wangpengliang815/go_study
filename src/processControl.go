@@ -2,12 +2,8 @@ package main
 
 import "fmt"
 
-func main() {
-	ifTest()
-}
-
 // if
-func ifTest() {
+func IfTest() {
 	score := 60
 	if score >= 90 {
 		fmt.Println("A")
@@ -29,12 +25,13 @@ func ifTest() {
 }
 
 // for
-func forTest() {
+func ForTest() {
 	// 基础的for循环
 	sum := 0
-	for i := 0; i < 10; i++ {
-		sum += i
+	for i := 0; i < 5; i++ {
+		sum += i // 1+2+3+4
 	}
+	fmt.Println(sum)
 
 	// 初始语句可以被忽略，但是初始语句后的分号必须要写
 	i := 0
@@ -42,20 +39,21 @@ func forTest() {
 		fmt.Println(i)
 	}
 
-	// 循环的初始语句和结束语句都可以省略:类似于C#中的while,在`while`后添加一个条件表达式，满足条件表达式时持续循环，否则结束循环。
-	for i < 10 {
-		fmt.Println(i)
-		i++
+	j := 0
+	// 循环的初始语句和结束语句都可以省略:类似于C#中的while,在`while`后添加一个条件表达式，满足条件表达式时持续循环，否则结束循环。类似于while循环
+	for j < 10 {
+		fmt.Println(j)
+		j++
 	}
 
-	// 无限循环
-	for {
-		fmt.Print("hello word")
-	}
+	// // 无限循环
+	// for {
+	// 	fmt.Print("hello word!")
+	// }
 }
 
 // switch
-func switchTest() {
+func SwitchTest() {
 	// 基础的switch
 	sex := "男"
 	switch sex {
@@ -67,7 +65,7 @@ func switchTest() {
 		fmt.Println("无效的输入！")
 	}
 
-	// switch多个值判断也使用特殊写法
+	// switch多个值判断使用特殊写法
 	switch n := 7; n {
 	case 1, 3, 5, 7, 9:
 		fmt.Println("奇数")
@@ -94,7 +92,6 @@ func switchTest() {
 	s := "a"
 	switch {
 	case s == "a":
-		fmt.Println("a")
 		fallthrough
 	case s == "b":
 		fmt.Println("b")
@@ -106,7 +103,7 @@ func switchTest() {
 }
 
 // goto
-func gotoTest() {
+func GotoTest() {
 	// 示例一：内层循环打印到2时结束，外层循环也随即结束
 	var breakFlag bool
 	for i := 0; i < 10; i++ {
@@ -123,7 +120,8 @@ func gotoTest() {
 			break
 		}
 	}
-	// 使用goto简化
+
+	// 示例二：使用goto简化
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
 			if j == 2 {
@@ -140,7 +138,7 @@ breakTag:
 }
 
 // break
-func breakTest() {
+func BreakTest() {
 BREAKDEMO1:
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
@@ -154,7 +152,8 @@ BREAKDEMO1:
 }
 
 // continue
-func continueTest() {
+func ContinueTest() {
+	// 示例一：continue跳到指定的标签位置
 forloop1:
 	for i := 0; i < 5; i++ {
 		// forloop2:
@@ -165,6 +164,8 @@ forloop1:
 			fmt.Printf("%v-%v\n", i, j)
 		}
 	}
+
+	// 示例二：跳出当次循环，开始下次循环
 	for i := 0; i < 10; i++ {
 		if i == 2 {
 			continue
