@@ -6,13 +6,8 @@ import (
 	"unicode"
 )
 
-func main() {
-	stringTest()
-}
-
-// 字符串
-func stringTest() {
-	// 判断字符串中存在几个汉字
+// 练习题：获取字符串中存在几个汉字
+func Exercises_GetUnicodeCount() {
 	name333 := "hello,勒布朗、科比、艾弗森"
 	var count int
 	for _, c := range name333 {
@@ -21,7 +16,10 @@ func stringTest() {
 		}
 	}
 	fmt.Println(count)
+}
 
+// 字符串
+func StringTest() {
 	// 字符串字面量语法：可以定义一个多行字符串
 	var s1 string = "hello"
 	var s2 string = `hello
@@ -39,7 +37,7 @@ func stringTest() {
 	r := []rune(s)
 	fmt.Println(len(r))
 
-	// 字符串截取：
+	// 字符串截取
 	str := "abcdefg"
 	t1 := str[1:4] // startIndex=1,endIndex=4
 	t2 := str[:4]  // 省略第一个索引从0开始，startIndex=0,endIndex=4
@@ -47,13 +45,17 @@ func stringTest() {
 	// t4 := str[:10] //runtime error: slice bounds out of range [:10] with length 7 数组越界
 	fmt.Println(t1, t2, t3)
 
-	// 字符串拼接
+	// 字符串拼接的三种方式
+	// 第一种：直接使用“+”号拼接
 	q1 := "hello"
 	q2 := ",world"
 	fmt.Println(q1 + q2)
+
+	// 第二种：使用Printf拼接输出
 	// %s 代表原样输出
 	fmt.Printf("%s%s\n", q1, q2)
-	// Sprintf拼接,不会直接打印而是生成一个新的字符串
+
+	// 第三种：使用Sprintf拼接,不会直接打印而是生成一个新的字符串
 	var result = fmt.Sprintf("%s%s", q1, q2)
 	fmt.Println(result)
 
@@ -73,9 +75,10 @@ func stringTest() {
 	for i := 0; i < len(p); i++ {
 		fmt.Printf("%c \n", p[i])
 	}
+
 	// 使用range解决非单字节字符显示问题
 	for _, v := range p {
-		fmt.Printf("%c", v)
+		fmt.Printf("%c \n", v)
 	}
 
 	// 字符串修改
@@ -96,7 +99,7 @@ func stringTest() {
 }
 
 // 内置strings包常见用法
-func stringsTest() {
+func StringsTest() {
 	s := "helloworld 世界你好"
 	fmt.Printf("string:%q\n", s)              // 原文格式输出
 	fmt.Printf("rune(char):%q\n", []rune(s))  // 输出[]rune切片
@@ -122,8 +125,10 @@ func stringsTest() {
 	// 获取子串索引
 	fmt.Println(strings.Index("hello world", "world")) // 6
 	fmt.Println(strings.Index("hello world", "hi"))    // -1
+
 	// lastIndex返回匹配到的最后一个字符串的索引
 	fmt.Println(strings.LastIndex("hello world,world", "world")) // 12
+
 	// 使用 `IndexRune` 函数查找中文字符出现的位置
 	fmt.Println(strings.IndexRune("一梦三两年", '三'))    // 12
 	fmt.Printf("rune(char):%q\n", []rune("一梦三两年"))  // 输出[]rune切片
