@@ -2,7 +2,7 @@ package main
 
 import "fmt"
 
-func main() {
+func PointerTestPrint() {
 	// 指针的&和*
 	x := 1          // 声明int类型变量x
 	p := &x         // &x用于获取变量x的内存地址，返回一个指向x的指针p
@@ -28,8 +28,7 @@ func main() {
 	fmt.Println(*b)       // false
 
 	// make函数只用于 slice、map以及 channel 的内存创建，而且它返回的类型就是这三个类型本身，而不是他们的指针类型
-	var c map[string]int
-	c = make(map[string]int, 10)
+	var c map[string]int = make(map[string]int, 10)
 	c["山西一枝花"] = 100
 	fmt.Println(c)
 }

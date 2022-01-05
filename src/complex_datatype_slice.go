@@ -2,18 +2,15 @@ package main
 
 import "fmt"
 
-func main() {
-	mapTest()
-}
-
 // slice切片
-func sliceTest() {
+func SliceTest() {
 	// 切片的定义
-	var s1 []int    //定义存放int类型的切片
-	var s2 []string //定义存放string类型的切片
+	var s1 []int    // 定义存放int类型的切片
+	var s2 []string // 定义存放string类型的切片
 	fmt.Println(s1, s2)
 	fmt.Println(s1 == nil)
 	fmt.Println(s2 == nil)
+
 	// 切片初始化
 	s1 = []int{1, 3, 4, 5, 67, 88}
 	s2 = []string{"北京", "上海", "山西"}
@@ -26,18 +23,18 @@ func sliceTest() {
 	// 由数组得到切片
 	a1 := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	fmt.Println(a1)
-	fmt.Println(a1[0:4]) // =>[1 2 3 4]基于数组得到切片,从0开始到第4个结束（不包含4）.原则：左包含右不包含
+	fmt.Println(a1[0:4]) // =>[1 2 3 4] 基于数组得到切片,从0开始到第4个结束（不包含4）.原则：左包含右不包含
 	fmt.Println(a1[:4])  // =>[1 2 3 4] 省略第一个参数，默认从0开始
-	fmt.Println(a1[3:])  // =>[4 5 6 7 8 9]省略第二个参数，默认到len(a1)结束
+	fmt.Println(a1[3:])  // =>[4 5 6 7 8 9] 省略第二个参数，默认到len(a1)结束
 	fmt.Println(a1[:])   // =>[1 2 3 4 5 6 7 8 9] 两个参数都省略，默认从0开始到len(a1-1)结束
 
 	// 切片的长度和容量
-	s3 := a1[3:] //[4 5 6 7 8 9]
+	s3 := a1[3:] // [4 5 6 7 8 9]
 	fmt.Println(s3)
 	// 切片的长度是元素的个数，切片的容量是底层数组从切片的第一个元素到最后一个元素
 	fmt.Printf("len(s3):%d cap(s3):%d \n", len(s3), cap(s3))
 
-	s4 := a1[4:8] //[5 6 7 8]
+	s4 := a1[4:8] // [5 6 7 8]
 	fmt.Println(s4)
 	fmt.Printf("len(s4):%d cap(s4):%d \n", len(s4), cap(s4))
 
@@ -48,25 +45,25 @@ func sliceTest() {
 
 	// 使用make创建一个长度和容量都为5的切片
 	slice1 := make([]string, 5)
-	//使用make创建一个长度5，容量为10的切片
+	// 使用make创建一个长度5，容量为10的切片
 	slice2 := make([]string, 5, 10)
 	fmt.Println(slice1, slice2)
 	// fmt.Println(slice2[6]) // 虽然创建的切片对应底层数组的大小为 10，但是不能访问索引值 5 以后的元素,其实相当于底层数组长度是10但是切片只覆盖到了0~5
 
 	// 切片比较
-	var q1 []int //len(q1)=0;cap(q1)=0;q1==nil
+	var q1 []int // len(q1)=0;cap(q1)=0;q1==nil
 	fmt.Printf("len(q1):%d cap(q1):%d q1==nil:%t \n", len(q1), cap(q1), q1 == nil)
-	q2 := []int{} //len(q2)=0;cap(q2)=0;q2!=nil
+	q2 := []int{} // len(q2)=0;cap(q2)=0;q2!=nil
 	fmt.Printf("len(q2):%d cap(q2):%d q2==nil:%t \n", len(q2), cap(q2), q2 == nil)
-	q3 := make([]int, 0) //len(q3)=0;cap(q3)=0;q3!=nil
+	q3 := make([]int, 0) // len(q3)=0;cap(q3)=0;q3!=nil
 	fmt.Printf("len(q3):%d cap(q3):%d q3==nil:%t \n", len(q3), cap(q3), q3 == nil)
 
 	// 切片的赋值拷贝
-	w1 := make([]int, 3) //[0 0 0]
-	w2 := w1             //将w1直接赋值给w2，w1和w2共用一个底层数组
+	w1 := make([]int, 3) // [0 0 0]
+	w2 := w1             // 将w1直接赋值给w2，w1和w2共用一个底层数组
 	w2[0] = 100
-	fmt.Println(w1) //[100 0 0]
-	fmt.Println(w2) //[100 0 0]
+	fmt.Println(w1) // [100 0 0]
+	fmt.Println(w2) // [100 0 0]
 
 	// 切片遍历
 	for i := 0; i < len(w1); i++ {
@@ -95,24 +92,24 @@ func sliceTest() {
 	// copy()
 	a := []int{1, 2, 3, 4, 5}
 	b := a
-	fmt.Println(a) //[1 2 3 4 5]
-	fmt.Println(b) //[1 2 3 4 5]
+	fmt.Println(a) // [1 2 3 4 5]
+	fmt.Println(b) // [1 2 3 4 5]
 	b[0] = 1000
-	fmt.Println(a) //[1000 2 3 4 5]
-	fmt.Println(b) //[1000 2 3 4 5]
+	fmt.Println(a) // [1000 2 3 4 5]
+	fmt.Println(b) // [1000 2 3 4 5]
 
 	c1 := []int{1, 2, 3, 4, 5}
-	c2 := make([]int, 5, 5)
-	copy(c2, c1)    //使用copy()函数将切片a中的元素复制到切片c
-	fmt.Println(c1) //[1 2 3 4 5]
-	fmt.Println(c2) //[1 2 3 4 5]
+	c2 := make([]int, 5)
+	copy(c2, c1)    // 使用copy()函数将切片a中的元素复制到切片c
+	fmt.Println(c1) // [1 2 3 4 5]
+	fmt.Println(c2) // [1 2 3 4 5]
 	c1[0] = 1000
-	fmt.Println(c1) //[1000 2 3 4 5]
-	fmt.Println(c2) //[1 2 3 4 5]
+	fmt.Println(c1) // [1000 2 3 4 5]
+	fmt.Println(c2) // [1 2 3 4 5]
 
 	// 从切片中删除元素
 	c3 := []int{30, 31, 32, 33, 34, 35, 36, 37}
 	// 要删除索引为2的元素32
-	c3 = append(c3[:2], c3[3:]...) //其实这就是利用append的特性修改了切片内容再返回
-	fmt.Println(c3)                //[30 31 33 34 35 36 37]
+	c3 = append(c3[:2], c3[3:]...) // 其实这就是利用append的特性修改了切片内容再返回
+	fmt.Println(c3)                // [30 31 33 34 35 36 37]
 }

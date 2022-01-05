@@ -59,6 +59,7 @@ func EnumTest() {
 		TB = 1 << (10 * iota)
 		PB = 1 << (10 * iota)
 	)
+	fmt.Println(KB, MB, GB, TB, PB)
 
 	// 多个iota一行定义
 	const (

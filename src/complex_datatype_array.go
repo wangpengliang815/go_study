@@ -2,12 +2,8 @@ package main
 
 import "fmt"
 
-func main() {
-	mapTest()
-}
-
 // 数组
-func arrayTest() {
+func ArrayTest() {
 	// 数组创建，使用类型零值初始化
 	var a [3]int             // array of 3 integers
 	fmt.Println(a[0])        // print the first element

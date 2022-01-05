@@ -2,12 +2,8 @@ package main
 
 import "fmt"
 
-func main() {
-	mapTest()
-}
-
 // map
-func mapTest() {
+func MapTest() {
 	// 正常创建map
 	ageMap := make(map[string]int, 8)
 	ageMap["小王"] = 18
