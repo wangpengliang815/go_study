@@ -60,7 +60,6 @@ func variableTest() {
 	// _ 代表匿名变量
 	result, _ := sayHello()
 	fmt.Print(result)
-
 }
 
 func sayHello() (string, int) {
