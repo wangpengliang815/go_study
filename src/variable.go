@@ -56,4 +56,13 @@ func variableTest() {
 	fmt.Println(*p1) // *p用户获取指针p指向变量的值
 	*p1 = 2          // 可以重新给*p指针赋值
 	fmt.Println(x)   // "2"
+
+	// _ 代表匿名变量
+	result, _ := sayHello()
+	fmt.Print(result)
+
+}
+
+func sayHello() (string, int) {
+	return "hello", 20
 }

@@ -1,4 +1,4 @@
-module goStudy
+module goProject
 
 go 1.17
 

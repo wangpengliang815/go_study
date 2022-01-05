@@ -19,13 +19,20 @@ func main() {
 
 // 数字字面量语法，以不同进制定义整形变量
 func numberLiteralsSyntaxTest() {
-	v1 := 0b00101101 //代表二进制的 101101，相当于十进制的 45
+	// 代表二进制的 101101，相当于十进制的 45
+	v1 := 0b00101101
 	fmt.Printf("value:%v type:%T \n", v1, v1)
-	v2 := 0o377 //代表八进制的377，相当于十进制的 255
+
+	// 代表八进制的377，相当于十进制的 255
+	v2 := 0o377
 	fmt.Printf("value:%v type:%T \n", v2, v2)
-	v3 := 0x1p-2 //代表十六进制的 1 除以 2²，也就是 0.25
+
+	// 代表十六进制的 1 除以 2²，也就是 0.25
+	v3 := 0x1p-2
 	fmt.Printf("value:%v type:%T \n", v3, v3)
-	v4 := 123_456 // 使用“_”分隔数字
+
+	// 使用“_”分隔数字
+	v4 := 123_456
 	fmt.Printf("value:%v type:%T \n", v4, v4)
 }
 
@@ -36,7 +43,7 @@ func getSizeofTest() {
 	fmt.Println(unsafe.Sizeof(value))
 }
 
-// 借助 fmt 函数不同进制形式显示整数
+// 借助fmt函数不同进制形式显示整数
 func convertOutputTest() {
 	// 十进制
 	var a int = 10
