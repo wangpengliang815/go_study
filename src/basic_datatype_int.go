@@ -5,12 +5,8 @@ import (
 	"unsafe"
 )
 
-func main() {
-	stringTest()
-}
-
 // 整型：数字字面量语法允许以不同进制定义整形变量
-func numberLiteralsSyntaxTest() {
+func NumberLiteralsSyntaxTest() {
 	// 代表二进制的 101101，相当于十进制的 45
 	v1 := 0b00101101
 	fmt.Printf("value:%v type:%T \n", v1, v1)
@@ -29,14 +25,14 @@ func numberLiteralsSyntaxTest() {
 }
 
 // 返回变量占用的字节数
-func getSizeofTest() {
+func GetSizeofTest() {
 	var value int8 = 120
 	fmt.Printf("%T\n", value)
 	fmt.Println(unsafe.Sizeof(value))
 }
 
 // 借助fmt函数不同进制形式显示整数
-func convertOutputTest() {
+func ConvertOutputTest() {
 	// 十进制
 	var a int = 10
 	fmt.Printf("%d \n", a) //%d 表示十进制
@@ -45,7 +41,7 @@ func convertOutputTest() {
 	// 八进制以0开头
 	var b int = 077
 	fmt.Printf("%o \n", b) //%o 表示八进制
-	fmt.Printf("%d \n", b) //%o 表示八进制
+	fmt.Printf("%d \n", b) //%d 表示十进制
 
 	// 十六进制 以 0x 开头
 	var c int = 0xff

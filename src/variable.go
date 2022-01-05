@@ -10,12 +10,8 @@ var (
 	address string
 )
 
-func main() {
-	variableTest()
-}
-
 // 变量
-func variableTest() {
+func VariableTest() {
 	// 变量声明第一种：指定变量类型但不赋值，使用默认值
 	var name string // 省略表达式，使用字符串对应的零值初始化（空字符串）
 	var age int     // 省略表达式，使用数值类型对应的零值初始化（0）
@@ -29,7 +25,7 @@ func variableTest() {
 	fmt.Println(name1, age1)
 
 	// 变量声明第二种方式：类型推导
-	var address = "beijing"
+	var address = "北京"
 	fmt.Println(address)
 
 	// 变量声明第三种方式：简短声明，只能在函数内使用

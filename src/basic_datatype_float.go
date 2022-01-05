@@ -7,16 +7,12 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func main() {
-	stringTest()
-}
-
 // 浮点数类型float
-func floatTest() {
+func FloatTest() {
 	var f float64 = 3.1415926
-	fmt.Printf("%f\n", f)              // 默认保留6位小数
-	fmt.Printf("%.2f\n", f)            // 保留2位小数
-	fmt.Printf("值:%v--类型:%T \n", f, f) // 浮点数默认类型是float64
+	fmt.Printf("%f\n", f)             // 默认保留6位小数
+	fmt.Printf("%.2f\n", f)           // 保留2位小数
+	fmt.Printf("值:%v,类型:%T \n", f, f) // 浮点数默认类型是float64
 
 	fmt.Println(math.MaxFloat32) // 输出float32最大值
 	fmt.Println(math.MaxFloat64) // 输出float64最大值
@@ -28,8 +24,8 @@ func floatTest() {
 	fmt.Println("n1=", n1, "n2=", n2, "n3=", n3)
 }
 
-//  float精度丢失问题
-func floatPrecisionLossTest() {
+// float精度丢失问题
+func FloatPrecisionLossTest() {
 	d := 1129.6
 	fmt.Println(d * 100) // 此处结果应该是：112960，实际打印的却是：112959.99999999999
 
@@ -44,7 +40,7 @@ func floatPrecisionLossTest() {
 使用第三方包解决float精度丢失问题：go get github.com/shopspring/decimal
 文档：https://pkg.go.dev/github.com/shopspring/decimal#section-readme
 */
-func floatPrecisionLossSolveTest() {
+func FloatPrecisionLossSolveTest() {
 	a := decimal.NewFromFloat(1129.6)
 	b := decimal.NewFromInt(100)
 	fmt.Println(a.Mul(b)) // output:112960
