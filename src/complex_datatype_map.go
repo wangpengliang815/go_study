@@ -7,7 +7,7 @@ func MapTest() {
 	// 正常创建map
 	ageMap := make(map[string]int, 8)
 	ageMap["小王"] = 18
-	ageMap["小李"] = 20
+	ageMap["小李"] = 2
 	fmt.Println(ageMap)
 	fmt.Println(ageMap["小王"])
 	fmt.Printf("type of a:%T\n", ageMap)
