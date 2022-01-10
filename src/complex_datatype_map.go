@@ -22,6 +22,7 @@ func MapTest() {
 	fmt.Printf("type of a:%T\n", ageMap2)
 
 	// 判断键是否存在：如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值
+	// 如果返回值是bool值通常使用ok接收，约定俗称
 	v, ok := ageMap2["小张"]
 	if ok {
 		fmt.Println(v)
@@ -38,7 +39,7 @@ func MapTest() {
 		fmt.Println(k)
 	}
 
-	// delete删除某个键值对
+	// delete删除某个键值对，不存在时什么也不做
 	ageMap3 := map[string]int{
 		"小周": 21,
 		"小张": 22,

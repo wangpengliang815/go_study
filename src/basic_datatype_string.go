@@ -6,8 +6,8 @@ import (
 	"unicode"
 )
 
-// 练习题：获取字符串中存在几个汉字
-func Exercises_GetUnicodeCount() {
+// 练习题1：获取字符串中存在几个汉字
+func Exercises1() {
 	name333 := "hello,勒布朗、科比、艾弗森"
 	var count int
 	for _, c := range name333 {
@@ -16,6 +16,46 @@ func Exercises_GetUnicodeCount() {
 		}
 	}
 	fmt.Println(count)
+}
+
+// 练习题2：获取字符串中每个单词出现的次数
+func Exercises2() {
+	s := "how do you do"
+	// 以空格分隔
+	s2 := strings.Split(s, " ")
+	// 定义map用于存储每个单词出现的次数
+	m1 := make(map[string]int, 10)
+	// 遍历slice
+	for _, w := range s2 {
+		// 如果map中不存在key则添加
+		if _, ok := m1[w]; !ok {
+			m1[w] = 1
+		} else {
+			// 否则该key的value+1
+			m1[w]++
+		}
+	}
+	for key, value := range m1 {
+		fmt.Println(key, value)
+	}
+}
+
+// 练习题3：回文判断
+func Exercises3() {
+	s := "上海自来水来自海上"
+	// 创建rune类型切片
+	r := make([]rune, 0, len(s))
+
+	for _, v := range s {
+		r = append(r, v)
+	}
+	for i := 0; i < len(r)/2; i++ {
+		if r[i] != r[len(r)-1-i] {
+			fmt.Println("no")
+			return
+		}
+	}
+	fmt.Println("yes")
 }
 
 // 字符串

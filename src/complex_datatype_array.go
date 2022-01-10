@@ -18,6 +18,10 @@ func ArrayTest() {
 	c := [...]int{1, 2, 3}
 	fmt.Println(c[0])
 
+	// 指定数组第1个元素值为100,第9个元素值为200,数组长度就是10
+	d := [...]int{1: 100, 9: 200}
+	fmt.Println(d)
+
 	// 数组遍历
 	for i := 0; i < len(a); i++ {
 		fmt.Printf("key:%d, value:%d\n", i, a[i])
@@ -28,7 +32,7 @@ func ArrayTest() {
 		fmt.Printf("key:%d, value:%d\n", i, v)
 	}
 
-	// 使用range遍历数组:如果需要值并希望忽略索引，可以通过使用_ blank标识符替换索引来实现
+	// 使用range遍历数组:如果需要值但希望忽略索引，可以通过使用_ blank标识符替换索引来实现
 	for _, v := range a {
 		fmt.Printf("value:%d\n", v)
 	}

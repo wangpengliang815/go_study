@@ -74,7 +74,7 @@ func SliceTest() {
 		fmt.Println(index, value)
 	}
 
-	// append()追加元素到切片中
+	// append()追加元素到切片中,如果使用append()切片可以不被初始化,会自动扩容并添加元素
 	w3 := make([]int, 3)           // 创建切片：[0 0 0]
 	w3 = append(w3, 1)             // 切片中添加第一个元素 1
 	w3 = append(w3, 2, 3, 4, 5, 6) // 继续添加元素 2,3,4,5,6
@@ -89,7 +89,7 @@ func SliceTest() {
 		fmt.Printf("%v  len:%d  cap:%d  ptr:%p\n", numSlice, len(numSlice), cap(numSlice), numSlice)
 	}
 
-	// copy()
+	// copy()不会自动扩容
 	a := []int{1, 2, 3, 4, 5}
 	b := a
 	fmt.Println(a) // [1 2 3 4 5]
