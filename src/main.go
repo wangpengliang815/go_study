@@ -1,12 +1,10 @@
 package main
 
-func main() {
-	// var a calculation = Csum
-	// fmt.Printf("type of a:%T\n", a) // type of c:main.calculation
-	// fmt.Println(a(1, 2))            // 像调用sum2一样调用c
+import "fmt"
 
-	// var b calculation = Csub
-	// fmt.Printf("type of b:%T\n", b) // type of c:main.calculation
-	// fmt.Println(b(1, 2))            // 像调用sub2一样调用c
-	Exercises3()
+func main() {
+	var f = Add()
+	fmt.Println(f(10)) //10
+	fmt.Println(f(20)) //30
+	fmt.Println(f(30)) //60
 }
