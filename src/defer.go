@@ -21,6 +21,17 @@ func DeferTest2() {
 }
 
 // defer执行时机
+func Test() {
+	ret1 := F1()
+	fmt.Println(ret1)
+	ret2 := F2()
+	fmt.Println(ret2)
+	ret3 := F3()
+	fmt.Println(ret3)
+	ret4 := F4()
+	fmt.Println(ret4)
+}
+
 func F1() int {
 	x := 5
 	defer func() {

@@ -144,10 +144,24 @@ func Add() func(int) int {
 	}
 }
 
+func AddTest() {
+	var f = Add()
+	fmt.Println(f(10)) //10
+	fmt.Println(f(20)) //30
+	fmt.Println(f(30)) //60
+}
+
 // 闭包示例2
-func Adder2(x int) func(int) int {
+func Add2(x int) func(int) int {
 	return func(y int) int {
 		x += y
 		return x
 	}
+}
+
+func Add2Test() {
+	var f = Add2(10)
+	fmt.Println(f(10)) //20
+	fmt.Println(f(20)) //40
+	fmt.Println(f(30)) //70
 }
