@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // if
-func IfTest() {
+func ifTest() {
 	score := 60
 	if score >= 90 {
 		fmt.Println("A")
@@ -25,7 +25,7 @@ func IfTest() {
 }
 
 // for
-func ForTest() {
+func forTest() {
 	// 基础的for循环
 	sum := 0
 	for i := 0; i < 5; i++ {
@@ -53,7 +53,7 @@ func ForTest() {
 }
 
 // switch
-func SwitchTest() {
+func switchTest() {
 	// 基础的switch
 	sex := "男"
 	switch sex {
@@ -103,7 +103,7 @@ func SwitchTest() {
 }
 
 // goto
-func GotoTest() {
+func gotoTest() {
 	// 示例一：内层循环打印到2时结束，外层循环也随即结束
 	var breakFlag bool
 	for i := 0; i < 10; i++ {
@@ -138,7 +138,7 @@ breakTag:
 }
 
 // break
-func BreakTest() {
+func breakTest() {
 BREAKDEMO1:
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
@@ -152,7 +152,7 @@ BREAKDEMO1:
 }
 
 // continue
-func ContinueTest() {
+func continueTest() {
 	// 示例一：continue跳到指定的标签位置
 forloop1:
 	for i := 0; i < 5; i++ {

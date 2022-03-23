@@ -2,7 +2,10 @@ package main
 
 import "fmt"
 
-func PointerTestPrint() {
+func main() {
+	pointerTestPrint()
+}
+func pointerTestPrint() {
 	// 指针的&和*
 	x := 1          // 声明int类型变量x
 	p := &x         // &x用于获取变量x的内存地址，返回一个指向x的指针p

@@ -169,3 +169,60 @@ func add2Test() {
 	fmt.Println(f(20)) //40
 	fmt.Println(f(30)) //70
 }
+
+// defer将后面的语句延迟到函数即将退出时逆序执行,一般常用于资源释放
+func deferTest() {
+	fmt.Println("start")
+	defer fmt.Println("...")
+	fmt.Println("end")
+}
+
+// 函数中存在多个defer时,逆序执行后进先出
+func deferTest2() {
+	fmt.Println("start")
+	defer fmt.Println("1111")
+	defer fmt.Println("2222")
+	defer fmt.Println("3333")
+	fmt.Println("end")
+}
+
+// defer执行时机
+func test() {
+	ret1 := f1()
+	fmt.Println(ret1)
+	ret2 := f2()
+	fmt.Println(ret2)
+	ret3 := f3()
+	fmt.Println(ret3)
+	ret4 := f4()
+	fmt.Println(ret4)
+}
+
+func f1() int {
+	x := 5
+	defer func() {
+		x++
+	}()
+	return x
+}
+
+func f2() (x int) {
+	defer func() {
+		x++
+	}()
+	return 5
+}
+
+func f3() (y int) {
+	x := 5
+	defer func() {
+		x++
+	}()
+	return x
+}
+func f4() (x int) {
+	defer func(x int) {
+		x++
+	}(x)
+	return 5
+}
