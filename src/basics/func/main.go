@@ -156,15 +156,15 @@ func addTest() {
 }
 
 // 闭包示例2
-func Add2(x int) func(int) int {
+func add2(x int) func(int) int {
 	return func(y int) int {
 		x += y
 		return x
 	}
 }
 
-func Add2Test() {
-	var f = Add2(10)
+func add2Test() {
+	var f = add2(10)
 	fmt.Println(f(10)) //20
 	fmt.Println(f(20)) //40
 	fmt.Println(f(30)) //70
