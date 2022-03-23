@@ -4,28 +4,32 @@ import (
 	"fmt"
 )
 
+func main() {
+	addTest()
+}
+
 // 函数定义1：带参数且有返回值
-func Test1(x int, y int) int {
+func test1(x int, y int) int {
 	return x + y
 }
 
 // 函数定义2：有参数但无返回值
-func Test2(x int, y int) {
+func test2(x int, y int) {
 	fmt.Println(x + y)
 }
 
 // 函数定义3：无参数且无返回值
-func Test3() {
+func test3() {
 	fmt.Println("hello world")
 }
 
 // 函数定义4：使用参数类型简写
-func Test4(x, y int) int {
+func test4(x, y int) int {
 	return x + y
 }
 
 // 函数定义5：函数返回值命名,可以在函数体中直接使用,通过return返回
-func Test5(x, y int) (sum, sub int) {
+func test5(x, y int) (sum, sub int) {
 	sum = x + y
 	sub = x - y
 	// return 这里可以直接return,不需要指定sum和sub
@@ -33,14 +37,14 @@ func Test5(x, y int) (sum, sub int) {
 }
 
 // 函数多返回值,如果是多返回值必须使用括号
-func Test6(x, y int) (int, int) {
+func test6(x, y int) (int, int) {
 	sum := x + y
 	sub := x - y
 	return sum, sub
 }
 
 // 可变参数指的是参数数量不固定
-func Test7(x ...int) int {
+func test7(x ...int) int {
 	sum := 0
 	for _, v := range x {
 		sum += v
@@ -49,7 +53,7 @@ func Test7(x ...int) int {
 }
 
 // 可变参数搭配固定参数时,必须放在参数最后一位
-func Test8(x int, y ...int) int {
+func test8(x int, y ...int) int {
 	for _, v := range y {
 		x += v
 	}
@@ -57,7 +61,7 @@ func Test8(x int, y ...int) int {
 }
 
 // 当函数返回值类型为slice时,nil可以看做是一个有效的slice，没必要显式返回一个长度为0的切片
-func Test9(x string) []int {
+func test9(x string) []int {
 	if x == "" {
 		return nil // 没必要返回[]int{}
 	}
@@ -68,39 +72,39 @@ func Test9(x string) []int {
 type calculation func(int, int) int
 
 // calculation类型的函数Sum
-func Sum(x, y int) int {
+func sum(x, y int) int {
 	return x + y
 }
 
 // calculation类型的函数Sub
-func Sub(x, y int) int {
+func sub(x, y int) int {
 	return x - y
 }
 
 // 函数类型测试
-func CalculationTest() {
-	var a calculation = Sum         // 将Sum赋值给函数类型变量a
+func calculationTest() {
+	var a calculation = sum         // 将Sum赋值给函数类型变量a
 	fmt.Printf("type of a:%T\n", a) // type of a:main.calculation
-	fmt.Println(a(1, 2))            // 像调用Sum一样调用a
+	fmt.Println(a(1, 2))            // 像调用sum一样调用a
 
-	var b calculation = Sub         // 将Sub赋值给函数类型变量b
+	var b calculation = sub         // 将Sub赋值给函数类型变量b
 	fmt.Printf("type of b:%T\n", b) // type of b:main.calculation
-	fmt.Println(b(1, 2))            // 像调用Sub一样调用b
+	fmt.Println(b(1, 2))            // 像调用sub一样调用b
 }
 
-// 将函数作为参数传递，该函数接收两个int类型变量x/y,一个函数参数sum。
-func FunctionAsArgument(x, y int, sum func(int, int) int) int {
+// 将函数作为参数传递，该函数接收两个int类型变量x/y,一个函数参数sum
+func functionAsArgument(x, y int, sum func(int, int) int) int {
 	return sum(x, y)
 }
 
 // 按照正常调用函数的方式调用即可
-func FunctionAsArgumentTest() {
-	ret2 := FunctionAsArgument(10, 20, Test1)
+func functionAsArgumentTest() {
+	ret2 := functionAsArgument(10, 20, test1)
 	fmt.Println(ret2) //30
 }
 
 // 接收一个切片参数patients,返回一个函数
-func FunctionAsTheReturnValue(patients []string) func(string) bool {
+func functionAsTheReturnValue(patients []string) func(string) bool {
 	// 定义匿名函数并返回
 	return func(name string) bool {
 		for _, soul := range patients {
@@ -112,16 +116,16 @@ func FunctionAsTheReturnValue(patients []string) func(string) bool {
 	}
 }
 
-func FunctionAsTheReturnValueTest() {
+func functionAsTheReturnValueTest() {
 	testValue := []string{"a", "b", "c", "d", "e", "f"}
-	result := FunctionAsTheReturnValue(testValue)
+	result := functionAsTheReturnValue(testValue)
 	// 调用筛选器函数获取字母是否已存在
 	fmt.Println(result("a"))  // true
 	fmt.Println(result("ff")) // false
 }
 
 // 匿名函数
-func AnonymousFunc() {
+func anonymousFunc() {
 	// 将匿名函数保存到变量
 	add := func(x, y int) {
 		fmt.Println(x + y)
@@ -136,7 +140,7 @@ func AnonymousFunc() {
 }
 
 // 闭包示例1
-func Add() func(int) int {
+func add() func(int) int {
 	var x int
 	return func(y int) int {
 		x += y
@@ -144,8 +148,8 @@ func Add() func(int) int {
 	}
 }
 
-func AddTest() {
-	var f = Add()
+func addTest() {
+	var f = add()
 	fmt.Println(f(10)) //10
 	fmt.Println(f(20)) //30
 	fmt.Println(f(30)) //60
