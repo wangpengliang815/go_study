@@ -5,7 +5,7 @@ import (
 )
 
 func main() {
-	calculationTest()
+	addTest()
 }
 
 // 函数定义1：带参数且有返回值
@@ -125,7 +125,7 @@ func functionAsTheReturnValueTest() {
 }
 
 // 匿名函数
-func AnonymousFunc() {
+func anonymousFunc() {
 	// 将匿名函数保存到变量
 	add := func(x, y int) {
 		fmt.Println(x + y)
@@ -140,7 +140,7 @@ func AnonymousFunc() {
 }
 
 // 闭包示例1
-func Add() func(int) int {
+func add() func(int) int {
 	var x int
 	return func(y int) int {
 		x += y
@@ -148,8 +148,8 @@ func Add() func(int) int {
 	}
 }
 
-func AddTest() {
-	var f = Add()
+func addTest() {
+	var f = add()
 	fmt.Println(f(10)) //10
 	fmt.Println(f(20)) //30
 	fmt.Println(f(30)) //60
