@@ -7,10 +7,6 @@ import (
 	"github.com/shopspring/decimal"
 )
 
-func main() {
-	floatTest()
-}
-
 // 浮点数类型float
 func floatTest() {
 	var f float64 = 3.1415926

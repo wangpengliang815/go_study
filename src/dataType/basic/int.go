@@ -5,10 +5,6 @@ import (
 	"unsafe"
 )
 
-func main() {
-	convertOutputTest()
-}
-
 // 整型：数字字面量语法允许以不同进制定义整形变量
 func numberLiteralsSyntaxTest() {
 	// 代表二进制的 101101，相当于十进制的 45

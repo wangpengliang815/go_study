@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // 数组
-func ArrayTest() {
+func arrayTest() {
 	// 数组创建，使用类型零值初始化
 	var a [3]int             // array of 3 integers
 	fmt.Println(a[0])        // print the first element

@@ -2,10 +2,6 @@ package main
 
 import "fmt"
 
-func main() {
-	complexTest()
-}
-
 // 复数:复数有实部和虚部，complex64的实部和虚部为32位，complex128的实部和虚部为64位,用的比较少不做详细记录
 func complexTest() {
 	var c1 complex64

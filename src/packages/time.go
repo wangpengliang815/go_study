@@ -5,7 +5,7 @@ import (
 	"time"
 )
 
-func TimeTest() {
+func timeTest() {
 	// func Now() Time
 	fmt.Println(time.Now())
 
@@ -30,33 +30,33 @@ func TimeTest() {
 	fmt.Println(time.Local)
 }
 
-func TimeBefore() {
+func timeBefore() {
 	now := time.Now()
 	fmt.Println(now.Before(now.Add(time.Hour)))
 }
 
 // 时间比较,equal会比较地点和时区信息
-func TimeEqual() {
+func timeEqual() {
 	now := time.Now()
 	fmt.Println(now.Equal(now.Add(time.Hour)))
 }
 
 // 求两个时间之差
-func TimeSub() {
+func timeSub() {
 	now := time.Now()
 	value := now.Sub(now.Add(time.Hour))
 	fmt.Println(value)
 }
 
 // 获取当前时间+指定时间后的时间
-func TimeAdd() {
+func timeAdd() {
 	now := time.Now()
 	value := now.Add(1) // 当前时间加1小时后的时间
 	fmt.Println(value)
 }
 
 // 将时间戳转换为时间格式
-func UnixConverTime() {
+func unixConverTime() {
 	// 将时间戳转换为时间格式
 	timestamp := time.Now().Unix() //时间戳
 	fmt.Printf("current timestamp1:%v\n", timestamp)
@@ -73,7 +73,7 @@ func UnixConverTime() {
 }
 
 // 获取时间戳
-func GetUnix() {
+func getUnix() {
 	// 获取时间戳
 	timestamp1 := time.Now().Unix()     //时间戳
 	timestamp2 := time.Now().UnixNano() //纳秒时间戳
@@ -82,7 +82,7 @@ func GetUnix() {
 }
 
 // 获取当前时间
-func GetTimeNow() {
+func getTimeNow() {
 	now := time.Now() //获取当前时间
 	fmt.Printf("current time:%v\n", now)
 

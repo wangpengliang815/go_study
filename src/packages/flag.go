@@ -7,8 +7,8 @@ import (
 	"time"
 )
 
-func FlagTestPrint() {
-	FlagTypeVar()
+func flagTestPrint() {
+	flagTypeVar()
 	//返回命令行参数后的其他参数
 	fmt.Println(flag.Args())
 	//返回命令行参数后的其他参数个数
@@ -17,7 +17,7 @@ func FlagTestPrint() {
 	fmt.Println(flag.NFlag())
 }
 
-func OsArgs() {
+func osArgs() {
 	//os.Args是一个[]string
 	if len(os.Args) > 0 {
 		for index, arg := range os.Args {
@@ -25,7 +25,7 @@ func OsArgs() {
 		}
 	}
 }
-func FlagType() {
+func flagType() {
 	// 定义命令行参数；均为对应类型的指针
 	name := flag.String("name", "张三", "姓名")
 	age := flag.Int("age", 18, "年龄")
@@ -37,7 +37,7 @@ func FlagType() {
 	fmt.Println(*name, *age, *married, *delay)
 }
 
-func FlagTypeVar() {
+func flagTypeVar() {
 	var name string
 	var age int
 	var married bool

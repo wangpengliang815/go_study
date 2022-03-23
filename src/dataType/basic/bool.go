@@ -2,10 +2,6 @@ package main
 
 import "fmt"
 
-func main() {
-	boolTest()
-}
-
 // 布尔型数据只有true/false两个值
 func boolTest() {
 	var a1 = false

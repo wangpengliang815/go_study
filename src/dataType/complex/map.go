@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // map
-func MapTest() {
+func mapTest() {
 	// 正常创建map
 	ageMap := make(map[string]int, 8)
 	ageMap["小王"] = 18

@@ -9,7 +9,7 @@ import (
 )
 
 // print
-func FmtTestPrint() {
+func fmtTestPrint() {
 	fmt.Print("在终端打印该信息。")
 	name := "山西一枝花"
 	fmt.Printf("我是：%s\n", name)
@@ -17,7 +17,7 @@ func FmtTestPrint() {
 }
 
 // fprint:往文件写入内容
-func FprintTest() {
+func fprintTest() {
 	// 向标准输出写入内容
 	fmt.Fprintln(os.Stdout, "向标准输出写入内容")
 	fileObj, err := os.OpenFile("./fprintTest.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
@@ -31,7 +31,7 @@ func FprintTest() {
 }
 
 // sprint:把传入的数据生成并返回一个字符串
-func SprintTest() {
+func sprintTest() {
 	s := "山西一枝花"
 	s1 := fmt.Sprint(s)
 	name := "山西一枝花"
@@ -42,14 +42,14 @@ func SprintTest() {
 }
 
 // 根据 format 参数生成格式化字符串并返回一个包含该字符串的错误
-func ErrorfTest() {
+func errorfTest() {
 	e := errors.New("原始错误e")
 	w := fmt.Errorf("Wrap了一个错误%w", e)
 	fmt.Println(w)
 }
 
 // 通用占位符
-func GeneralPlaceholderTest() {
+func generalPlaceholderTest() {
 	fmt.Printf("%v\n", 100)   // %v：默认格式输出
 	fmt.Printf("%v\n", false) // %v：默认格式输出
 	o := struct{ name string }{"山西一枝花"}
@@ -61,7 +61,7 @@ func GeneralPlaceholderTest() {
 }
 
 // 整型占位符
-func IntPlaceholderTest() {
+func intPlaceholderTest() {
 	n := 65
 	fmt.Printf("%b\n", n) // %b：二进制输出
 	fmt.Printf("%c\n", n) // %c：输出对应的unicode编码
@@ -72,7 +72,7 @@ func IntPlaceholderTest() {
 }
 
 // 浮点数与复数占位符
-func FloatPlaceholderTest() {
+func floatPlaceholderTest() {
 	f := 12.34
 	fmt.Printf("%b\n", f) // %b：无小数部分、二进制指数的科学计数法
 	fmt.Printf("%e\n", f) // %e: 科学计数法,如-1234.456e+78
@@ -83,7 +83,7 @@ func FloatPlaceholderTest() {
 }
 
 // 字符串与[]byte占位符
-func StringPlaceholderTest() {
+func stringPlaceholderTest() {
 	s := "山西一枝花"
 	fmt.Printf("%s\n", s) // %s：直接输出字符串或者[]byte
 	fmt.Printf("%q\n", s) // %q: 该值对应的双引号括起来的go语法字符串字面值，必要时会采用安全的转义表示
@@ -92,14 +92,14 @@ func StringPlaceholderTest() {
 }
 
 // 指针占位符
-func PointerPlaceholderTest() {
+func pointerPlaceholderTest() {
 	a := 10
 	fmt.Printf("%p\n", &a)
 	fmt.Printf("%#p\n", &a)
 }
 
 // 宽度标识符
-func BreadthTest() {
+func breadthTest() {
 	n := 12.34
 	fmt.Printf("%f\n", n)
 	fmt.Printf("%9f\n", n)
@@ -108,7 +108,7 @@ func BreadthTest() {
 	fmt.Printf("%9.f\n", n)
 }
 
-func OtherPlaceholderTest() {
+func otherPlaceholderTest() {
 	s := "一枝花"
 	fmt.Printf("%s\n", s)
 	fmt.Printf("%5s\n", s)
@@ -120,7 +120,7 @@ func OtherPlaceholderTest() {
 }
 
 // Scan获取用户输入,空格分隔
-func FmtScanTest() {
+func fmtScanTest() {
 	fmt.Println()
 	fmt.Println("please input you name")
 	var input string
@@ -138,7 +138,7 @@ func FmtScanTest() {
 }
 
 // Scanf获取用户输入,指定输入格式
-func FmtScanfTest() {
+func fmtScanfTest() {
 	var (
 		name string
 		age  int
@@ -149,7 +149,7 @@ func FmtScanfTest() {
 }
 
 // Scanln
-func FmtScanlnfTest() {
+func fmtScanlnfTest() {
 	var (
 		name string
 		age  int
@@ -160,7 +160,7 @@ func FmtScanlnfTest() {
 }
 
 // bufio：https://golang.google.cn/pkg/bufio
-func BufioTest() {
+func bufioTest() {
 	reader := bufio.NewReader(os.Stdin) // 从标准输入生成读对象
 	fmt.Print("请输入内容：")
 	text, _ := reader.ReadString('\n') // 读到换行

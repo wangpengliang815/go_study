@@ -3,7 +3,7 @@ package main
 import "fmt"
 
 // slice切片
-func SliceTest() {
+func sliceTest() {
 	// 切片的定义
 	var s1 []int    // 定义存放int类型的切片
 	var s2 []string // 定义存放string类型的切片
