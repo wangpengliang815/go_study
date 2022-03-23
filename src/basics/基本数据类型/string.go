@@ -6,61 +6,13 @@ import (
 	"unicode"
 )
 
-// 练习题1：获取字符串中存在几个汉字
-func Exercises1() {
-	name333 := "hello,勒布朗、科比、艾弗森"
-	var count int
-	for _, c := range name333 {
-		if unicode.Is(unicode.Han, c) {
-			count++
-		}
-	}
-	fmt.Println(count)
-}
-
-// 练习题2：获取字符串中每个单词出现的次数
-func Exercises2() {
-	s := "how do you do"
-	// 以空格分隔
-	s2 := strings.Split(s, " ")
-	// 定义map用于存储每个单词出现的次数
-	m1 := make(map[string]int, 10)
-	// 遍历slice
-	for _, w := range s2 {
-		// 如果map中不存在key则添加
-		if _, ok := m1[w]; !ok {
-			m1[w] = 1
-		} else {
-			// 否则该key的value+1
-			m1[w]++
-		}
-	}
-	for key, value := range m1 {
-		fmt.Println(key, value)
-	}
-}
-
-// 练习题3：回文判断
-func Exercises3() {
-	s := "上海自来水来自海上"
-	// 创建rune类型切片
-	r := make([]rune, 0, len(s))
-
-	for _, v := range s {
-		r = append(r, v)
-	}
-	for i := 0; i < len(r)/2; i++ {
-		if r[i] != r[len(r)-1-i] {
-			fmt.Println("no")
-			return
-		}
-	}
-	fmt.Println("yes")
+func main() {
+	stringTest()
 }
 
 // 字符串
-func StringTest() {
-	// 字符串字面量语法：可以定义一个多行字符串
+func stringTest() {
+	// 字符串字面量语法：可以用来定义一个多行字符串
 	var s1 string = "hello"
 	var s2 string = `hello
 				     world`
@@ -69,6 +21,7 @@ func StringTest() {
 	// 内置函数len：返回字符串的字节数
 	s := "abc北京"
 	fmt.Printf("字节长度：%d \n", len(s)) // output:9
+
 	// 返回字符串每个字节的值
 	for i := 0; i < len(s); i++ {
 		fmt.Println(s[i])
@@ -139,7 +92,7 @@ func StringTest() {
 }
 
 // 内置strings包常见用法
-func StringsTest() {
+func stringsTest() {
 	s := "helloworld 世界你好"
 	fmt.Printf("string:%q\n", s)              // 原文格式输出
 	fmt.Printf("rune(char):%q\n", []rune(s))  // 输出[]rune切片
@@ -173,4 +126,56 @@ func StringsTest() {
 	fmt.Println(strings.IndexRune("一梦三两年", '三'))    // 12
 	fmt.Printf("rune(char):%q\n", []rune("一梦三两年"))  // 输出[]rune切片
 	fmt.Printf("bytes(hex):% x\n", []byte("一梦三两年")) // 输出[]byte切片
+}
+
+// 练习题1：获取字符串中存在几个汉字
+func exercises1() {
+	name333 := "hello,勒布朗、科比、艾弗森"
+	var count int
+	for _, c := range name333 {
+		if unicode.Is(unicode.Han, c) {
+			count++
+		}
+	}
+	fmt.Println(count)
+}
+
+// 练习题2：获取字符串中每个单词出现的次数
+func exercises2() {
+	s := "how do you do"
+	// 以空格分隔
+	s2 := strings.Split(s, " ")
+	// 定义map用于存储每个单词出现的次数
+	m1 := make(map[string]int, 10)
+	// 遍历slice
+	for _, w := range s2 {
+		// 如果map中不存在key则添加
+		if _, ok := m1[w]; !ok {
+			m1[w] = 1
+		} else {
+			// 否则该key的value+1
+			m1[w]++
+		}
+	}
+	for key, value := range m1 {
+		fmt.Println(key, value)
+	}
+}
+
+// 练习题3：回文判断
+func exercises3() {
+	s := "上海自来水来自海上"
+	// 创建rune类型切片
+	r := make([]rune, 0, len(s))
+
+	for _, v := range s {
+		r = append(r, v)
+	}
+	for i := 0; i < len(r)/2; i++ {
+		if r[i] != r[len(r)-1-i] {
+			fmt.Println("no")
+			return
+		}
+	}
+	fmt.Println("yes")
 }

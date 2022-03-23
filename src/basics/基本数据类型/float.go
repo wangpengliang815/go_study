@@ -29,7 +29,7 @@ func floatTest() {
 }
 
 // float精度丢失问题
-func FloatPrecisionLossTest() {
+func floatPrecisionLossTest() {
 	d := 1129.6
 	fmt.Println(d * 100) // 此处结果应该是：112960，实际打印的却是：112959.99999999999
 
@@ -44,7 +44,7 @@ func FloatPrecisionLossTest() {
 使用第三方包解决float精度丢失问题：go get github.com/shopspring/decimal
 文档：https://pkg.go.dev/github.com/shopspring/decimal#section-readme
 */
-func FloatPrecisionLossSolveTest() {
+func floatPrecisionLossSolveTest() {
 	a := decimal.NewFromFloat(1129.6)
 	b := decimal.NewFromInt(100)
 	fmt.Println(a.Mul(b)) // output:112960
