@@ -7,8 +7,12 @@ import (
 	"github.com/shopspring/decimal"
 )
 
+func main() {
+	floatTest()
+}
+
 // 浮点数类型float
-func FloatTest() {
+func floatTest() {
 	var f float64 = 3.1415926
 	fmt.Printf("%f\n", f)             // 默认保留6位小数
 	fmt.Printf("%.2f\n", f)           // 保留2位小数
