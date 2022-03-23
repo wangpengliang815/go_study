@@ -2,6 +2,10 @@ package main
 
 import "fmt"
 
+func main() {
+	continueTest()
+}
+
 // if
 func ifTest() {
 	score := 60
@@ -46,10 +50,10 @@ func forTest() {
 		j++
 	}
 
-	// // 无限循环
-	// for {
-	// 	fmt.Print("hello word!")
-	// }
+	// 死循环
+	for {
+		fmt.Print("hello word!")
+	}
 }
 
 // switch
@@ -165,11 +169,11 @@ forloop1:
 		}
 	}
 
-	// 示例二：跳出当次循环，开始下次循环
-	for i := 0; i < 10; i++ {
-		if i == 2 {
-			continue
-		}
-		fmt.Println(i)
-	}
+	// // 示例二：跳出当次循环，开始下次循环
+	// for i := 0; i < 10; i++ {
+	// 	if i == 2 {
+	// 		continue
+	// 	}
+	// 	fmt.Println(i)
+	// }
 }
