@@ -2,10 +2,6 @@ package main
 
 import "fmt"
 
-func main() {
-	foreachArrayTest()
-}
-
 // 数组创建,使用类型零值初始化
 func createArrayTest() {
 	var arr [3]int               // array of 3 integers
