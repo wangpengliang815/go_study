@@ -5,10 +5,6 @@ import (
 	"sort"
 )
 
-func main() {
-	sliceMapTest2()
-}
-
 // 使用make创建map
 func createMapTest() {
 	users := make(map[string]int, 8)
