@@ -26,9 +26,17 @@ func numberLiteralsSyntaxTest() {
 
 // 返回变量占用的字节数
 func getSizeofTest() {
-	var value int8 = 120
-	fmt.Printf("%T\n", value)
-	fmt.Println(unsafe.Sizeof(value))
+	var value1 int8 = 120  // 1
+	var value2 int16 = 120 // 2
+	var value3 int32 = 120 // 4
+	var value4 int64 = 120 // 8
+	fmt.Println(unsafe.Sizeof(value1), unsafe.Sizeof(value2), unsafe.Sizeof(value3), unsafe.Sizeof(value4))
+
+	var name string = "王"
+	fmt.Println(unsafe.Sizeof(name))
+
+	var name1 string = "王王王王王王王王王王王王王王王"
+	fmt.Println(unsafe.Sizeof(name1))
 }
 
 // 借助fmt函数不同进制形式显示整数

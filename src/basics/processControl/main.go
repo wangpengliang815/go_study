@@ -62,11 +62,11 @@ func switchTest() {
 	sex := "男"
 	switch sex {
 	case "男":
-		fmt.Println("男性")
+		fmt.Println("男的")
 	case "女":
-		fmt.Println("女性")
+		fmt.Println("女的")
 	default:
-		fmt.Println("无效的输入！")
+		fmt.Println("无效的")
 	}
 
 	// switch多个值判断使用特殊写法
@@ -83,11 +83,11 @@ func switchTest() {
 	age := 30
 	switch {
 	case age < 25:
-		fmt.Println("好好学习吧")
+		fmt.Println("好好学习")
 	case age > 25 && age < 35:
-		fmt.Println("好好工作吧")
+		fmt.Println("好好工作")
 	case age > 60:
-		fmt.Println("好好享受吧")
+		fmt.Println("好好享受")
 	default:
 		fmt.Println("活着真好")
 	}
