@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-基础类型字符串
+// @description  包括：
+// @author wangpengliang
+// @date 2022-03-25 10:58:48
 package main
 
 import (
@@ -6,12 +10,8 @@ import (
 	"unicode"
 )
 
-func main() {
-	updateStringByteTest()
-}
-
 // 内置函数len：返回字符串的字节数
-func getByteCounTest() {
+func getByteCount() {
 	str := "abc北京"
 	fmt.Printf("字节长度：%d \n", len(str)) // output:9
 
@@ -22,7 +22,7 @@ func getByteCounTest() {
 }
 
 // 获取字符个数
-func getCharCountTest() {
+func getCharCount() {
 	str := "abc北京"
 	// 获取字符串中字符的个数
 	r := []rune(str)
@@ -30,7 +30,7 @@ func getCharCountTest() {
 }
 
 // 字符串字面量语法：可以用来定义一个多行字符串
-func stringLiteralTest() {
+func stringLiteral() {
 	var s1 string = "hello"
 	var s2 string = `hello
 				 world`
@@ -38,7 +38,7 @@ func stringLiteralTest() {
 }
 
 // 一个 string 类型的值既可以被拆分为一个包含多个字符的序列，也可以被拆分为一个包含多个字节的序列。
-func stringRunByteTest() {
+func stringRunByte() {
 	str := "helloworld 世界你好"
 	fmt.Printf("string:%q\n", str)              // 原文格式输出
 	fmt.Printf("rune(char):%q\n", []rune(str))  // 输出[]rune切片
@@ -47,7 +47,7 @@ func stringRunByteTest() {
 }
 
 // 字符串截取
-func subStringTest() {
+func subString() {
 	str := "abcdefg"
 	t1 := str[1:4] // startIndex=1,endIndex=4
 	t2 := str[:4]  // 省略第一个索引从0开始，startIndex=0,endIndex=4
@@ -57,7 +57,7 @@ func subStringTest() {
 }
 
 // 字符串拼接的方式
-func joinStringTest() {
+func joinString() {
 	// 第一种：直接使用“+”号拼接
 	q1 := "hello"
 	q2 := ",world"
@@ -85,7 +85,7 @@ func splitStringTest() {
 }
 
 // 字符串前缀后缀判断
-func hasPrefixAndHasSuffixTest() {
+func hasPrefixAndHasSuffix() {
 	url := "www.baidu.com"
 	// 前缀判断
 	fmt.Println(strings.HasPrefix(url, "www"))
@@ -94,7 +94,7 @@ func hasPrefixAndHasSuffixTest() {
 }
 
 // 修改字符串中的字节：使用[]byte
-func updateStringByteTest() {
+func updateStringByte() {
 	str := "hello world"
 	value := []byte(str) // 转换为[]byte
 	value[5] = ','       // 将空格替换为“,”
@@ -103,7 +103,7 @@ func updateStringByteTest() {
 }
 
 // 修改字符串中的字符：用[]rune
-func updateStringCharTest() {
+func updateStringChar() {
 	str := "一梦三两年"
 	value := []rune(str) // 转换为[]rune
 	value[2] = '四'
@@ -113,7 +113,7 @@ func updateStringCharTest() {
 }
 
 // 字符串遍历
-func foreachStringTest() {
+func foreachString() {
 	p := "abc你好"
 	for i := 0; i < len(p); i++ {
 		fmt.Printf("%c \n", p[i])
@@ -126,7 +126,7 @@ func foreachStringTest() {
 }
 
 // 内置strings包常见用法
-func stringsTest() {
+func stringsTools() {
 	s := "helloworld 世界你好"
 	// 判断一个字符串中是否包含某个子串
 	fmt.Printf("%t\n", strings.Contains(s, "world"))

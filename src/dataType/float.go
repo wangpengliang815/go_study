@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-基础类型浮点型
+// @description  包括：浮点型定义、浮点型精度丢失问题
+// @author wangpengliang
+// @date 2022-03-25 10:56:33
 package main
 
 import (
@@ -8,7 +12,7 @@ import (
 )
 
 // 浮点数类型float
-func floatTest() {
+func floatDeclar() {
 	var f float64 = 3.1415926
 	fmt.Printf("%f\n", f)             // 默认保留6位小数
 	fmt.Printf("%.2f\n", f)           // 保留2位小数
@@ -25,7 +29,7 @@ func floatTest() {
 }
 
 // float精度丢失问题
-func floatPrecisionLossTest() {
+func floatPrecisionLoss() {
 	d := 1129.6
 	fmt.Println(d * 100) // 此处结果应该是：112960，实际打印的却是：112959.99999999999
 
@@ -40,7 +44,7 @@ func floatPrecisionLossTest() {
 使用第三方包解决float精度丢失问题：go get github.com/shopspring/decimal
 文档：https://pkg.go.dev/github.com/shopspring/decimal#section-readme
 */
-func floatPrecisionLossSolveTest() {
+func floatPrecisionLossSolve() {
 	a := decimal.NewFromFloat(1129.6)
 	b := decimal.NewFromInt(100)
 	fmt.Println(a.Mul(b)) // output:112960

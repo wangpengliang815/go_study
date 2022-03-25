@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-变量
+// @description  包括：变量声明、变量初始化、多变量声明、匿名变量、变量赋值
+// @author wangpengliang
+// @date 2022-03-25 10:45:00
 package main
 
 import (

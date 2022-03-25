@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-基础类型整型
+// @description  包括：数字字面量语法、unsafe.Sizeof()
+// @author wangpengliang
+// @date 2022-03-25 10:54:55
 package main
 
 import (
@@ -6,7 +10,7 @@ import (
 )
 
 // 整型：数字字面量语法允许以不同进制定义整形变量
-func numberLiteralsSyntaxTest() {
+func numberLiteralsSyntax() {
 	// 代表二进制的 101101，相当于十进制的 45
 	v1 := 0b00101101
 	fmt.Printf("value:%v type:%T \n", v1, v1)
@@ -25,7 +29,7 @@ func numberLiteralsSyntaxTest() {
 }
 
 // 返回变量占用的字节数
-func getSizeofTest() {
+func getSizeof() {
 	var value1 int8 = 120  // 1
 	var value2 int16 = 120 // 2
 	var value3 int32 = 120 // 4
@@ -40,7 +44,7 @@ func getSizeofTest() {
 }
 
 // 借助fmt函数不同进制形式显示整数
-func convertOutputTest() {
+func convertOutput() {
 	// 十进制
 	var a int = 10
 	fmt.Printf("十进制:%d 二进制:%b \n", a, a) // %d表示十进制,%b表示二进制

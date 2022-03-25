@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-常量
+// @description  包括：常量定义、常量组定义、iota、枚举的实现
+// @author wangpengliang
+// @date 2022-03-25 10:45:45
 package main
 
 import (
@@ -8,26 +12,30 @@ import (
 const PI = 3.141592653589793
 
 func main() {
-	constTest()
-	enumTest()
+	constDeclar()
 }
 
-// 常量
-func constTest() {
+// 常量定义
+func constDeclar() {
+	const PI float64 = 3.14159265358979323846
+
 	// 显式类型定义,常量名称推荐全大写
 	const LENGTH int = 10
+
 	// 隐式类型定义,其实也是使用类型推导
 	const WIDTH = 20
-	area := LENGTH * WIDTH
-	fmt.Println(area)
 
 	// 多重定义
-	const a, b, c = 1, false, "hello world"
-	fmt.Println(a, b, c)
+	const (
+		size int64 = 1024
+		eof        = -1 // 无类型整型常量
+	)
+	// 或者这样
+	const a, b, c = 1, false, "hello world" // 常量的多重赋值
 }
 
 // Go没有枚举,需要使用const+iota模拟
-func enumTest() {
+func enum() {
 	// 普通常量组
 	const (
 		Windows = 0
