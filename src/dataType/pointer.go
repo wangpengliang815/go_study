@@ -1,11 +1,12 @@
+// @title 《Go语言编程》-复合类型指针
+// @description
+// @author wangpengliang
+// @date 2022-03-25 11:35:45
 package main
 
 import "fmt"
 
-func main() {
-	pointerTestPrint()
-}
-func pointerTestPrint() {
+func pointer() {
 	// 指针的&和*
 	x := 1          // 声明int类型变量x
 	p := &x         // &x用于获取变量x的内存地址，返回一个指向x的指针p

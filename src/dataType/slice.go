@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-复合类型切片
+// @description
+// @author wangpengliang
+// @date 2022-03-25 11:09:13
 package main
 
 import "fmt"
@@ -6,33 +10,24 @@ func main() {
 	delSliceTest()
 }
 
-// 切片定义及初始化
-func createSliceTest() {
+// 切片定义
+func sliceDeclar() {
 	var s1 []int    // 定义存放int类型的切片
 	var s2 []string // 定义存放string类型的切片
 	fmt.Println(s1, s2)
-	fmt.Println(s1 == nil)
-	fmt.Println(s2 == nil)
-
-	// 切片初始化
-	s1 = []int{1, 3, 4, 5, 67, 88}
-	s2 = []string{"北京", "上海", "山西"}
-	fmt.Println(s1, s2)
-	fmt.Println(s1 == nil)
-	fmt.Println(s2 == nil)
-	fmt.Printf("len(s1):%d cap(s1):%d \n", len(s1), cap(s1))
-	fmt.Printf("len(s2):%d cap(s2):%d \n", len(s2), cap(s2))
+	fmt.Println(s1 == nil, s2 == nil)
 }
 
 // 创建空切片表示一个空集合
-func createEmptySliceTest() {
+func createEmptySlice() {
 	slice1 := []int{}
 	slice2 := make([]int, 0)
 	fmt.Println(slice1, slice2)
+	fmt.Println(slice1 == nil, slice2 == nil)
 }
 
-// 由数组得到切片
-func createSliceByArrayTest() {
+// 基于数组得到切片
+func createSliceByArray() {
 	arr := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	fmt.Println(arr)
 	fmt.Println(arr[0:4]) // =>[1 2 3 4] 基于数组得到切片,从0开始到第4个结束（不包含4）.原则：左包含右不包含
@@ -41,8 +36,8 @@ func createSliceByArrayTest() {
 	fmt.Println(arr[:])   // =>[1 2 3 4 5 6 7 8 9] 两个参数都省略，默认从0开始到len(a1-1)结束
 }
 
-// 由切片得到切片
-func createSliceBySliceTest() {
+// 基于切片得到切片
+func createSliceBySlice() {
 	arr := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	arr1 := arr[0:4]
 	fmt.Println(arr1)
@@ -53,8 +48,18 @@ func createSliceBySliceTest() {
 	fmt.Printf("len(s5):%d cap(s5):%d \n", len(arr2), cap(arr2))
 }
 
-// 使用make创建一个长度和容量都为5的切片
-func createSliceByMakeTest() {
+// 直接创建并初始化切片
+func createSlice() {
+	s1 := []int{1, 3, 4, 5, 67, 88}
+	s2 := []string{"北京", "上海", "山西"}
+	fmt.Println(s1, s2)
+	fmt.Println(s1 == nil, s2 == nil)
+	fmt.Printf("len(s1):%d cap(s1):%d \n", len(s1), cap(s1))
+	fmt.Printf("len(s2):%d cap(s2):%d \n", len(s2), cap(s2))
+}
+
+// 使用make直接创建切片
+func createSliceByMake() {
 	slice1 := make([]string, 5)
 	// 使用make创建一个长度5，容量为10的切片
 	slice2 := make([]string, 5, 10)
@@ -63,7 +68,7 @@ func createSliceByMakeTest() {
 }
 
 // 获取切片长度和容量
-func getSliceLenAndCapTest() {
+func getSliceLenAndCap() {
 	arr := [...]int{1, 2, 3, 4, 5, 6, 7, 8, 9}
 	s1 := arr[3:] // [4 5 6 7 8 9]
 	fmt.Println(s1)
@@ -77,7 +82,7 @@ func getSliceLenAndCapTest() {
 }
 
 // 切片比较
-func compareSliceTest() {
+func compareSlice() {
 	var q1 []int // len(q1)=0;cap(q1)=0;q1==nil; 没有被初始化所以q1==nil is true
 	fmt.Printf("len(q1):%d cap(q1):%d q1==nil:%t \n", len(q1), cap(q1), q1 == nil)
 
@@ -89,7 +94,7 @@ func compareSliceTest() {
 }
 
 // 切片共享一个底层数组
-func shareArraySliceTest() {
+func shareArraySlice() {
 	w1 := make([]int, 3) // [0 0 0]
 	w2 := w1             // 将w1直接赋值给w2，w1和w2共用一个底层数组
 	w2[0] = 100
@@ -98,7 +103,7 @@ func shareArraySliceTest() {
 }
 
 // 切片遍历
-func foreachSliceTest() {
+func traversalSlice() {
 	slice := make([]int, 3) // [0 0 0]
 	for i := 0; i < len(slice); i++ {
 		fmt.Println(i, slice[i])
@@ -109,7 +114,7 @@ func foreachSliceTest() {
 }
 
 // append()追加元素到切片中,如果使用append()切片可以不被初始化,会自动扩容并添加元素
-func appendSliceTest() {
+func appendSlice() {
 	slice := make([]int, 3)              // 创建切片：[0 0 0]
 	slice = append(slice, 1)             // 切片中添加第一个元素 1
 	slice = append(slice, 2, 3, 4, 5, 6) // 继续添加元素 2,3,4,5,6
@@ -119,7 +124,7 @@ func appendSliceTest() {
 }
 
 // append()扩容策略
-func appendDilatationSliceTest() {
+func appendDilatationSlice() {
 	var numSlice []int
 	for i := 0; i < 10; i++ {
 		numSlice = append(numSlice, i)
@@ -127,8 +132,8 @@ func appendDilatationSliceTest() {
 	}
 }
 
-//  copy()不会自动扩容
-func copySliceTest() {
+//  copy不会自动扩容
+func copySlice() {
 	a := []int{1, 2, 3, 4, 5}
 	b := a
 	fmt.Println(a) // [1 2 3 4 5]
@@ -148,7 +153,7 @@ func copySliceTest() {
 }
 
 // 从切片中删除元素
-func delSliceTest() {
+func delSlice() {
 	// 从切片中删除元素
 	c3 := []int{30, 31, 32, 33, 34, 35, 36, 37}
 	// 要删除索引为2的元素32

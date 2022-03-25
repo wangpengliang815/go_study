@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-复合类型map
+// @description
+// @author wangpengliang
+// @date 2022-03-25 11:17:08
 package main
 
 import (
@@ -6,7 +10,7 @@ import (
 )
 
 // 使用make创建map
-func createMapTest() {
+func createMap() {
 	users := make(map[string]int, 8)
 	users["小王"] = 18
 	users["小李"] = 2
@@ -16,7 +20,7 @@ func createMapTest() {
 }
 
 // 声明时候填充map
-func createMapTest2() {
+func createMap2() {
 	users := map[string]int{
 		"小周": 22,
 		"小张": 23,
@@ -27,7 +31,7 @@ func createMapTest2() {
 }
 
 // 判断键是否存在：如果key存在ok为true,v为对应的值；不存在ok为false,v为值类型的零值
-func existMapTest() {
+func existMap() {
 	users := map[string]int{
 		"小周": 22,
 		"小张": 23,
@@ -42,7 +46,7 @@ func existMapTest() {
 }
 
 // 遍历map
-func foreachMapTest() {
+func traversalMap() {
 	users := map[string]int{
 		"小周": 22,
 		"小张": 23,
@@ -58,7 +62,7 @@ func foreachMapTest() {
 }
 
 // 顺序遍历map
-func orderForeachMapTest() {
+func orderForeachMap() {
 	users := map[string]int{
 		"1": 22,
 		"2": 23,
@@ -89,7 +93,7 @@ func orderForeachMapTest() {
 }
 
 // delete删除某个键值对，key不存在时什么也不做
-func delMapTest() {
+func delMap() {
 	users := map[string]int{
 		"小周": 21,
 		"小张": 22,
@@ -104,7 +108,7 @@ func delMapTest() {
 }
 
 // 元素为map类型的切片
-func sliceMapTest() {
+func sliceValueMap() {
 	var mapSlice = make([]map[string]string, 3)
 	for index, value := range mapSlice {
 		fmt.Printf("index:%d value:%v\n", index, value)
@@ -121,7 +125,7 @@ func sliceMapTest() {
 }
 
 // 值为切片类型的map
-func sliceMapTest2() {
+func mapValueslice() {
 	var sliceMap = make(map[string][]string, 3)
 	fmt.Println(sliceMap)
 	fmt.Println("after init")

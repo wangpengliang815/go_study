@@ -1,3 +1,7 @@
+// @title 《Go语言编程》-函数
+// @description
+// @author wangpengliang
+// @date 2022-03-25 11:20:38
 package main
 
 import (
@@ -9,27 +13,27 @@ func main() {
 }
 
 // 函数定义1：带参数且有返回值
-func test1(x int, y int) int {
+func func1(x int, y int) int {
 	return x + y
 }
 
 // 函数定义2：有参数但无返回值
-func test2(x int, y int) {
+func fun2(x int, y int) {
 	fmt.Println(x + y)
 }
 
 // 函数定义3：无参数且无返回值
-func test3() {
+func func3() {
 	fmt.Println("hello world")
 }
 
 // 函数定义4：使用参数类型简写
-func test4(x, y int) int {
+func func4(x, y int) int {
 	return x + y
 }
 
 // 函数定义5：函数返回值命名,可以在函数体中直接使用,通过return返回
-func test5(x, y int) (sum, sub int) {
+func func5(x, y int) (sum, sub int) {
 	sum = x + y
 	sub = x - y
 	// return 这里可以直接return,不需要指定sum和sub
@@ -37,14 +41,14 @@ func test5(x, y int) (sum, sub int) {
 }
 
 // 函数多返回值,如果是多返回值必须使用括号
-func test6(x, y int) (int, int) {
+func func6(x, y int) (int, int) {
 	sum := x + y
 	sub := x - y
 	return sum, sub
 }
 
 // 可变参数指的是参数数量不固定
-func test7(x ...int) int {
+func func7(x ...int) int {
 	sum := 0
 	for _, v := range x {
 		sum += v
@@ -53,7 +57,7 @@ func test7(x ...int) int {
 }
 
 // 可变参数搭配固定参数时,必须放在参数最后一位
-func test8(x int, y ...int) int {
+func func8(x int, y ...int) int {
 	for _, v := range y {
 		x += v
 	}
@@ -61,7 +65,7 @@ func test8(x int, y ...int) int {
 }
 
 // 当函数返回值类型为slice时,nil可以看做是一个有效的slice，没必要显式返回一个长度为0的切片
-func test9(x string) []int {
+func func9(x string) []int {
 	if x == "" {
 		return nil // 没必要返回[]int{}
 	}
@@ -99,7 +103,7 @@ func functionAsArgument(x, y int, sum func(int, int) int) int {
 
 // 按照正常调用函数的方式调用即可
 func functionAsArgumentTest() {
-	ret2 := functionAsArgument(10, 20, test1)
+	ret2 := functionAsArgument(10, 20, func1)
 	fmt.Println(ret2) //30
 }
 
