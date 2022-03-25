@@ -7,7 +7,7 @@ package main
 import "fmt"
 
 func main() {
-	delSliceTest()
+	appendDilatationSlice()
 }
 
 // 切片定义

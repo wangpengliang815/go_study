@@ -13,25 +13,6 @@ type Rect struct {
 	width, height float64
 }
 
-type Base struct {
-	Name string
-}
-
-type Foo struct {
-	Base
-}
-
-func (foo *Foo) Bar() {
-	foo.Base.Bar()
-}
-
-func (base *Base) Foo() {
-
-}
-func (base *Base) Bar() {
-
-}
-
 // 定义Rect成员方法
 func (r *Rect) Area() float64 {
 	return r.width * r.height
@@ -42,30 +23,51 @@ func NewRect(width, height float64) *Rect {
 	return &Rect{width, height}
 }
 
+type Base struct {
+	Name string
+}
+
+func (base *Base) Foo() {
+	fmt.Println("Base.Foo")
+}
+func (base *Base) Bar() {
+	fmt.Println("Base.Bar")
+}
+
+type Foo struct {
+	Base
+}
+
+func (foo *Foo) Bar() {
+	foo.Base.Bar()
+}
+
 func main() {
-	var r1 Rect
-	r1.width = 3.8
-	r1.height = 2.8
-	result1 := r1.Area()
-	fmt.Println(result1)
+	r := &Foo{}
+	r.Bar()
+	// var r1 Rect
+	// r1.width = 3.8
+	// r1.height = 2.8
+	// result1 := r1.Area()
+	// fmt.Println(result1)
 
-	r2 := new(Rect)
-	r2.width = 3.8
-	r2.height = 2.8
-	result2 := r2.Area()
-	fmt.Println(result2)
+	// r2 := new(Rect)
+	// r2.width = 3.8
+	// r2.height = 2.8
+	// result2 := r2.Area()
+	// fmt.Println(result2)
 
-	r3 := &Rect{}
-	r3.width = 3.8
-	r3.height = 2.8
-	result3 := r3.Area()
-	fmt.Println(result3)
+	// r3 := &Rect{}
+	// r3.width = 3.8
+	// r3.height = 2.8
+	// result3 := r3.Area()
+	// fmt.Println(result3)
 
-	r4 := &Rect{3.8, 2.8}
-	fmt.Println(r4.Area())
+	// r4 := &Rect{3.8, 2.8}
+	// fmt.Println(r4.Area())
 
-	r5 := &Rect{width: 3.8, height: 2.8}
-	fmt.Println(r5.Area())
+	// r5 := &Rect{width: 3.8, height: 2.8}
+	// fmt.Println(r5.Area())
 
 	// // 匿名结构体
 	// var user struct {

@@ -62,7 +62,7 @@ func traversalMap() {
 }
 
 // 顺序遍历map
-func orderForeachMap() {
+func orderTraversalMap() {
 	users := map[string]int{
 		"1": 22,
 		"2": 23,
