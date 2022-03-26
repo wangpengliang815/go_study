@@ -6,18 +6,12 @@ package main
 
 import (
 	"fmt"
+	"unsafe"
 )
 
-func main() {
-	structMemoryAllocation()
-}
-
-type test struct {
-	a int8
-	b int8
-	c int8
-	d int8
-}
+// func main() {
+// 	structEmpty()
+// }
 
 // 定义表示矩形的结构体
 type Rect struct {
@@ -29,10 +23,11 @@ func structInstantiation1() {
 	var rect Rect
 	rect.height = 13.4
 	rect.width = 21.4
+	fmt.Printf("%T \n", rect)
 	fmt.Println(rect.height, rect.width)
 }
 
-// 通过使用 new 关键字对结构体进行实例化，得到的是结构体的地址
+// 使用new关键字对结构体进行实例化,得到的是结构体的地址
 func structInstantiation2() {
 	var rect = new(Rect)
 	rect.height = 13.4
@@ -83,6 +78,19 @@ func structInit3() {
 
 	rect2 := &Rect{10.5, 3.5}
 	fmt.Printf("%#v \n", rect2)
+}
+
+// 空结构体不占用内存
+func structEmpty() {
+	var a struct{}
+	fmt.Println(unsafe.Sizeof(a)) // 0
+}
+
+type test struct {
+	a int8
+	b int8
+	c int8
+	d int8
 }
 
 // struct内存分配
