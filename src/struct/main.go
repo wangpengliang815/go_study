@@ -1,7 +1,7 @@
 // @title 《Go语言编程》-结构体
 // @description
 // @author wangpengliang
-// @date 2022-03-25 11:59:36
+// @date 2022-03-27 19:17:07
 package main
 
 import (
@@ -13,21 +13,34 @@ func main() {
 	structInstantiation1()
 }
 
-// Go中使用struct来实现面向对象,比如定义表示矩形的结构体
+// Go中使用struct来实现面向对象,比如如下代码:定义表示矩形的结构体
 type Rect struct {
 	width, height float64
 }
 
-// 最基础的结构实例化方式
+// 匿名结构体,常见于只用一次的场景
+func structAnonymity() {
+	// 匿名结构体
+	var user struct {
+		name string
+		age  int
+	}
+	user.name = "wangpengliang"
+	user.age = 18
+	fmt.Printf("%v \n", user)
+}
+
+// struct最基础的结构实例化方式
 func structInstantiation1() {
 	var rect Rect
+	fmt.Printf("%p %T \n", &rect, rect)
 	rect.height = 13.4
-	rect.width = 21.4
-	fmt.Printf("%T \n", rect)
+	rect.width = 21.
+	fmt.Printf("%p %T \n", &rect, rect)
 	fmt.Println(rect.height, rect.width)
 }
 
-// 使用new关键字对结构体进行实例化,得到的是结构体的地址
+// 使用new关键字对struct进行实例化,得到的是结构体的地址
 func structInstantiation2() {
 	var rect = new(Rect)
 	rect.height = 13.4
@@ -36,7 +49,7 @@ func structInstantiation2() {
 	fmt.Println(rect.height, rect.width)
 }
 
-// 使用&对结构体进行取地址操作相当于对该结构体类型进行了一次new实例化操作
+// 使用&对struct进行取地址操作相当于对该结构体类型进行了一次new实例化操作
 func structInstantiation3() {
 	var rect = &Rect{}
 	rect.height = 13.4
@@ -163,15 +176,6 @@ func (foo *Foo) Bar() {
 
 // r5 := &Rect{width: 3.8, height: 2.8}
 // fmt.Println(r5.Area())
-
-// // 匿名结构体
-// var user struct {
-// 	name string
-// 	age  int
-// }
-// user.name = "wangpengliang"
-// user.age = 18
-// fmt.Printf("%v \n", user)
 
 // // 创建指针类型结构体
 // var p1 = new(person)
