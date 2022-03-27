@@ -9,11 +9,11 @@ import (
 	"unsafe"
 )
 
-// func main() {
-// 	structEmpty()
-// }
+func main() {
+	structInstantiation1()
+}
 
-// 定义表示矩形的结构体
+// Go中使用struct来实现面向对象,比如定义表示矩形的结构体
 type Rect struct {
 	width, height float64
 }
