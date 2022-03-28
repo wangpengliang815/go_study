@@ -36,7 +36,7 @@ func NewPerson2(name, address string, age int) *Person {
 
 // 使用值类型接受者.给结构体Person定义方法,所谓方法在go中就是定义了接受者的函数
 func (p Person) say1() {
-	fmt.Printf("name: %s,age：%d  \n", p.name, p.age)
+	fmt.Printf("name: %s,age: %d  \n", p.name, p.age)
 }
 
 func (p Person) addAge1() {
@@ -45,7 +45,7 @@ func (p Person) addAge1() {
 
 // 使用指针类型接收者
 func (p *Person) say2() {
-	fmt.Printf("name: %s,age：%d  \n", p.name, p.age)
+	fmt.Printf("name: %s,age: %d  \n", p.name, p.age)
 }
 
 func (p *Person) addAge2() {

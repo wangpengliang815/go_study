@@ -13,7 +13,7 @@ type Book struct {
 	float64
 }
 
-func main() {
+func anonymousFieldTest() {
 	book := Book{
 		"go语言编程",
 		100.00,
