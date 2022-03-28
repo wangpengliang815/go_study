@@ -12,10 +12,10 @@ type MyInt int
 
 // SayHello 为MyInt添加一个SayHello的方法
 func (m MyInt) sayHello() {
-	fmt.Println("Hello, 我是一个int。")
+	fmt.Println("Hello, 我是一个int")
 }
 
-func arbitraryTypeAddMethodTest() {
+func addMethodTest() {
 	var value MyInt
 	value.sayHello()
 	value = 100

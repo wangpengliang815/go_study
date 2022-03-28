@@ -159,9 +159,8 @@ BREAKDEMO1:
 	fmt.Println("...")
 }
 
-// continue
+// continue示例一：continue跳到指定的标签位置
 func continueTest() {
-	// 示例一：continue跳到指定的标签位置
 forloop1:
 	for i := 0; i < 5; i++ {
 		// forloop2:
@@ -172,12 +171,14 @@ forloop1:
 			fmt.Printf("%v-%v\n", i, j)
 		}
 	}
+}
 
-	// // 示例二：跳出当次循环，开始下次循环
-	// for i := 0; i < 10; i++ {
-	// 	if i == 2 {
-	// 		continue
-	// 	}
-	// 	fmt.Println(i)
-	// }
+// 示例二：跳出当次循环，开始下次循环
+func continueTest2() {
+	for i := 0; i < 10; i++ {
+		if i == 2 {
+			continue
+		}
+		fmt.Println(i)
+	}
 }

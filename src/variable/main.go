@@ -12,8 +12,8 @@ import (
 var t1 string
 var t2 string
 var (
-	author  string
-	address string
+	t3 string
+	t4 string
 )
 
 func main() {

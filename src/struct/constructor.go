@@ -1,4 +1,4 @@
-// @title 《Go语言编程》-结构体的构造函数
+// @title 《Go语言编程》-结构体的构造函数、方法和接受者(Receiver)
 // @description
 // @author wangpengliang
 // @date 2022-03-28 10:24:45
@@ -34,7 +34,7 @@ func NewPerson2(name, address string, age int) *Person {
 	}
 }
 
-// 使用值类型接受者.给结构体Person定义方法,所谓方法在go中就是定义了接受者的函数
+// Person结构成员方法,所谓方法在go中就是定义了接受者的函数：使用值类型接受者
 func (p Person) say1() {
 	fmt.Printf("name: %s,age: %d  \n", p.name, p.age)
 }
@@ -52,7 +52,7 @@ func (p *Person) addAge2() {
 	p.age = p.age + 1
 }
 
-func test() {
+func constructorTest() {
 	// 第一种情况：接受者是struct
 	var p1 Person = Person{"zhansan", 16, "beijing", []string{}}
 	p1.addAge1()
@@ -71,7 +71,7 @@ func test() {
 	p4.addAge2()
 	p4.say2()
 
-	// 构造函数重载
+	// 使用不同构造函数初始化
 	a := NewPerson("wangpengliang", "beijing", 18, []string{"java", "go"})
 	fmt.Println(a)
 	b := NewPerson2("wangpengliang", "beijing", 18)

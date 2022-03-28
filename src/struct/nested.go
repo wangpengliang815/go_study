@@ -7,20 +7,20 @@ package main
 
 import "fmt"
 
-// 地址结构体
+// 地址
 type Address struct {
 	province   string
 	city       string
 	createTime string
 }
 
-// 邮箱结构体
+// 邮箱
 type Email struct {
 	account    string
 	createTime string
 }
 
-// 用户结构体
+// 用户
 type User struct {
 	name    string
 	gender  string
@@ -58,4 +58,11 @@ func nestedStructTest() {
 	// user2.createTime = "2019" //ambiguous selector user2.createTime
 	user2.Address.createTime = "2000" //指定Address结构体中的createTime
 	user2.Email.createTime = "2000"   //指定Email结构体中的createTime
+	fmt.Printf("user2=%#v\n", user2)
+
+	/*
+		user=main.User{name:"wangpengliang", gender:"男", address:main.Address{province:"山西", city:"长治", createTime:""}, Address:main.Address{province:"", city:"", createTime:""}, Email:main.Email{account:"", createTime:""}}
+		user1=main.User{name:"wangpengliang", gender:"男", address:main.Address{province:"", city:"", createTime:""}, Address:main.Address{province:"山西", city:"长治", createTime:""}, Email:main.Email{account:"", createTime:""}}
+		user2=main.User{name:"wangpengliang", gender:"男", address:main.Address{province:"", city:"", createTime:""}, Address:main.Address{province:"", city:"", createTime:"2000"}, Email:main.Email{account:"", createTime:"2000"}}
+	*/
 }

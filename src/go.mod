@@ -2,6 +2,4 @@ module goProject
 
 go 1.17
 
-require (
-
-)
+require github.com/shopspring/decimal v1.3.1

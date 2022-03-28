@@ -6,10 +6,6 @@ package main
 
 import "fmt"
 
-func main() {
-	appendDilatationSlice()
-}
-
 // 切片定义
 func sliceDeclar() {
 	var s1 []int    // 定义存放int类型的切片
