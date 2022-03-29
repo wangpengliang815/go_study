@@ -20,13 +20,13 @@ type Company struct {
 func tagTest() {
 	s1 := Company{
 		ID:      1,
-		Address: "男",
-		name:    "沙河娜扎",
+		Address: "beijing",
+		name:    "wangpengliang",
 	}
 	data, err := json.Marshal(s1)
 	if err != nil {
 		fmt.Println("json marshal failed!")
 		return
 	}
-	fmt.Printf("%s\n", data) //json str:{"id":1,"Gender":"男"}
+	fmt.Printf("%s\n", data) // {"id":1,"Address":"beijing"}
 }
