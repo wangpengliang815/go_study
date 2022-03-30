@@ -51,7 +51,7 @@ func emptyInterfaceTest3() {
 	print("100")
 }
 
-// 空接口作为map的值
+// 空接口作为map的值可以保存任意值的字典
 func emptyInterfaceTest4() {
 	var person = make(map[string]interface{})
 	person["name"] = "wangpengliang"
