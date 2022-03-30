@@ -96,7 +96,3 @@ func multiTypeTest() {
 		宝马速度70迈
 	*/
 }
-
-func main() {
-	multiTypeTest()
-}
