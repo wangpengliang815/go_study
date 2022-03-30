@@ -1,5 +1,5 @@
 package main
 
 func main() {
-	emptyInterfaceTest4()
+	interfaceValueTest3()
 }

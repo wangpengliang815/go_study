@@ -7,7 +7,7 @@ package main
 
 import "fmt"
 
-// Any 不包含任何方法的空接口类型
+// Any 空接口是指没有定义任何方法的接口类型。因此任何类型都可以视为实现了空接口。也正是因为这个特性，空接口类型的变量可以存储任意类型的值
 type Any interface{}
 
 type Person struct{}
@@ -32,8 +32,8 @@ func emptyInterfaceTest() {
 	fmt.Printf("type:%T value:%v\n", x, x)
 }
 
+// 不声明空接口类型直接使用也行
 func emptyInterfaceTest2() {
-	// 不声明空接口类型直接使用即可
 	var x interface{}
 
 	x = "你好" // 字符串型
