@@ -7,7 +7,7 @@ package main
 import "fmt"
 
 func main() {
-	continueTest()
+	breakTest()
 }
 
 // if
@@ -20,9 +20,11 @@ func ifTest() {
 	} else {
 		fmt.Println("C")
 	}
+}
 
-	// if 特殊写法，可以在 if 表达式之前添加一个执行语句，再根据变量值进行判断;这种写法可以将返回值与判断放在一行进行处理，而且返回值的作用范围被限制在 if、else 语句组合中。
-	// 在编程中，变量的作用范围越小，所造成的问题可能性越小，每一个变量代表一个状态，有状态的地方，状态就会被修改，函数的局部变量只会影响一个函数的执行，但全局变量可能会影响所有代码的执行状态，因此限制变量的作用范围对代码的稳定性有很大的帮助
+// if特殊语法：可以在 if 表达式之前添加一个执行语句，再根据变量值进行判断;这种写法可以将返回值与判断放在一行进行处理，而且返回值的作用范围被限制在 if、else 语句组合中。
+func specialIfTest() {
+	// 这么做好处在于：在编程中，变量的作用范围越小，所造成的问题可能性越小，每一个变量代表一个状态，有状态的地方，状态就会被修改，函数的局部变量只会影响一个函数的执行，但全局变量可能会影响所有代码的执行状态，因此限制变量的作用范围对代码的稳定性有很大的帮助
 	if score := 60; score >= 90 {
 		fmt.Println("A")
 	} else if score > 75 {
@@ -57,6 +59,14 @@ func forTest() {
 	// 死循环
 	for {
 		fmt.Print("hello word!")
+	}
+}
+
+// forRange用于遍历数组、切片、字符串、map 及通道（channel）
+func forRangeTest() {
+	c := [...]int{1, 2, 3}
+	for _, v := range c {
+		fmt.Printf("value:%d\n", v)
 	}
 }
 
@@ -110,39 +120,17 @@ func switchTest() {
 	}
 }
 
-// goto
+// goto C#中也有只是不推荐使用,只在特定场景下才考虑使用。因为goto可以无条件地转移到过程中指定的行会造成程序流程的混乱，使理解和调试程序都产生困难
 func gotoTest() {
-	// 示例一：内层循环打印到2时结束，外层循环也随即结束
-	var breakFlag bool
 	for i := 0; i < 10; i++ {
-		for j := 0; j < 10; j++ {
-			if j == 2 {
-				// 设置退出标签
-				breakFlag = true
-				break
-			}
-			fmt.Printf("%v-%v\n", i, j)
-		}
-		// 外层for循环判断
-		if breakFlag {
-			break
+		if i == 5 {
+			// i==5时跳到指定的标签LOOP处
+			goto LOOP
+		} else {
+			fmt.Printf("a: %d\n", i)
 		}
 	}
-
-	// 示例二：使用goto简化
-	for i := 0; i < 10; i++ {
-		for j := 0; j < 10; j++ {
-			if j == 2 {
-				// 设置退出标签
-				goto breakTag
-			}
-			fmt.Printf("%v-%v\n", i, j)
-		}
-	}
-	return
-	// 标签
-breakTag:
-	fmt.Println("结束for循环")
+LOOP:
 }
 
 // break

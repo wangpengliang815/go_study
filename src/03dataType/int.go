@@ -36,6 +36,7 @@ func getSizeof() {
 	var value4 int64 = 120 // 8
 	fmt.Println(unsafe.Sizeof(value1), unsafe.Sizeof(value2), unsafe.Sizeof(value3), unsafe.Sizeof(value4))
 
+	// TODO：这里为什么都是16?
 	var name string = "王"
 	fmt.Println(unsafe.Sizeof(name))
 

@@ -20,7 +20,7 @@ func pointer() {
 	// fmt.Println(*a)
 
 	// var b map[string]int
-	// b["沙河娜扎"] = 100
+	// b["wangpengliang"] = 100
 	// fmt.Println(b)
 
 	// new函数得到的是一个类型的指针，并且该指针对应的值为该类型的零值

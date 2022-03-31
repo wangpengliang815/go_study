@@ -23,9 +23,13 @@ func getByteCount() {
 
 // 获取字符个数
 func getCharCount() {
+	// TODO：这里需要了解一下Utf-8和Unicode的区别
 	str := "abc北京"
 	// 获取字符串中字符的个数
 	r := []rune(str)
+	for i := 0; i < len(r); i++ {
+		fmt.Println(r[i])
+	}
 	fmt.Println(len(r))
 }
 

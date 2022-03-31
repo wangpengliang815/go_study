@@ -25,13 +25,13 @@ func constDeclar() {
 	// 隐式类型定义,其实也是使用类型推导
 	const WIDTH = 20
 
-	// 多重定义
+	// 常量的多重定义
 	const (
 		size int64 = 1024
 		eof        = -1 // 无类型整型常量
 	)
 	// 或者这样
-	const a, b, c = 1, false, "hello world" // 常量的多重赋值
+	const a, b, c = 1, false, "hello world"
 }
 
 // Go没有枚举,需要使用const+iota模拟
