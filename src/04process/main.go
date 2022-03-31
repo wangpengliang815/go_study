@@ -7,7 +7,7 @@ package main
 import "fmt"
 
 func main() {
-	breakTest()
+	continueTest()
 }
 
 // if
@@ -120,6 +120,7 @@ func switchTest() {
 	}
 }
 
+// TODO：需要结合实际场景再看看流程语句中的标记
 // goto C#中也有只是不推荐使用,只在特定场景下才考虑使用。因为goto可以无条件地转移到过程中指定的行会造成程序流程的混乱，使理解和调试程序都产生困难
 func gotoTest() {
 	for i := 0; i < 10; i++ {
@@ -139,34 +140,22 @@ BREAKDEMO1:
 	for i := 0; i < 10; i++ {
 		for j := 0; j < 10; j++ {
 			if j == 2 {
-				break BREAKDEMO1 // 退出到定义的标签位置
+				break BREAKDEMO1
 			}
 			fmt.Printf("%v-%v\n", i, j)
 		}
 	}
-	fmt.Println("...")
 }
 
-// continue示例一：continue跳到指定的标签位置
+// continue
 func continueTest() {
-forloop1:
-	for i := 0; i < 5; i++ {
-		// forloop2:
-		for j := 0; j < 5; j++ {
-			if i == 2 && j == 2 {
-				continue forloop1
+	for i := 0; i < 3; i++ {
+	forloop1:
+		for j := 0; j < 3; j++ {
+			if i == 2 {
+				continue forloop1 // 如果加了标签表示开启标签对应的代码块
 			}
 			fmt.Printf("%v-%v\n", i, j)
 		}
-	}
-}
-
-// 示例二：跳出当次循环，开始下次循环
-func continueTest2() {
-	for i := 0; i < 10; i++ {
-		if i == 2 {
-			continue
-		}
-		fmt.Println(i)
 	}
 }

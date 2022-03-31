@@ -143,6 +143,8 @@ func anonymousFunc() {
 	}(1, 2)
 }
 
+// TODO：闭包需要再加深理解
+
 // 闭包示例1
 func add() func(int) int {
 	var x int
