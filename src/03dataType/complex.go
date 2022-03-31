@@ -1,5 +1,5 @@
-// @title 《Go语言编程》-基础类型复数
-// @description  包括：
+// @title 《Go语言编程》-基础数据类型复数
+// @description
 // @author wangpengliang
 // @date 2022-03-25 10:58:06
 package main

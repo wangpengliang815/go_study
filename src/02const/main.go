@@ -46,10 +46,7 @@ func enum() {
 	fmt.Println(Windows, Linux, MaxOS)
 	fmt.Println("**************************************************")
 
-	/*
-	 结合iota实现枚举
-	 第一个iota等于0，每当 iota 在新的一行被使用时，它的值都会自动加1
-	*/
+	// 结合iota实现枚举:第一个iota等于0，每当 iota 在新的一行被使用时，它的值都会自动加1
 	const (
 		Sunday    = iota // 0
 		Monday           // 1,通常省略后续行表达式

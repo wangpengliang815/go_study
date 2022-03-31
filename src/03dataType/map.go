@@ -1,4 +1,4 @@
-// @title 《Go语言编程》-复合类型map
+// @title 《Go语言编程》-复合数据类型map
 // @description
 // @author wangpengliang
 // @date 2022-03-25 11:17:08

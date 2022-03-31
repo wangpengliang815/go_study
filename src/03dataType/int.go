@@ -1,5 +1,5 @@
-// @title 《Go语言编程》-基础类型整型
-// @description  包括：数字字面量语法、unsafe.Sizeof()
+// @title 《Go语言编程》-基础数据类型整型
+// @description  包括：数字字面量语法、unsafe.Sizeof()、fmt不同进制显示
 // @author wangpengliang
 // @date 2022-03-25 10:54:55
 package main

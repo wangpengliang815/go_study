@@ -1,4 +1,4 @@
-// @title 《Go语言编程》-复合类型切片
+// @title 《Go语言编程》-复合数据类型切片
 // @description
 // @author wangpengliang
 // @date 2022-03-25 11:09:13

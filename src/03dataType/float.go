@@ -1,4 +1,4 @@
-// @title 《Go语言编程》-基础类型浮点型
+// @title 《Go语言编程》-基础数据类型浮点型
 // @description  包括：浮点型定义、浮点型精度丢失问题
 // @author wangpengliang
 // @date 2022-03-25 10:56:33

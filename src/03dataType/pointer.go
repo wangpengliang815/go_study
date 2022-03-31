@@ -1,4 +1,4 @@
-// @title 《Go语言编程》-复合类型指针
+// @title 《Go语言编程》-复合数据类型指针
 // @description
 // @author wangpengliang
 // @date 2022-03-25 11:35:45
