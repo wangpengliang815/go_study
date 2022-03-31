@@ -15,7 +15,7 @@ type Person struct {
 	hobby   []string
 }
 
-// 构造函数重载第一种方式,使用指定值初始化结构体,返回指针类型
+// 模拟实现构造函数第一种方式,使用指定值初始化结构体,返回指针类型
 func NewPerson(name, address string, age int, hobby []string) *Person {
 	instance := new(Person)
 	instance.name = name
@@ -25,7 +25,7 @@ func NewPerson(name, address string, age int, hobby []string) *Person {
 	return instance
 }
 
-// 构造函数重载第二种方式,使用&初始化结构体,返回指针类型(Go中不支持函数重载,所以两个构造函数名称必须不同)
+// 模拟实现构造函数第二种方式,使用&初始化结构体,返回指针类型(Go中不支持函数重载,所以两个构造函数名称必须不同)
 func NewPerson2(name, address string, age int) *Person {
 	return &Person{
 		name:    name,

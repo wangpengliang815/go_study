@@ -14,7 +14,7 @@ type Rect struct {
 	width, height float64
 }
 
-// struct最基础的结构实例化方式
+// struct最简单的结构实例化方式
 func structInstance1() {
 	var rect Rect
 	fmt.Printf("%p %T \n", &rect, rect)
@@ -71,6 +71,7 @@ func structInit3() {
 }
 
 // 空结构体不占用内存
+// TODO：结构体内存布局
 func structEmpty() {
 	var a struct{}
 	fmt.Println(unsafe.Sizeof(a)) // 0
