@@ -11,19 +11,19 @@ import (
 )
 
 // 声明全局等待组变量
-var wait sync.WaitGroup
+var wg sync.WaitGroup
 
 func printHello() {
 	fmt.Println("hello")
-	wait.Done()
+	wg.Done()
 }
 
 // 使用sync包
 func run() {
-	wait.Add(1)
+	wg.Add(1)
 	go printHello()
 	fmt.Println("end...")
-	wait.Wait()
+	wg.Wait()
 }
 
 func main() {
