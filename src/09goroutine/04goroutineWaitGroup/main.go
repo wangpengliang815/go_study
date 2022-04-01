@@ -1,4 +1,4 @@
-// @title 《Go语言编程》 -使用sync包
+// @title 《Go语言编程》 -使用sync.WaitGroup全局等待组变量优雅的阻塞
 // @description
 // @author wangpengliang
 // @date 2022-03-31 17:25:12
@@ -14,16 +14,16 @@ import (
 var wait sync.WaitGroup
 
 func printHello() {
+	defer wait.Done() // goroutine结束登记-1
 	fmt.Println("hello")
-	wait.Done()
 }
 
 // 使用sync包
 func run() {
-	wait.Add(1)
+	wait.Add(1) // 启动一个goroutine登记+1
 	go printHello()
 	fmt.Println("end...")
-	wait.Wait()
+	wait.Wait() // 等待所有线程执行完
 }
 
 func main() {

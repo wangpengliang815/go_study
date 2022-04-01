@@ -14,7 +14,7 @@ func printHello() {
 	fmt.Println("hello")
 }
 
-// goroutine使用time.Sleep阻塞
+// 使用time.Sleep阻塞main主线程
 func run() {
 	go printHello()
 	fmt.Println("end...")
