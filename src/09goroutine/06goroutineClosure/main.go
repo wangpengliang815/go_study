@@ -32,7 +32,7 @@ func closure2() {
 		wg.Add(1)
 		go func() {
 			defer wg.Done()
-			fmt.Println("%p", &i)
+			fmt.Printf("%p", &i)
 			// 这里匿名函数的i是由外层循环提供的其实就是一个闭包
 			fmt.Println("hello:", i)
 		}()
