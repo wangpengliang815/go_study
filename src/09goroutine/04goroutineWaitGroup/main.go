@@ -14,16 +14,16 @@ import (
 var wg sync.WaitGroup
 
 func printHello() {
-	defer wait.Done() // goroutine结束登记-1
+	defer wg.Done() // goroutine结束登记-1
 	fmt.Println("hello")
 }
 
 // 使用sync包
 func run() {
-	wait.Add(1) // 启动一个goroutine登记+1
+	wg.Add(1) // 启动一个goroutine登记+1
 	go printHello()
 	fmt.Println("end...")
-	wait.Wait() // 等待所有线程执行完
+	wg.Wait() // 等待所有线程执行完
 }
 
 func main() {
