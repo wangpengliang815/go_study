@@ -53,5 +53,5 @@ func closure3() {
 }
 
 func main() {
-	closure2()
+	closure3()
 }
