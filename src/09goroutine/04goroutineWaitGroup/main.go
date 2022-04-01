@@ -11,7 +11,7 @@ import (
 )
 
 // 声明全局等待组变量
-var wait sync.WaitGroup
+var wg sync.WaitGroup
 
 func printHello() {
 	defer wait.Done() // goroutine结束登记-1
