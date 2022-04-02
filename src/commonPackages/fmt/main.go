@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	generalPlaceholder()
+	bufioTest()
 }
 
 // print
@@ -79,7 +79,7 @@ func intPlaceholder() {
 }
 
 // 浮点数与复数占位符
-func floatPlaceholderTest() {
+func floatPlaceholder() {
 	f := 12.34
 	fmt.Printf("%b\n", f) // %b：无小数部分、二进制指数的科学计数法
 	fmt.Printf("%e\n", f) // %e: 科学计数法,如-1234.456e+78
@@ -90,8 +90,8 @@ func floatPlaceholderTest() {
 }
 
 // 字符串与[]byte占位符
-func stringPlaceholderTest() {
-	s := "山西一枝花"
+func stringPlaceholder() {
+	s := "wangpengliang"
 	fmt.Printf("%s\n", s) // %s：直接输出字符串或者[]byte
 	fmt.Printf("%q\n", s) // %q: 该值对应的双引号括起来的go语法字符串字面值，必要时会采用安全的转义表示
 	fmt.Printf("%x\n", s) // %x: 每个字节用两字符十六进制数表示（使用a-f)
@@ -99,14 +99,14 @@ func stringPlaceholderTest() {
 }
 
 // 指针占位符
-func pointerPlaceholderTest() {
+func pointerPlaceholder() {
 	a := 10
 	fmt.Printf("%p\n", &a)
 	fmt.Printf("%#p\n", &a)
 }
 
 // 宽度标识符
-func breadthTest() {
+func breadth() {
 	n := 12.34
 	fmt.Printf("%f\n", n)
 	fmt.Printf("%9f\n", n)
@@ -115,8 +115,9 @@ func breadthTest() {
 	fmt.Printf("%9.f\n", n)
 }
 
-func otherPlaceholderTest() {
-	s := "一枝花"
+// 其他flag
+func otherPlaceholder() {
+	s := "wangpengliang"
 	fmt.Printf("%s\n", s)
 	fmt.Printf("%5s\n", s)
 	fmt.Printf("%-5s\n", s)
@@ -127,8 +128,7 @@ func otherPlaceholderTest() {
 }
 
 // Scan获取用户输入,空格分隔
-func fmtScanTest() {
-	fmt.Println()
+func fmtScan() {
 	fmt.Println("please input you name")
 	var input string
 	fmt.Scanln(&input) //读取键盘输入，通过操作地址赋值给input.阻塞式
@@ -145,7 +145,7 @@ func fmtScanTest() {
 }
 
 // Scanf获取用户输入,指定输入格式
-func fmtScanfTest() {
+func fmtScanf() {
 	var (
 		name string
 		age  int
@@ -156,7 +156,7 @@ func fmtScanfTest() {
 }
 
 // Scanln
-func fmtScanlnfTest() {
+func fmtScanlnf() {
 	var (
 		name string
 		age  int
