@@ -13,7 +13,7 @@ import (
 )
 
 func main() {
-	bufioTest()
+	fmtFprint()
 }
 
 // print
