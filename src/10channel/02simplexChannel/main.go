@@ -10,9 +10,6 @@ import (
 	"time"
 )
 
-// Producer 返回一个通道
-// 并持续将符合条件的数据发送至返回的通道中
-// 数据发送完成后会将返回的通道关闭
 func Producer() chan int {
 	ch := make(chan int, 2)
 	// 创建一个新的goroutine执行发送数据的任务
@@ -27,13 +24,19 @@ func Producer() chan int {
 	return ch
 }
 
-// Consumer 从通道中接收数据进行计算
 func Consumer(ch chan int) int {
 	sum := 0
 	for v := range ch {
 		sum += v
 	}
 	return sum
+}
+
+// 示例一：Producer负责发送,Consumer负责接收
+func test() {
+	ch := Producer()
+	res := Consumer(ch)
+	fmt.Println(res) // 25
 }
 
 func Producer2() chan int {
@@ -60,6 +63,13 @@ func Consumer2(ch chan int) int {
 	return sum
 }
 
+// 示例二：Producer负责发送,Consumer负责接收同时也可以向chan中写值
+func test2() {
+	ch := Producer2()
+	res := Consumer2(ch)
+	fmt.Println(res) // 125
+}
+
 // Producer3 返回一个接收通道
 func Producer3() <-chan int {
 	ch := make(chan int, 2)
@@ -84,6 +94,13 @@ func Consumer3(ch <-chan int) int {
 	return sum
 }
 
+// 示例三：Producer负责发送返回只读通道
+func test3() {
+	ch := Producer3()
+	res := Consumer3(ch)
+	fmt.Println(res) // 25
+}
+
 // 默认的channel 是双向的可读可写
 func chanType1() {
 	var ch chan int = make(chan int)
@@ -92,6 +109,7 @@ func chanType1() {
 		fmt.Println(x)
 	}()
 	ch <- 100
+	close(ch)
 	time.Sleep(time.Second)
 }
 
@@ -141,20 +159,6 @@ func convertChannel() {
 
 // 这里可以Consumer既可以取也也可以发送
 func main() {
-	convertChannel()
-
-	// // 示例一：Producer负责发送,Consumer负责接收
-	// ch := Producer()
-	// res := Consumer(ch)
-	// fmt.Println(res) // 25
-
-	// // 示例二：Producer负责发送,Consumer负责接收同时也可以向chan中写值
-	// ch2 := Producer2()
-	// res2 := Consumer2(ch2)
-	// fmt.Println(res2) // 125
-
-	// // 示例三：Producer负责发送返回只读通道
-	// ch3 := Producer3()
-	// res3 := Consumer3(ch3)
-	// fmt.Println(res3) // 25
+	chanType1()
+	// convertChannel()
 }

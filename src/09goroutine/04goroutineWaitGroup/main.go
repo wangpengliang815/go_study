@@ -20,5 +20,5 @@ func main() {
 		fmt.Println("hello")
 	}()
 	fmt.Println("end...")
-	wg.Wait() // 等待所有线程执行完,先输出:end... 再输出:hello  存在随机性
+	wg.Wait() // 阻塞等待所有协程执行完,先输出:end... 再输出:hello
 }

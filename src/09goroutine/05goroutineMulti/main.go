@@ -18,7 +18,7 @@ func printHello(i int) {
 
 func main() {
 	for i := 0; i < 10; i++ {
-		wg.Add(1)
+		wg.Add(1) // 启动一个协程就+1
 		go printHello(i)
 	}
 	wg.Wait()

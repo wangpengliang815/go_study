@@ -11,14 +11,14 @@ import (
 
 var wg sync.WaitGroup
 
-// 无缓冲的通道又称为阻塞的通道
+// 无缓冲的通道又称为阻塞的通道：无缓冲的通道只有在有接收方能够接收值的时候才能发送成功，否则会一直处于等待发送的阶段
 func chan1() {
 	ch := make(chan int)
 	ch <- 10
 	fmt.Println("发送成功") // fatal error: all goroutines are asleep - deadlock!
 }
 
-// 解决无缓冲通道死锁问题
+// 解决无缓冲通道死锁问题,使用匿名函数接收通道值
 func chan2() {
 	value := 10
 	ch := make(chan int)
@@ -27,6 +27,7 @@ func chan2() {
 		fmt.Printf("接收成功,value=%d \n", value)
 	}(ch)
 	ch <- value
+	close(ch)
 	fmt.Printf("发送成功,value=%d \n", value)
 }
 
@@ -37,6 +38,20 @@ func chan3() {
 	fmt.Println("发送成功")
 }
 
+func receive(ch chan int) {
+	// 循环接收值，直到通道被关闭后退出
+	for {
+		v, ok := <-ch
+		if !ok {
+			break
+		} else {
+			wg.Done()
+			fmt.Printf("v=%v ok=%v \n", v, ok)
+		}
+	}
+	close(ch)
+}
+
 // 多返回值：循环从通道ch中接收所有值，直到通道被关闭后退出
 func chan4() {
 	ch := make(chan int, 10)
@@ -45,17 +60,19 @@ func chan4() {
 		ch <- i
 	}
 	close(ch)
-	go func() {
+
+	go func(chan int) {
+		// 循环接收值，直到通道被关闭后退出
 		for {
 			v, ok := <-ch
 			if !ok {
-				fmt.Println("通道关闭")
 				break
+			} else {
+				wg.Done()
+				fmt.Printf("v=%v ok=%v \n", v, ok)
 			}
-			wg.Done()
-			fmt.Printf("v=%v ok=%v \n", v, ok)
 		}
-	}()
+	}(ch)
 	wg.Wait()
 }
 
@@ -67,6 +84,7 @@ func chan5() {
 		ch <- i
 	}
 	close(ch)
+
 	go func() {
 		for v := range ch {
 			fmt.Println(v)
