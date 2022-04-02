@@ -8,11 +8,9 @@ import (
 	"fmt"
 )
 
-func printHello() {
-	fmt.Println("hello")
-}
-
 func main() {
-	printHello()
+	func() {
+		fmt.Println("hello")
+	}()
 	fmt.Println("end...")
 }

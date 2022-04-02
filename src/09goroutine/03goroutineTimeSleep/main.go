@@ -10,17 +10,11 @@ import (
 	"time"
 )
 
-func printHello() {
-	fmt.Println("hello")
-}
-
 // 使用time.Sleep阻塞main主线程
-func run() {
-	go printHello()
-	fmt.Println("end...")
-	time.Sleep(time.Second)
-}
-
 func main() {
-	run() // 先输出:end... 在输出:hello  存在随机性
+	go func() {
+		fmt.Println("hello")
+	}()
+	fmt.Println("end...") // 先输出:end... 再输出:hello
+	time.Sleep(time.Second)
 }
