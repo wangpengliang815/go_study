@@ -1,3 +1,7 @@
+// @title 《Go语言编程》- fmt包使用
+// @description
+// @author wangpengliang
+// @date 2022-04-02 16:39:40
 package main
 
 import (
@@ -8,16 +12,20 @@ import (
 	"strings"
 )
 
+func main() {
+	generalPlaceholder()
+}
+
 // print
-func fmtTestPrint() {
-	fmt.Print("在终端打印该信息。")
-	name := "山西一枝花"
+func fmtPrint() {
+	fmt.Print("在终端打印该信息")
+	name := "wangpengliang"
 	fmt.Printf("我是：%s\n", name)
 	fmt.Println("在终端打印单独一行显示")
 }
 
 // fprint:往文件写入内容
-func fprintTest() {
+func fmtFprint() {
 	// 向标准输出写入内容
 	fmt.Fprintln(os.Stdout, "向标准输出写入内容")
 	fileObj, err := os.OpenFile("./fprintTest.txt", os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0644)
@@ -25,34 +33,33 @@ func fprintTest() {
 		fmt.Println("打开文件出错，err:", err)
 		return
 	}
-	name := "山西一枝花"
+	name := "wangpengliang"
 	// 向打开的文件句柄中写入内容
-	fmt.Fprintf(fileObj, "往文件中写如信息：%s", name)
+	fmt.Fprintf(fileObj, "往文件中写入信息：%s", name)
 }
 
 // sprint:把传入的数据生成并返回一个字符串
-func sprintTest() {
-	s := "山西一枝花"
+func fmtSprint() {
+	s := "wangpengliang"
 	s1 := fmt.Sprint(s)
-	name := "山西一枝花"
-	age := 18
-	s2 := fmt.Sprintf("name:%s,age:%d", name, age)
-	s3 := fmt.Sprintln("沙河小王子")
-	fmt.Println(s1, s2, s3)
+
+	s2 := fmt.Sprintf("name:%s,age:%d", "wangpengliang", 18)
+
+	fmt.Println(s1, s2)
 }
 
 // 根据 format 参数生成格式化字符串并返回一个包含该字符串的错误
-func errorfTest() {
+func errorof() {
 	e := errors.New("原始错误e")
 	w := fmt.Errorf("Wrap了一个错误%w", e)
 	fmt.Println(w)
 }
 
 // 通用占位符
-func generalPlaceholderTest() {
+func generalPlaceholder() {
 	fmt.Printf("%v\n", 100)   // %v：默认格式输出
 	fmt.Printf("%v\n", false) // %v：默认格式输出
-	o := struct{ name string }{"山西一枝花"}
+	o := struct{ name string }{"wangpengliang"}
 	fmt.Printf("%v\n", o)
 	fmt.Printf("%+v\n", o) // %+v：类似%v，但输出结构体时会添加字段名
 	fmt.Printf("%#v\n", o) // %#v：值的Go语法表示
@@ -61,7 +68,7 @@ func generalPlaceholderTest() {
 }
 
 // 整型占位符
-func intPlaceholderTest() {
+func intPlaceholder() {
 	n := 65
 	fmt.Printf("%b\n", n) // %b：二进制输出
 	fmt.Printf("%c\n", n) // %c：输出对应的unicode编码
