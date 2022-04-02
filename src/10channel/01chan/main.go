@@ -22,7 +22,10 @@ func chan1() {
 func chan2() {
 	value := 10
 	ch := make(chan int)
-	go receive(ch)
+	go func(chan int) {
+		value := <-ch
+		fmt.Printf("接收成功,value=%d \n", value)
+	}(ch)
 	ch <- value
 	fmt.Printf("发送成功,value=%d \n", value)
 }
@@ -71,12 +74,6 @@ func chan5() {
 		}
 	}()
 	wg.Wait()
-}
-
-// 接收消息
-func receive(c chan int) {
-	value := <-c
-	fmt.Printf("接收成功,value=%d \n", value)
 }
 
 func main() {
