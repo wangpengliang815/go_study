@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	"sync"
+	"time"
 )
 
 var wg sync.WaitGroup
@@ -92,6 +93,20 @@ func chan5() {
 		}
 	}()
 	wg.Wait()
+}
+
+// 通道内的值被接收完后再对通道执行接收操作得到的值会一直都是对应元素类型的零值
+func chan6() {
+	ch := make(chan int, 2)
+	go func() {
+		for {
+			x := <-ch
+			fmt.Println(x)
+		}
+	}()
+	ch <- 10
+	close(ch) // 10 0 0 0 0 0 0 0 ...
+	time.Sleep(time.Second)
 }
 
 func main() {
