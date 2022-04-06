@@ -5,29 +5,22 @@ import (
 	"time"
 )
 
-func timeTest() {
-	// func Now() Time
-	fmt.Println(time.Now())
+func main() {
+	getTime()
+}
 
-	// func Parse(layout, value string) (Time, error)
-	time1, _ := time.Parse("2016-01-02 15:04:05", "2018-04-23 12:24:51")
-	fmt.Println(time1)
+// 获取当前时间对象的年月日时分秒
+func getTime() {
+	now := time.Now() // 获取当前时间
+	fmt.Printf("current time:%v\n", now)
 
-	// func ParseInLocation(layout, value string, loc *Location) (Time, error) (layout已带时区时可直接用Parse)
-	time.ParseInLocation("2006-01-02 15:04:05", "2017-05-11 14:06:06", time.Local)
-
-	// func Unix(sec int64, nsec int64) Time
-	time.Unix(1e9, 0)
-
-	// func Date(year int, month Month, day, hour, min, sec, nsec int, loc *Location) Time
-	time.Date(2018, 1, 2, 15, 30, 10, 0, time.Local)
-
-	// func (t Time) In(loc *Location) Time 当前时间对应指定时区的时间
-	loc, _ := time.LoadLocation("America/Los_Angeles")
-	fmt.Println(time.Now().In(loc))
-
-	// func (t Time) Local() Time
-	fmt.Println(time.Local)
+	year := now.Year()     // 年
+	month := now.Month()   // 月
+	day := now.Day()       // 日
+	hour := now.Hour()     // 小时
+	minute := now.Minute() // 分钟
+	second := now.Second() // 秒
+	fmt.Println(year, month, day, hour, minute, second)
 }
 
 func timeBefore() {
