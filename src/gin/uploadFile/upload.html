@@ -1,0 +1,19 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>文件上传</title>
+</head>
+<body>
+<h1>单个文件上传</h1>
+<form action="/upload" method="post" enctype="multipart/form-data">
+    Files: <input type="file" name="file">
+    <input type="submit" value="Submit">
+</form>
+
+<h1>多个文件上传</h1>
+<form action="/multi-upload" method="post" enctype="multipart/form-data">
+    Files: <input type="file" name="files" multiple>
+    <input type="submit" value="Submit">
+</form>
+</body>
