@@ -13,6 +13,8 @@ import (
 	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 /*
@@ -36,34 +38,71 @@ func main() {
 	r := gin.Default()
 	db := createDbConn()
 
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 	r.GET("/users", func(c *gin.Context) {
 		var user []User
 		db.Find(&user)
 		c.JSON(http.StatusOK, user)
 	})
 
-	// 默认方式单个创建
+	// @title Gin swagger
+	// @version 1.0
+	// @description Gin swagger 示例项目
+
+	// @contact.name youngxhu
+	// @contact.url https://youngxhui.top
+	// @contact.email youngxhui@g mail.com
+
+	// @license.name Apache 2.0
+	// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+
+	// @host localhost:8080
 	r.POST("/users", func(c *gin.Context) {
 		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
 		result, _ := insert(user, db)
 		c.JSON(http.StatusOK, result)
 	})
 
-	// 选定字段创建
+	// @Summary 提交新的文章内容
+	// @Id 1
+	// @Tags 文章
+	// @version 1.0
+	// @Accept application/x-json-stream
+	// @Param article body model.Article true "文章"
+	// @Success 200 object model.Result 成功后返回值
+	// @Failure 409 object model.Result 添加失败
+	// @Router /article [post]
 	r.POST("/users/select", func(c *gin.Context) {
 		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
 		result, _ := selectInsert(user, db)
 		c.JSON(http.StatusOK, result)
 	})
 
-	// 排除指定字段创建
+	// @Summary 提交新的文章内容
+	// @Id 1
+	// @Tags 文章
+	// @version 1.0
+	// @Accept application/x-json-stream
+	// @Param article body model.Article true "文章"
+	// @Success 200 object model.Result 成功后返回值
+	// @Failure 409 object model.Result 添加失败
+	// @Router /article [post]
 	r.POST("/users/excludeField", func(c *gin.Context) {
 		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
 		result, _ := excludeFieldInsert(user, db)
 		c.JSON(http.StatusOK, result)
 	})
 
-	// 批量创建
+	// @Summary 提交新的文章内容
+	// @Id 1
+	// @Tags 文章
+	// @version 1.0
+	// @Accept application/x-json-stream
+	// @Param article body model.Article true "文章"
+	// @Success 200 object model.Result 成功后返回值
+	// @Failure 409 object model.Result 添加失败
+	// @Router /article [post]
 	r.POST("/users/batch", func(c *gin.Context) {
 		users := []User{{Name: "wangpengliang", Age: 18, Address: "北京"}, {Name: "lizimeng", Age: 18, Address: "上海"}}
 		result := batchInsert(users, db)

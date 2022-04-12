@@ -1,0 +1,14 @@
+host: localhost:8080
+info:
+  contact:
+    email: youngxhui@g mail.com
+    name: youngxhu
+    url: https://youngxhui.top
+  description: Gin swagger 示例项目
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: Gin swagger
+  version: "1.0"
+paths: {}
+swagger: "2.0"
