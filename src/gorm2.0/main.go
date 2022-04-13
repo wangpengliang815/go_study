@@ -12,7 +12,7 @@ import (
 	"gorm.io/driver/sqlserver"
 	"gorm.io/gorm"
 
-	_ "/docs"
+	_ "goProject/gorm2.0/docs"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
@@ -36,85 +36,101 @@ func (User) TableName() string {
 	return "User"
 }
 
+// @title gorm2.0 sample
+// @version 1.0
+// @description
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8080/
 func main() {
 	r := gin.Default()
-	db := createDbConn()
 
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	r.GET("/users", func(c *gin.Context) {
-		var user []User
-		db.Find(&user)
-		c.JSON(http.StatusOK, user)
-	})
+	r.GET("/users", getListHandler)
 
-	// @title Gin swagger
-	// @version 1.0
-	// @description Gin swagger 示例项目
+	r.POST("/users", insertHandler)
 
-	// @contact.name youngxhu
-	// @contact.url https://youngxhui.top
-	// @contact.email youngxhui@g mail.com
+	r.POST("/users/select", selectFieldInsertHandler)
 
-	// @license.name Apache 2.0
-	// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+	r.POST("/users/excludeField", excludeFieldInsertHandler)
 
-	// @host localhost:8080
-	r.POST("/users", func(c *gin.Context) {
-		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
-		result, _ := insert(user, db)
-		c.JSON(http.StatusOK, result)
-	})
-
-	// @Summary 提交新的文章内容
-	// @Id 1
-	// @Tags 文章
-	// @version 1.0
-	// @Accept application/x-json-stream
-	// @Param article body model.Article true "文章"
-	// @Success 200 object model.Result 成功后返回值
-	// @Failure 409 object model.Result 添加失败
-	// @Router /article [post]
-	r.POST("/users/select", func(c *gin.Context) {
-		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
-		result, _ := selectInsert(user, db)
-		c.JSON(http.StatusOK, result)
-	})
-
-	// @Summary 提交新的文章内容
-	// @Id 1
-	// @Tags 文章
-	// @version 1.0
-	// @Accept application/x-json-stream
-	// @Param article body model.Article true "文章"
-	// @Success 200 object model.Result 成功后返回值
-	// @Failure 409 object model.Result 添加失败
-	// @Router /article [post]
-	r.POST("/users/excludeField", func(c *gin.Context) {
-		user := User{Name: "wangpengliang", Age: 18, Address: "北京"}
-		result, _ := excludeFieldInsert(user, db)
-		c.JSON(http.StatusOK, result)
-	})
-
-	// @Summary 提交新的文章内容
-	// @Id 1
-	// @Tags 文章
-	// @version 1.0
-	// @Accept application/x-json-stream
-	// @Param article body model.Article true "文章"
-	// @Success 200 object model.Result 成功后返回值
-	// @Failure 409 object model.Result 添加失败
-	// @Router /article [post]
-	r.POST("/users/batch", func(c *gin.Context) {
-		users := []User{{Name: "wangpengliang", Age: 18, Address: "北京"}, {Name: "lizimeng", Age: 18, Address: "上海"}}
-		result := batchInsert(users, db)
-		if result.Error != nil {
-			c.JSON(http.StatusInternalServerError, result.Error)
-		}
-		c.JSON(http.StatusOK, gin.H{"message": "ok"})
-	})
+	r.POST("/users/batch", batchInsertHandler)
 
 	r.Run()
+}
+
+// @Summary 查询所有数据
+// @Description
+// @Tags Users
+// @Accept json
+// @Router /users [get]
+func getListHandler(c *gin.Context) {
+	db := createDbConn()
+	var user []User
+	db.Find(&user)
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary 创建数据
+// @Description
+// @Param user body User true "用户"
+// @Tags Users
+// @Accept json
+// @Router /users [post]
+func insertHandler(c *gin.Context) {
+	db := createDbConn()
+	user := User{}
+	c.ShouldBind(&user)
+	db.Create(&user)
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary 使用选定字段创建数据
+// @Description
+// @Param user body User true "用户"
+// @Tags Users
+// @Accept json
+// @Router /users/select [post]
+func selectFieldInsertHandler(c *gin.Context) {
+	db := createDbConn()
+	user := User{}
+	c.ShouldBind(&user)
+	// 这里只插入了2个字段虽然传入的user是3个字段,INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
+	db.Select("Name", "Age").Create(&user)
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary 排除指定字段创建
+// @Description
+// @Param user body User true "用户"
+// @Tags Users
+// @Accept json
+// @Router /users/excludeField [post]
+func excludeFieldInsertHandler(c *gin.Context) {
+	db := createDbConn()
+	user := User{}
+	c.ShouldBind(&user)
+	// 这里排除Age字段,INSERT INTO `User` (`name`,`address`) VALUES ("xx", "xx")
+	db.Omit("Age").Create(&user)
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary 批量创建
+// @Description
+// @Param user body []User true "用户"
+// @Tags Users
+// @Accept json
+// @Router /users/batch [post]
+func batchInsertHandler(c *gin.Context) {
+	db := createDbConn()
+	users := []User{}
+	c.ShouldBind(&users)
+	result := db.Create(&users)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, result.Error)
+	}
+	c.JSON(http.StatusOK, gin.H{"message": "ok"})
 }
 
 // 返回数据库连接
@@ -141,30 +157,4 @@ func createDbConn() *gorm.DB {
 	// db.Create(&Person{Name: "wangpengliang", Address: "beijing", Age: 18})
 	// db.Create(&Person{Name: "lizimeng", Address: "shanghai", Age: 18})
 	return db
-}
-
-// 默认创建
-func insert(user User, db *gorm.DB) (model User, dbResult *gorm.DB) {
-	result := db.Create(&user)
-	return user, result
-}
-
-// 使用选定字段创建
-func selectInsert(user User, db *gorm.DB) (model User, dbResult *gorm.DB) {
-	// 这里只插入了2个字段虽然传入的user是3个字段,INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
-	result := db.Select("Name", "Age").Create(&user)
-	return user, result
-}
-
-// 排除指定字段创建
-func excludeFieldInsert(user User, db *gorm.DB) (model User, dbResult *gorm.DB) {
-	// 这里排除Age字段,INSERT INTO `User` (`name`,`address`) VALUES ("xx", "xx")
-	result := db.Omit("Age").Create(&user)
-	return user, result
-}
-
-// 批量创建
-func batchInsert(users []User, db *gorm.DB) (dbResult *gorm.DB) {
-	result := db.Create(&users)
-	return result
 }
