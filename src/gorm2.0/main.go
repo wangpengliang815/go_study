@@ -14,12 +14,13 @@ import (
 
 	_ "goProject/gorm2.0/docs"
 	"goProject/gorm2.0/entity"
-	_ "goProject/gorm2.0/entity"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
+
+var db = createDbConn()
 
 // @title gorm2.0 sample
 // @version 1.0
@@ -51,7 +52,6 @@ func main() {
 // @Accept json
 // @Router /users [get]
 func getListHandler(c *gin.Context) {
-	db := createDbConn()
 	var user []entity.User
 	db.Find(&user)
 	c.JSON(http.StatusOK, user)
@@ -64,7 +64,6 @@ func getListHandler(c *gin.Context) {
 // @Accept json
 // @Router /users [post]
 func insertHandler(c *gin.Context) {
-	db := createDbConn()
 	user := entity.User{}
 	c.ShouldBind(&user)
 	db.Create(&user)
@@ -78,7 +77,6 @@ func insertHandler(c *gin.Context) {
 // @Accept json
 // @Router /users/select [post]
 func selectFieldInsertHandler(c *gin.Context) {
-	db := createDbConn()
 	user := entity.User{}
 	c.ShouldBind(&user)
 	// 这里只插入了2个字段虽然传入的user是3个字段,INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
@@ -93,7 +91,6 @@ func selectFieldInsertHandler(c *gin.Context) {
 // @Accept json
 // @Router /users/excludeField [post]
 func excludeFieldInsertHandler(c *gin.Context) {
-	db := createDbConn()
 	user := entity.User{}
 	c.ShouldBind(&user)
 	// 这里排除Age字段,INSERT INTO `User` (`name`,`address`) VALUES ("xx", "xx")
@@ -108,7 +105,6 @@ func excludeFieldInsertHandler(c *gin.Context) {
 // @Accept json
 // @Router /users/batch [post]
 func batchInsertHandler(c *gin.Context) {
-	db := createDbConn()
 	users := []entity.User{}
 	c.ShouldBind(&users)
 	result := db.Create(&users)
