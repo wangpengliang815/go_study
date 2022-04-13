@@ -13,28 +13,13 @@ import (
 	"gorm.io/gorm"
 
 	_ "goProject/gorm2.0/docs"
+	"goProject/gorm2.0/entity"
+	_ "goProject/gorm2.0/entity"
 
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
 )
-
-/*
-结构体定义,标签解释：
-	1.`gorm:"primaryKey"`: 表示设置某列为主键
-	2.`gorm:"default:'test'"`: 表示为某字段设置默认值
-*/
-type User struct {
-	Id      int    `gorm:"primaryKey"`
-	Name    string `gorm:"default:'test'"`
-	Age     int
-	Address string
-}
-
-// 重命名表名
-func (User) TableName() string {
-	return "User"
-}
 
 // @title gorm2.0 sample
 // @version 1.0
@@ -67,7 +52,7 @@ func main() {
 // @Router /users [get]
 func getListHandler(c *gin.Context) {
 	db := createDbConn()
-	var user []User
+	var user []entity.User
 	db.Find(&user)
 	c.JSON(http.StatusOK, user)
 }
@@ -80,7 +65,7 @@ func getListHandler(c *gin.Context) {
 // @Router /users [post]
 func insertHandler(c *gin.Context) {
 	db := createDbConn()
-	user := User{}
+	user := entity.User{}
 	c.ShouldBind(&user)
 	db.Create(&user)
 	c.JSON(http.StatusOK, user)
@@ -94,7 +79,7 @@ func insertHandler(c *gin.Context) {
 // @Router /users/select [post]
 func selectFieldInsertHandler(c *gin.Context) {
 	db := createDbConn()
-	user := User{}
+	user := entity.User{}
 	c.ShouldBind(&user)
 	// 这里只插入了2个字段虽然传入的user是3个字段,INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
 	db.Select("Name", "Age").Create(&user)
@@ -109,7 +94,7 @@ func selectFieldInsertHandler(c *gin.Context) {
 // @Router /users/excludeField [post]
 func excludeFieldInsertHandler(c *gin.Context) {
 	db := createDbConn()
-	user := User{}
+	user := entity.User{}
 	c.ShouldBind(&user)
 	// 这里排除Age字段,INSERT INTO `User` (`name`,`address`) VALUES ("xx", "xx")
 	db.Omit("Age").Create(&user)
@@ -124,7 +109,7 @@ func excludeFieldInsertHandler(c *gin.Context) {
 // @Router /users/batch [post]
 func batchInsertHandler(c *gin.Context) {
 	db := createDbConn()
-	users := []User{}
+	users := []entity.User{}
 	c.ShouldBind(&users)
 	result := db.Create(&users)
 	if result.Error != nil {
@@ -151,10 +136,7 @@ func createDbConn() *gorm.DB {
 	}
 
 	// 启用自动迁移生成表
-	db.AutoMigrate(&User{})
+	db.AutoMigrate(&entity.User{})
 
-	// // 创建2条测试数据
-	// db.Create(&Person{Name: "wangpengliang", Address: "beijing", Age: 18})
-	// db.Create(&Person{Name: "lizimeng", Address: "shanghai", Age: 18})
 	return db
 }
