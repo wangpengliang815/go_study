@@ -33,32 +33,5 @@ func createDbConn() *gorm.DB {
 }
 
 func main() {
+	Select_Where()
 }
-
-// // 查询:返回所有数据
-// func Get_All_Handler(c *gin.Context) {
-// 	var users []User
-// 	db.Find(&users)
-// 	c.JSON(http.StatusOK, users)
-// }
-
-// // 查询:获取第一条记录(主键升序)  SELECT * FROM users ORDER BY id LIMIT 1;
-// func Get_First_Handler(c *gin.Context) {
-// 	var user User
-// 	db.First(&user)
-// 	c.JSON(http.StatusOK, user)
-// }
-
-// // 查询:获取一条记录不指定排序字段 SELECT * FROM users LIMIT 1;
-// func Get_Take_Handler(c *gin.Context) {
-// 	var user User
-// 	db.Take(&user)
-// 	c.JSON(http.StatusOK, user)
-// }
-
-// // 查询:获取最后一条记录(主键降序) SELECT * FROM users ORDER BY id DESC LIMIT 1;
-// func Get_Last_Handler(c *gin.Context) {
-// 	var user User
-// 	db.Last(&user)
-// 	c.JSON(http.StatusOK, user)
-// }
