@@ -46,7 +46,13 @@ func createDbConn() *gorm.DB {
 func Insert_Default_Handler(c *gin.Context) {
 	user := entity.User{}
 	c.ShouldBind(&user) // 需要通过指针创建
-	db.Create(&user)
+	result := db.Create(&user)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, result.Error)
+	}
+	// user.ID 插入数据的主键
+	// result.Error        // 返回error
+	// result.RowsAffected // 返回插入记录的条数
 	c.JSON(http.StatusOK, user)
 }
 
@@ -55,7 +61,7 @@ func Insert_SelectField_Handler(c *gin.Context) {
 	user := entity.User{}
 	newUser := entity.User{}
 	c.ShouldBind(&user)
-	// 这里只会插入2个字段,虽然传入的user是3个字段,INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
+	// 这里只会插入Name,Ageliang两个字段,虽然传入的user是3个字段. INSERT INTO `User` (`name`,`age`) VALUES ("xx", 18)
 	db.Select("Name", "Age").Create(&user)
 	// 查询将新的模型返回
 	result := db.First(&newUser, user.Id)
