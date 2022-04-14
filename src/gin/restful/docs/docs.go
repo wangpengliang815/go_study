@@ -28,7 +28,7 @@ const docTemplate = `{
                 "tags": [
                     "Users"
                 ],
-                "summary": "查询所有数据",
+                "summary": "返回所有数据",
                 "responses": {}
             },
             "post": {
@@ -39,78 +39,6 @@ const docTemplate = `{
                     "Users"
                 ],
                 "summary": "创建数据",
-                "parameters": [
-                    {
-                        "description": "用户",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/main.User"
-                        }
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/users/batch": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "批量创建",
-                "parameters": [
-                    {
-                        "description": "用户",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/main.User"
-                            }
-                        }
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/users/excludeField": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "排除指定字段创建",
-                "parameters": [
-                    {
-                        "description": "用户",
-                        "name": "user",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/main.User"
-                        }
-                    }
-                ],
-                "responses": {}
-            }
-        },
-        "/users/select": {
-            "post": {
-                "consumes": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Users"
-                ],
-                "summary": "使用选定字段创建数据",
                 "parameters": [
                     {
                         "description": "用户",

@@ -1,0 +1,44 @@
+definitions:
+  main.User:
+    properties:
+      address:
+        type: string
+      age:
+        type: integer
+      id:
+        type: integer
+      name:
+        type: string
+    type: object
+host: localhost:8080/
+info:
+  contact: {}
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  title: gorm2.0 sample
+  version: "1.0"
+paths:
+  /users:
+    get:
+      consumes:
+      - application/json
+      responses: {}
+      summary: 返回所有数据
+      tags:
+      - Users
+    post:
+      consumes:
+      - application/json
+      parameters:
+      - description: 用户
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/main.User'
+      responses: {}
+      summary: 创建数据
+      tags:
+      - Users
+swagger: "2.0"

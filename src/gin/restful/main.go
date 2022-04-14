@@ -1,64 +1,98 @@
-// @title Gin-restful接口
+// @title gin-restful
 // @description
 // @author wangpengliang
-// @date 2022-04-10 18:40:45
+// @date 2022-04-12 15:52:04
 package main
 
 import (
-	"math/rand"
+	"fmt"
+	_ "goProject/gin/restful/docs"
+	"log"
 	"net/http"
-	"strconv"
-	"time"
+
+	"gorm.io/driver/sqlserver"
+	"gorm.io/gorm"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
+type User struct {
+	Id      int `gorm:"primaryKey"`
+	Name    string
+	Age     int
+	Address string
+}
+
+var db = createDbConn()
+
+// 返回数据库连接
+func createDbConn() *gorm.DB {
+	var (
+		server   = "localhost"
+		port     = 1433
+		user     = "sa"
+		database = "go_db"
+		password = "wpl19950815"
+	)
+	// 数据库连接字符串
+	connString := fmt.Sprintf("server=%s;port=%d;database=%s;user id=%s;password=%s", server, port, database, user, password)
+	db, err := gorm.Open(sqlserver.Open(connString), &gorm.Config{})
+	if err != nil {
+		log.Fatal("create dbconn failed!:" + err.Error())
+	}
+
+	// 启用自动迁移生成表
+	db.AutoMigrate(&User{})
+
+	return db
+}
+
+// @Summary 创建数据
+// @Description
+// @Param user body User true "用户"
+// @Tags Users
+// @Accept json
+// @Router /users [post]
+func InsertHandler(c *gin.Context) {
+	user := User{}
+	c.ShouldBind(&user) // 需要通过指针创建
+	result := db.Create(&user)
+	if result.Error != nil {
+		c.JSON(http.StatusInternalServerError, result.Error)
+	}
+	// user.ID 插入数据的主键
+	// result.Error        // 返回error
+	// result.RowsAffected // 返回插入记录的条数
+	c.JSON(http.StatusOK, user)
+}
+
+// @Summary 返回所有数据
+// @Description
+// @Tags Users
+// @Accept json
+// @Router /users [get]
+func GetListHandler(c *gin.Context) {
+	var users []User
+	db.Find(&users)
+	c.JSON(http.StatusOK, users)
+}
+
+// @title gorm2.0 sample
+// @version 1.0
+// @description
+// @license.name Apache 2.0
+// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
+// @host localhost:8080/
 func main() {
-	// 创建一个默认路由
 	r := gin.Default()
 
-	books := make([]string, 3)
-	books[0] = "c#编程"
-	books[1] = "java编程"
-	books[2] = "go编程"
+	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
-	// get http://localhost:8080/books
-	r.GET("/books", func(c *gin.Context) {
-		c.JSON(http.StatusOK, books)
-	})
+	r.GET("/users", GetListHandler)
 
-	// post http://localhost:8080/books
-	r.POST("/books", func(c *gin.Context) {
-		r := rand.New(rand.NewSource(time.Now().UnixNano()))
-		books = append(books, "大话西游"+strconv.Itoa(r.Intn(100)))
-		c.JSON(http.StatusOK, books)
-	})
-
-	// put
-	r.PUT("/books", func(c *gin.Context) {
-		index := c.Query("index")
-		data, err := strconv.Atoi(index)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "index is undefined",
-			})
-		}
-		books[data] = "平凡的世界"
-		c.JSON(http.StatusOK, books)
-	})
-
-	// delete
-	r.DELETE("/books", func(c *gin.Context) {
-		index := c.Query("index")
-		data, err := strconv.Atoi(index)
-		if err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{
-				"error": "index is undefined",
-			})
-		}
-		books = append(books[:data], books[data:]...)
-		c.JSON(http.StatusOK, books)
-	})
+	r.POST("/users", InsertHandler)
 
 	r.Run()
 }
