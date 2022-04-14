@@ -1,47 +1,64 @@
-// @title gorm version 2.0
-// @description
-// @author wangpengliang
-// @date 2022-04-12 15:52:04
 package main
 
 import (
-	_ "goProject/gorm2.0/docs"
+	"fmt"
+	"log"
 
-	handler "goProject/gorm2.0/handler"
-
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
+	"gorm.io/driver/sqlserver"
+	"gorm.io/gorm"
 )
 
-// @title gorm2.0 sample
-// @version 1.0
-// @description
-// @license.name Apache 2.0
-// @license.url http://www.apache.org/licenses/LICENSE-2.0.html
-// @host localhost:8080/
-func main() {
-	r := gin.Default()
+var db = createDbConn()
 
-	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+// 返回数据库连接
+func createDbConn() *gorm.DB {
+	var (
+		server   = "localhost"
+		port     = 1433
+		user     = "sa"
+		database = "go_db"
+		password = "wpl19950815"
+	)
+	// 数据库连接字符串
+	connString := fmt.Sprintf("server=%s;port=%d;database=%s;user id=%s;password=%s", server, port, database, user, password)
+	db, err := gorm.Open(sqlserver.Open(connString), &gorm.Config{})
+	if err != nil {
+		log.Fatal("create dbconn failed!:" + err.Error())
+	}
 
-	r.GET("/users", handler.Get_All_Handler)
-
-	r.GET("/users/first", handler.Get_First_Handler)
-
-	r.GET("/users/take", handler.Get_Take_Handler)
-
-	r.GET("/users/last", handler.Get_Last_Handler)
-
-	r.POST("/users", handler.Insert_Default_Handler)
-
-	r.POST("/users/select", handler.Insert_SelectField_Handler)
-
-	r.POST("/users/excludeField", handler.Insert_ExcludeField_Handler)
-
-	r.POST("/users/batch", handler.Insert_Batch_Handler)
-
-	r.POST("/users/byMap", handler.Insert_ByMap_Handler)
-
-	r.Run()
+	// 启用自动迁移生成表
+	db.AutoMigrate(&User{})
+	db.AutoMigrate(&Person{})
+	return db
 }
+
+func main() {
+}
+
+// // 查询:返回所有数据
+// func Get_All_Handler(c *gin.Context) {
+// 	var users []User
+// 	db.Find(&users)
+// 	c.JSON(http.StatusOK, users)
+// }
+
+// // 查询:获取第一条记录(主键升序)  SELECT * FROM users ORDER BY id LIMIT 1;
+// func Get_First_Handler(c *gin.Context) {
+// 	var user User
+// 	db.First(&user)
+// 	c.JSON(http.StatusOK, user)
+// }
+
+// // 查询:获取一条记录不指定排序字段 SELECT * FROM users LIMIT 1;
+// func Get_Take_Handler(c *gin.Context) {
+// 	var user User
+// 	db.Take(&user)
+// 	c.JSON(http.StatusOK, user)
+// }
+
+// // 查询:获取最后一条记录(主键降序) SELECT * FROM users ORDER BY id DESC LIMIT 1;
+// func Get_Last_Handler(c *gin.Context) {
+// 	var user User
+// 	db.Last(&user)
+// 	c.JSON(http.StatusOK, user)
+// }
