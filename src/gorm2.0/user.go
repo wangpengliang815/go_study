@@ -1,3 +1,7 @@
+// @title gorm-结构体定义
+// @description
+// @author wangpengliang
+// @date 2022-04-14 23:46:22
 package main
 
 import "gorm.io/gorm"

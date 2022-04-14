@@ -1,3 +1,7 @@
+// @title gorm-查询相关操作
+// @description
+// @author wangpengliang
+// @date 2022-04-14 23:47:10
 package main
 
 import "fmt"
