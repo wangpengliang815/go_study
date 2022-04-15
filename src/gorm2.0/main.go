@@ -33,5 +33,5 @@ func createDbConn() *gorm.DB {
 }
 
 func main() {
-	Select_Where()
+	Select_FixedField()
 }
