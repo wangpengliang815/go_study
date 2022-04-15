@@ -6,34 +6,42 @@ package main
 
 import (
 	"fmt"
-
+	. "goProject/gorm2.0/common"
 	"gorm.io/gorm/clause"
 )
 
 var user User
-var users []User
+var users User
+var db = CreateDbConn()
 
-// 查询单个对象(主键升序)
+func main() {
+	Select_Last()
+}
+
+// Select_First 查询单个对象(主键升序)
 func Select_First() {
 	var user User
-	db.Debug().First(&user) // SELECT * FROM "User" ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Debug().First(&user)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+
 	fmt.Printf("user:%#v", user)
 	// 或者
 	// user := new(User)
 	// db.First(user)
 }
 
-// 查询单个对象(使用自然排序)
+// Select_Take 查询单个对象(使用自然排序)
 func Select_Take() {
 	var user User
-	db.Debug().Take(&user) // SELECT * FROM "User" ORDER BY "id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
-	fmt.Printf("user:%#v", user)
+	db.Debug().Take(&user)
+	//  SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
-// 查询单个对象(主键倒序)
+// Select_Last 查询单个对象(主键倒序)
 func Select_Last() {
 	var user User
-	db.Debug().Last(&user) // SELECT * FROM "User" ORDER BY "User"."id" DESC OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Debug().Last(&user)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" DESC OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 	fmt.Printf("user:%#v", user)
 }
 
