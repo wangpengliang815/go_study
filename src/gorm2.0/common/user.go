@@ -1,8 +1,8 @@
-// @title gorm-结构体定义
+// Package common @title gorm-结构体定义
 // @description
 // @author wangpengliang
 // @date 2022-04-14 23:46:22
-package main
+package common
 
 import "gorm.io/gorm"
 
@@ -18,7 +18,7 @@ type User struct {
 	Address    string
 }
 
-// 重命名表名User否则为小写的user+复数s也就是users
+// TableName 重命名表名User否则为小写的user+复数s也就是users
 func (User) TableName() string {
 	return "User"
 }
