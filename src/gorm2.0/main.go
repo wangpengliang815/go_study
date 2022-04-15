@@ -34,4 +34,6 @@ func createDbConn() *gorm.DB {
 
 func main() {
 	Select_Find()
+
+	Select_First_ByPrimaryKey()
 }
