@@ -33,5 +33,5 @@ func createDbConn() *gorm.DB {
 }
 
 func main() {
-	Select_Limit()
+	Select_Find()
 }
