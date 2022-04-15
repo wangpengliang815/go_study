@@ -1,12 +1,10 @@
 Go语言学习记录，主要包括：
 
 - Go语言基础
-
 - gin
-
 - gorm
-
 - go-micro
+
 
 人生苦短，Let's go
 
