@@ -4,7 +4,11 @@
 // @date 2022-04-14 23:47:10
 package main
 
-import "fmt"
+import (
+	"fmt"
+
+	"gorm.io/gorm/clause"
+)
 
 var user User
 var users []User
@@ -166,4 +170,52 @@ func Select_FixedField() {
 
 	db.Table("user").Select("COALESCE(age,?)", 42).Debug().Rows()
 	// SELECT COALESCE(age,42) FROM "user"
+}
+
+// Order排序
+func Select_Order() {
+	db.Order("age desc, name").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY age desc, name
+
+	// 多个 order
+	db.Order("age desc").Order("name").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY age desc,name
+
+	db.Clauses(clause.OrderBy{
+		Expression: clause.Expr{SQL: "FIELD(id,?)", Vars: []interface{}{[]int{1, 2, 3}}, WithoutParentheses: true},
+	}).Debug().Find(&User{})
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY FIELD(id,1,2,3)
+	// 注意：mssql: 'FIELD' 不是可以识别的 内置函数名称
+}
+
+// SQLServer中的TOP
+func Select_LimitAndOffset() {
+	var users1 []User
+	var users2 []User
+
+	db.Limit(1).Debug().Find(&users)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 0 ROW FETCH NEXT 3 ROWS ONLY
+
+	// 通过 -1 消除 Limit 条件
+	db.Limit(1).Find(&users1).Limit(-1).Debug().Find(&users2)
+	// SELECT * FROM users LIMIT 10; (users1)
+	// SELECT * FROM users; (users2)
+
+	// offset表示跳过几行
+	db.Offset(1).Debug().Find(&users)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 1 ROWS
+
+	// 跳过1行获取第一条
+	db.Limit(1).Offset(1).Find(&users)
+	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 1 ROWS
+
+	// 通过 -1 消除 Offset 条件,跟上面同理
+	db.Offset(1).Find(&users1).Offset(-1).Find(&users2)
+	// SELECT * FROM users OFFSET 10; (users1)
+	// SELECT * FROM users; (users2)
+}
+
+//
+func Select_GroupAndHaving() {
+
 }
