@@ -236,24 +236,24 @@ func Select_GroupAndHaving() {
 	// SELECT name, sum(age) as total FROM "User" WHERE "User"."deleted_at" IS NULL GROUP BY "name"
 	fmt.Printf("result:%#v", result)
 
-	// db.Model(&User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "group").Find(&result)
-	// // SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "group"
+	db.Model(&User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "wangpengliang").Debug().Find(&result)
+	// SELECT name, sum(age) as total FROM "User" WHERE "User"."deleted_at" IS NULL GROUP BY "name" HAVING name = 'wangpengliang'
 
-	// rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Rows()
-	// defer rows.Close()
-	// for rows.Next() {
-	//   ...
-	// }
+	rows, _ := db.Table("user").Select("name, sum(age) as total").Group("name").Debug().Rows()
+	// SELECT name, sum(age) as total FROM "user" GROUP BY "name"
+	defer rows.Close()
 
-	// rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Rows()
-	// defer rows.Close()
-	// for rows.Next() {
-	//   ...
-	// }
+	for rows.Next() {
+		//
+	}
 
-	// type Result struct {
-	//   Date  time.Time
-	//   Total int64
-	// }
-	// db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Scan(&results)
+	rows2, _ := db.Table("user").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 10).Debug().Rows()
+	// SELECT name, sum(age) as total FROM "user" GROUP BY "name" HAVING sum(age) > 10
+	defer rows2.Close()
+	for rows2.Next() {
+		//
+	}
+
+	db.Table("user").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 30).Debug().Scan(&result)
+	// SELECT name, sum(age) as total FROM "user" GROUP BY "name" HAVING sum(age) > 30
 }
