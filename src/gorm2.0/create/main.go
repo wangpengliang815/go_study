@@ -12,7 +12,7 @@ import (
 var db = CreateDbConn()
 
 func main() {
-	Insert_ByMap()
+	Insert_Batch()
 }
 
 // Insert 普通创建

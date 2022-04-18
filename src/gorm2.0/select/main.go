@@ -7,6 +7,7 @@ package main
 import (
 	"fmt"
 	. "goProject/gorm2.0/common"
+
 	"gorm.io/gorm/clause"
 )
 
@@ -15,7 +16,7 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	Select_Last()
+	Select_GroupAndHaving()
 }
 
 // Select_First 查询单个对象(主键升序)
@@ -223,7 +224,36 @@ func Select_LimitAndOffset() {
 	// SELECT * FROM users; (users2)
 }
 
-//
-func Select_GroupAndHaving() {
+type Result struct {
+	name  string
+	total int
+}
 
+// Group And Having
+func Select_GroupAndHaving() {
+	var result []Result
+	db.Model(&User{}).Select("name, sum(age) as total").Group("name").Debug().Find(&result)
+	// SELECT name, sum(age) as total FROM "User" WHERE "User"."deleted_at" IS NULL GROUP BY "name"
+	fmt.Printf("result:%#v", result)
+
+	// db.Model(&User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "group").Find(&result)
+	// // SELECT name, sum(age) as total FROM `users` GROUP BY `name` HAVING name = "group"
+
+	// rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Rows()
+	// defer rows.Close()
+	// for rows.Next() {
+	//   ...
+	// }
+
+	// rows, err := db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Rows()
+	// defer rows.Close()
+	// for rows.Next() {
+	//   ...
+	// }
+
+	// type Result struct {
+	//   Date  time.Time
+	//   Total int64
+	// }
+	// db.Table("orders").Select("date(created_at) as date, sum(amount) as total").Group("date(created_at)").Having("sum(amount) > ?", 100).Scan(&results)
 }
