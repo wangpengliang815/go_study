@@ -16,11 +16,11 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	Select_Distinct()
+	Last()
 }
 
-// Select_First 查询单个对象(主键升序)
-func Select_First() {
+// First 查询单个对象(主键升序)
+func First() {
 	db.Debug().First(&user)
 	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
@@ -30,27 +30,27 @@ func Select_First() {
 	// db.First(user)
 }
 
-// Select_Take 查询单个对象(使用自然排序)
-func Select_Take() {
+// Take 查询单个对象(使用自然排序)
+func Take() {
 	db.Debug().Take(&user)
 	//  SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
-// Select_Last 查询单个对象(主键倒序)
-func Select_Last() {
+// Last 查询单个对象(主键倒序)
+func Last() {
 	db.Debug().Last(&user)
 	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" DESC OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 	fmt.Printf("user:%#v", user)
 }
 
-// 主键查询,主键为int类型
-func Select_First_ByPrimaryKey() {
+// SelectByIntPrimaryKey 主键查询,主键为int类型
+func SelectByIntPrimaryKey() {
 	db.Debug().First(&user, 1)
 	// SELECT * FROM "User" WHERE "User"."id" = 1 ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
-// 主键查询,主键为string类型
-func Select_ByPrimaryKeyTypeIsString() {
+// SelectByStringPrimaryKey 主键查询,主键为string类型
+func SelectByStringPrimaryKey() {
 	db.Debug().First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a")
 	// SELECT * FROM users WHERE id = "1b74413f-f3b8-409f-ac47-e8c062e3472a"
 }

@@ -30,7 +30,7 @@ func DefaultCreate() {
 	// result.RowsAffected // 返回插入记录的条数
 }
 
-// 使用选定字段创建
+// CreateBySelectField 使用选定字段创建
 func CreateBySelectField() {
 	user := User{Name: "wangpengliang", Age: 18, Address: "beijing"}
 	// 这里只会插入Name,Age两个字段,虽然传入的user是3个字段
@@ -38,7 +38,7 @@ func CreateBySelectField() {
 	// INSERT INTO "User" ("created_at","updated_at","name","age") OUTPUT INSERTED."id" VALUES ('2022-04-15 23:15:32.688','2022-04-15 23:15:32.688','wangpengliang',18);
 }
 
-// 排除指定字段创建
+// CreateByExcludeField 排除指定字段创建
 func CreateByExcludeField() {
 	user := User{Name: "wangpengliang", Age: 18, Address: "beijing"}
 	// 这里会排除Age字段
@@ -46,7 +46,7 @@ func CreateByExcludeField() {
 	// INSERT INTO "User" ("created_at","updated_at","deleted_at","name","address") OUTPUT INSERTED."id" VALUES ('2022-04-15 23:17:28.892','2022-04-15 23:17:28.892',NULL,'wangpengliang','beijing');
 }
 
-// 批量创建
+// BatchCreate 批量创建
 func BatchCreate() {
 	users := []User{
 		{Name: "wangpengliang", Age: 18, Address: "beijing"},
@@ -56,7 +56,7 @@ func BatchCreate() {
 	// INSERT INTO "User" ("created_at","updated_at","deleted_at","name","age","address") OUTPUT INSERTED."id" VALUES ('2022-04-15 23:18:39.353','2022-04-15 23:18:39.353',NULL,'wangpengliang',18,'beijing'),('2022-04-15 23:18:39.353','2022-04-15 23:18:39.353',NULL,'lizimeng',19,'shanghai');
 }
 
-// 根据Map创建
+// CreateByMap 根据Map创建
 func CreateByMap() {
 	db.Model(&User{}).Debug().Create(map[string]interface{}{
 		"Name": "wangpengliang", "Age": 18, "Address": "beijing",
