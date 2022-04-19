@@ -16,7 +16,7 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	In()
+	LimitAndOffset()
 }
 
 // First 查询单个对象(主键升序)
@@ -69,158 +69,151 @@ func In() {
 // Where 查询条件
 func Where() {
 	// 获取第一条匹配的记录
-	db.Where("name = ?", "wangpengliang").Debug().First(&user)
-	// SELECT * FROM "User" WHERE name = 'wangpengliang' ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Where("name = ?", "wangpengliang").Debug().First(new(User))
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// 获取全部匹配的记录
-	db.Where("name <> ?", "wangpengliang").Debug().Find(&users)
+	db.Where("name <> ?", "wangpengliang").Debug().Find(new(User))
 	// SELECT * FROM "User" WHERE name <> 'wangpengliang'
 
 	// IN
-	db.Where("name IN ?", []string{"wangpengliang", "lizimeng"}).Debug().Find(&users)
+	db.Where("name IN ?", []string{"wangpengliang", "lizimeng"}).Debug().Find(new(User))
 	// SELECT * FROM "User" WHERE name IN ('wangpengliang','lizimeng')
 
 	// LIKE
-	db.Where("name LIKE ?", "%wangpengliang%").Debug().Find(&users)
+	db.Where("name LIKE ?", "%wangpengliang%").Debug().Find(new(User))
 	// SELECT * FROM "User" WHERE name LIKE '%wangpengliang%'
 
 	// AND
-	db.Where("name = ? AND age >= ?", "wangpengliang", "10").Debug().Find(&users)
+	db.Where("name = ? AND age >= ?", "wangpengliang", "10").Debug().Find(new(User))
 	// SELECT * FROM "User" WHERE name = 'wangpengliang' AND age >= '10'
 
 	// Time
-	db.Where("updated_at > ?", "2022-01-01").Debug().Find(&users)
-	// SELECT * FROM "User" WHERE updated_at > '2022-01-01' AND "User"."deleted_at" IS NULL
+	db.Where("CreateTime > ?", "2022-01-01").Debug().Find(new(User))
+	// SELECT * FROM "User" WHERE CreateTime > '2022-01-01'
 
 	// BETWEEN
-	db.Where("created_at BETWEEN ? AND ?", "2022-01-01", "2022-09-01").Debug().Find(&users)
-	// SELECT * FROM "User" WHERE (created_at BETWEEN '2022-01-01' AND '2022-09-01') AND "User"."deleted_at" IS NULL
+	db.Where("CreateTime BETWEEN ? AND ?", "2022-01-01", "2022-09-01").Debug().Find(new(User))
+	// SELECT * FROM "User" WHERE CreateTime BETWEEN '2022-01-01' AND '2022-09-01'
 }
 
 // SelectByStructOrMap 指定Struct或者Map查询
 // 注意:当使用结构作为条件查询时，GORM 只会查询非零值字段。这意味着如果字段值为 0、''、false 或其他 零值，该字段不会被用于构建查询条件
-//      如果想要包含零值查询条件，可以使用 map，会包含所有 key-value 的查询条件
+// 如果想要包含零值查询条件，可以使用 map，会包含所有 key-value 的查询条件
 func SelectByStructOrMap() {
 	// Struct
-	db.Where(&User{Name: "wangpengliang", Age: 18}).Debug().First(&user)
-	// SELECT * FROM "User" WHERE "User"."name" = 'wangpengliang' AND "User"."age" = 18 AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Where(&User{Name: "wangpengliang", Age: 18}).Debug().First(new(User))
+	// SELECT * FROM "User" WHERE "User"."Name" = 'wangpengliang' AND "User"."Age" = 18 ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// Map
-	db.Where(map[string]interface{}{"name": "wangpengliang", "age": 18}).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "age" = 18 AND "name" = 'wangpengliang' AND "User"."deleted_at" IS NULL
+	db.Where(map[string]interface{}{"name": "wangpengliang", "age": 18}).Debug().Find(new([]User))
+	// SELECT * FROM "User" WHERE "age" = 18 AND "name" = 'wangpengliang'
 
 	// 主键切片条件
-	db.Where([]int64{20, 21, 22}).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "User"."id" IN (20,21,22) AND "User"."deleted_at" IS NULL
+	db.Where([]int64{20, 21, 22}).Debug().Find(new([]User))
+	// SELECT * FROM "User" WHERE "User"."Id" IN (20,21,22)
 }
 
 // InlineSelect 内联查询,将查询条件内联到 First 和 Find 之类的方法中，用法类似于 Where
 func InlineSelect() {
 	// 根据主键获取记录，如果是非整型主键
-	db.Debug().First(&user, "id = ?", "string_primary_key")
-	// SELECT * FROM "User" WHERE id = 'string_primary_key' AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONL
+	db.Debug().First(new(User), "id = ?", "string_primary_key")
 
 	// Plain SQL
-	db.Debug().Find(&user, "name = ?", "wangpengliang")
-	// SELECT * FROM "User" WHERE name = 'wangpengliang' AND "User"."deleted_at" IS NULL
+	db.Debug().Find(new(User), "name = ?", "wangpengliang")
 
-	db.Debug().Find(&users, "name <> ? AND age > ?", "wangpengliang", 20)
-	// SELECT * FROM "User" WHERE (name <> 'wangpengliang' AND age > 20) AND "User"."deleted_at" IS NULL
+	db.Debug().Find(new(User), "name <> ? AND age > ?", "wangpengliang", 20)
 
 	// Struct
-	db.Debug().Find(&users, User{Age: 20})
-	// SELECT * FROM "User" WHERE "User"."age" = 20 AND "User"."deleted_at" IS NULL
+	db.Debug().Find(new(User), User{Age: 20})
 
 	// Map
-	db.Debug().Find(&users, map[string]interface{}{"age": 20})
-	// SELECT * FROM "User" WHERE "age" = 20 AND "User"."deleted_at" IS NULL
+	db.Debug().Find(new(User), map[string]interface{}{"age": 20})
 }
 
 // Not 构建 NOT 条件，用法和Where类似不过是取反值
 func Not() {
-	db.Not("name = ?", "wangpengliang").Debug().First(&user)
-	// SELECT * FROM "User" WHERE NOT name = 'wangpengliang' AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Not("name = ?", "wangpengliang").Debug().First(new(User))
+	// SELECT * FROM "User" WHERE NOT name = 'wangpengliang' ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// Not In
-	db.Not(map[string]interface{}{"name": []string{"wangpengliang", "wangpengliang 2"}}).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "name" NOT IN ('wangpengliang','wangpengliang 2') AND "User"."deleted_at" IS NULL
+	db.Not(map[string]interface{}{"name": []string{"wangpengliang", "wangpengliang2"}}).Debug().Find(new([]User))
+	// SELECT * FROM "User" WHERE "name" NOT IN ('wangpengliang','wangpengliang2')
 
 	// Struct
-	db.Not(User{Name: "wangpengliang", Age: 18}).Debug().First(&user)
-	// SELECT * FROM "User" WHERE ("User"."name" <> 'wangpengliang' AND "User"."age" <> 18) AND "User"."deleted_at" IS NULL AND "User"."id" = 2 ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Not(User{Name: "wangpengliang", Age: 18}).Debug().First(new(User))
+	// SELECT * FROM "User" WHERE ("User"."Name" <> 'wangpengliang' AND "User"."Age" <> 18) ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// 不在主键切片中的记录
-	db.Not([]int64{1, 2, 3}).Debug().First(&user)
-	// SELECT * FROM "User" WHERE "User"."id" NOT IN (1,2,3) AND "User"."deleted_at" IS NULL AND "User"."id" = 2 ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Not([]int64{1, 2, 3}).Debug().First(new(User))
+	// SELECT * FROM "User" WHERE "User"."Id" NOT IN (1,2,3) ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
 // Or 构建 OR 条件
 func Or() {
-	db.Where("name = ?", "wangpengliang").Or("age = ?", 18).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE (name = 'wangpengliang' OR age = 18) AND "User"."deleted_at" IS NULL
+	db.Where("name = ?", "wangpengliang").Or("age = ?", 18).Debug().Find(new([]User))
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' OR age = 18
 
 	// Struct
-	db.Where("name = 'wangpengliang'").Or(User{Age: 18}).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE (name = 'wangpengliang' OR "User"."age" = 18) AND "User"."deleted_at" IS NULL
+	db.Where("name = 'wangpengliang'").Or(User{Age: 18}).Debug().Find(new(User))
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' OR "User"."Age" = 18
 
 	// Map
-	db.Where("name = 'wangpengliang'").Or(map[string]interface{}{"age": 18}).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE (name = 'wangpengliang' OR "age" = 18) AND "User"."deleted_at" IS NULL
+	db.Where("name = 'wangpengliang'").Or(map[string]interface{}{"age": 18}).Debug().Find(new([]User))
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' OR "age" = 18
 }
 
 // FixedFieldSelect 查询指定字段
 func FixedFieldSelect() {
-	db.Select("name", "age").Debug().Find(&users)
-	// SELECT "name","age" FROM "User" WHERE "User"."deleted_at" IS NULL
+	db.Select("name", "age").Debug().Find(new([]User))
+	// SELECT name,age FROM "User"
 
-	db.Select([]string{"name", "age"}).Debug().Find(&users)
-	// SELECT "name","age" FROM "User" WHERE "User"."deleted_at" IS NULL
+	db.Select([]string{"name", "age"}).Debug().Find(new([]User))
+	// SELECT name,age FROM "User"
 
-	db.Table("user").Select("COALESCE(age,?)", 42).Debug().Rows()
-	// SELECT COALESCE(age,42) FROM "user"
+	// COALESCE函数当age=null时返回18否则返回真实值
+	db.Table("User").Select("COALESCE(age,?)", 18).Debug().Rows()
+	//  SELECT COALESCE(age,18) FROM "User"
 }
 
 // Order Order排序
 func Order() {
-	db.Order("age desc, name").Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY age desc, name
+	db.Order("age desc, name").Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY age desc, name
 
 	// 多个 order
-	db.Order("age desc").Order("name").Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY age desc,name
+	db.Order("age desc").Order("name").Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY age desc,name
 
+	// 注意：mssql: 'FIELD' 不是可以识别的内置函数名称
 	db.Clauses(clause.OrderBy{
 		Expression: clause.Expr{SQL: "FIELD(id,?)", Vars: []interface{}{[]int{1, 2, 3}}, WithoutParentheses: true},
-	}).Debug().Find(&User{})
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY FIELD(id,1,2,3)
-	// 注意：mssql: 'FIELD' 不是可以识别的 内置函数名称
+	}).Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY FIELD(id,1,2,3)
 }
 
 // LimitAndOffset SQLServer中的TOP
 func LimitAndOffset() {
-	var users1 []User
-	var users2 []User
-
-	db.Limit(1).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 0 ROW FETCH NEXT 3 ROWS ONLY
+	db.Limit(1).Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY "Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// 通过 -1 消除 Limit 条件
-	db.Limit(1).Find(&users1).Limit(-1).Debug().Find(&users2)
-	// SELECT * FROM users LIMIT 10; (users1)
-	// SELECT * FROM users; (users2)
+	db.Limit(1).Find(new([]User)).Limit(-1).Debug().Find(new([]User))
+	// SELECT * FROM User LIMIT 10; (users1)
+	// SELECT * FROM User; (users2)
 
 	// offset表示跳过几行
-	db.Offset(1).Debug().Find(&users)
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 1 ROWS
+	db.Offset(1).Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY "Id" OFFSET 1 ROWS
 
 	// 跳过1行获取第一条
-	db.Limit(1).Offset(1).Find(&users)
-	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 1 ROWS
+	db.Limit(1).Offset(1).Debug().Find(new([]User))
+	// SELECT * FROM "User" ORDER BY "Id" OFFSET 1 ROWS FETCH NEXT 1 ROWS ONLY
 
 	// 通过 -1 消除 Offset 条件,跟上面同理
-	db.Offset(1).Find(&users1).Offset(-1).Find(&users2)
-	// SELECT * FROM users OFFSET 10; (users1)
-	// SELECT * FROM users; (users2)
+	db.Offset(1).Find(new([]User)).Offset(-1).Debug().Find(new([]User))
+	// SELECT * FROM User OFFSET 10; (users1)
+	// SELECT * FROM User; (users2)
 }
 
 // GroupAndHaving Group分组及Having
