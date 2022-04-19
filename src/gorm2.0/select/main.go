@@ -16,12 +16,11 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	Select_GroupAndHaving()
+	Select_Distinct()
 }
 
 // Select_First 查询单个对象(主键升序)
 func Select_First() {
-	var user User
 	db.Debug().First(&user)
 	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
@@ -33,68 +32,70 @@ func Select_First() {
 
 // Select_Take 查询单个对象(使用自然排序)
 func Select_Take() {
-	var user User
 	db.Debug().Take(&user)
 	//  SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
 // Select_Last 查询单个对象(主键倒序)
 func Select_Last() {
-	var user User
 	db.Debug().Last(&user)
 	// SELECT * FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY "User"."id" DESC OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 	fmt.Printf("user:%#v", user)
 }
 
-// 主键查询,如果主键是数字类型，可以使用内联条件来检索对象
+// 主键查询,主键为int类型
 func Select_First_ByPrimaryKey() {
-	var user User
-	db.Debug().First(&user, 1) // SELECT * FROM "User" WHERE "User"."id" = 1 ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
-	fmt.Printf("user:%#v", user)
+	db.Debug().First(&user, 1)
+	// SELECT * FROM "User" WHERE "User"."id" = 1 ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+}
+
+// 主键查询,主键为string类型
+func Select_ByPrimaryKeyTypeIsString() {
+	db.Debug().First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a")
+	// SELECT * FROM users WHERE id = "1b74413f-f3b8-409f-ac47-e8c062e3472a"
 }
 
 // 查询全部或者in操作
 func Select_Find() {
-	var users []User
 	db.Debug().Find(&users, []int{1, 2}) // SELECT * FROM "User" WHERE "User"."id" IN (1,2)
 	db.Debug().Find(&users)              // SELECT * FROM "User"
-	fmt.Printf("users:%#v", users)
 }
 
 // 查询条件
 func Select_Where() {
-	var user User
-	var users []User
 	// 获取第一条匹配的记录
-	db.Where("name = ?", "wangpengliang").Debug().First(&user) // SELECT * FROM "User" WHERE name = 'wangpengliang' ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	db.Where("name = ?", "wangpengliang").Debug().First(&user)
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
 	// 获取全部匹配的记录
-	db.Where("name <> ?", "wangpengliang").Debug().Find(&users) // SELECT * FROM "User" WHERE name <> 'wangpengliang'
+	db.Where("name <> ?", "wangpengliang").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE name <> 'wangpengliang'
 
 	// IN
-	db.Where("name IN ?", []string{"wangpengliang", "lizimeng"}).Debug().Find(&users) // SELECT * FROM "User" WHERE name IN ('wangpengliang','lizimeng')
+	db.Where("name IN ?", []string{"wangpengliang", "lizimeng"}).Debug().Find(&users)
+	// SELECT * FROM "User" WHERE name IN ('wangpengliang','lizimeng')
 
 	// LIKE
-	db.Where("name LIKE ?", "%wangpengliang%").Debug().Find(&users) // SELECT * FROM "User" WHERE name LIKE '%wangpengliang%'
+	db.Where("name LIKE ?", "%wangpengliang%").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE name LIKE '%wangpengliang%'
 
 	// AND
-	db.Where("name = ? AND age >= ?", "wangpengliang", "10").Debug().Find(&users) // SELECT * FROM "User" WHERE name = 'wangpengliang' AND age >= '10'
+	db.Where("name = ? AND age >= ?", "wangpengliang", "10").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE name = 'wangpengliang' AND age >= '10'
 
 	// Time
-	db.Where("updated_at > ?", "2022-01-01").Debug().Find(&users) // SELECT * FROM "User" WHERE updated_at > '2022-01-01' AND "User"."deleted_at" IS NULL
+	db.Where("updated_at > ?", "2022-01-01").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE updated_at > '2022-01-01' AND "User"."deleted_at" IS NULL
 
 	// BETWEEN
-	db.Where("created_at BETWEEN ? AND ?", "2022-01-01", "2022-09-01").Debug().Find(&users) // SELECT * FROM "User" WHERE (created_at BETWEEN '2022-01-01' AND '2022-09-01') AND "User"."deleted_at" IS NULL
+	db.Where("created_at BETWEEN ? AND ?", "2022-01-01", "2022-09-01").Debug().Find(&users)
+	// SELECT * FROM "User" WHERE (created_at BETWEEN '2022-01-01' AND '2022-09-01') AND "User"."deleted_at" IS NULL
 }
 
 // 指定Struct或者Map查询
 // 注意:当使用结构作为条件查询时，GORM 只会查询非零值字段。这意味着如果字段值为 0、''、false 或其他 零值，该字段不会被用于构建查询条件
 //      如果想要包含零值查询条件，可以使用 map，会包含所有 key-value 的查询条件
 func Select_Struct() {
-	var user User
-
-	var users []User
-
 	// Struct
 	db.Where(&User{Name: "wangpengliang", Age: 18}).Debug().First(&user)
 	// SELECT * FROM "User" WHERE "User"."name" = 'wangpengliang' AND "User"."age" = 18 AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
@@ -110,10 +111,6 @@ func Select_Struct() {
 
 // 内联查询,将查询条件内联到 First 和 Find 之类的方法中，用法类似于 Where
 func Select_Inline() {
-	var user User
-
-	var users []User
-
 	// 根据主键获取记录，如果是非整型主键
 	db.Debug().First(&user, "id = ?", "string_primary_key")
 	// SELECT * FROM "User" WHERE id = 'string_primary_key' AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONL
@@ -136,8 +133,6 @@ func Select_Inline() {
 
 // 构建 NOT 条件，用法和Where类似不过是取反值
 func Select_Not() {
-	var user User
-	var users []User
 	db.Not("name = ?", "wangpengliang").Debug().First(&user)
 	// SELECT * FROM "User" WHERE NOT name = 'wangpengliang' AND "User"."deleted_at" IS NULL ORDER BY "User"."id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 
@@ -156,7 +151,6 @@ func Select_Not() {
 
 // 构建 OR 条件
 func Select_Or() {
-	var users []User
 	db.Where("name = ?", "wangpengliang").Or("age = ?", 18).Debug().Find(&users)
 	// SELECT * FROM "User" WHERE (name = 'wangpengliang' OR age = 18) AND "User"."deleted_at" IS NULL
 
@@ -256,4 +250,10 @@ func Select_GroupAndHaving() {
 
 	db.Table("user").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 30).Debug().Scan(&result)
 	// SELECT name, sum(age) as total FROM "user" GROUP BY "name" HAVING sum(age) > 30
+}
+
+// Distinct
+func Select_Distinct() {
+	db.Distinct("name", "age").Order("name, age desc").Debug().Find(&user)
+	// SELECT DISTINCT "name","age" FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY name, age desc
 }

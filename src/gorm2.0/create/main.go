@@ -15,7 +15,7 @@ func main() {
 	Insert_Batch()
 }
 
-// Insert 普通创建
+// Insert 默认创建方式
 func Insert() {
 	user := User{Name: "wangpengliang", Age: 18, Address: "beijing"}
 
