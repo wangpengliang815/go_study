@@ -13,7 +13,7 @@ import (
 var db = CreateDbConn()
 
 func main() {
-	CreateByMap()
+	CreateInBatches()
 }
 
 // DefaultCreate 默认创建方式
@@ -27,16 +27,16 @@ func DefaultCreate() {
 	fmt.Println(result.RowsAffected, user.Id) // 返回插入记录的条数 | 插入数据的主键
 }
 
-// CreateBySelectField 使用选定字段创建
-func CreateBySelectField() {
+// SpecifiedField 使用指定字段创建
+func SpecifiedField() {
 	user := User{Name: "wangpengliang", Age: 18, PhoneNumber: "18888888888", Address: "beijing", CreateTime: time.Now()}
-	// 这里只会插入Name,Age两个字段,虽然user是多个个字段
+	// 这里只会插入Name,Age两个字段,虽然user是多个字段
 	db.Select("Name", "Age").Debug().Create(&user)
 	// INSERT INTO "User" ("Name","Age") OUTPUT INSERTED."Id" VALUES ('wangpengliang',18);
 }
 
-// CreateByExcludeField 排除指定字段创建
-func CreateByExcludeField() {
+// ExcludeSpecifiedField 排除指定字段
+func ExcludeSpecifiedField() {
 	user := User{Name: "wangpengliang", Age: 18, PhoneNumber: "18888888888", Address: "beijing", CreateTime: time.Now()}
 	// 这里会排除Age、PhoneNumber字段
 	db.Omit("Age", "PhoneNumber").Debug().Create(&user)
@@ -51,6 +51,23 @@ func BatchCreate() {
 	}
 	db.Debug().Create(&users)
 	// INSERT INTO "User" ("Name","Age","PhoneNumber","Address","CreateTime") OUTPUT INSERTED."Id" VALUES ('wangpengliang',18,'18888888888','beijing','2022-04-19 17:21:18.668'),('lizimeng',19,'166666666','shanghai','2022-04-19 17:21:18.668');
+}
+
+// CreateInBatches 分批批量创建
+func CreateInBatches() {
+	users := []User{
+		{Name: "w1", Age: 18, PhoneNumber: "18888888888", Address: "beijing", CreateTime: time.Now()},
+		{Name: "w2", Age: 19, PhoneNumber: "166666666", Address: "shanghai", CreateTime: time.Now()},
+		{Name: "w3", Age: 20, PhoneNumber: "166666666", Address: "shanghai", CreateTime: time.Now()},
+		{Name: "w4", Age: 21, PhoneNumber: "166666666", Address: "shanghai", CreateTime: time.Now()},
+		{Name: "w5", Age: 22, PhoneNumber: "166666666", Address: "shanghai", CreateTime: time.Now()},
+		{Name: "w6", Age: 23, PhoneNumber: "166666666", Address: "shanghai", CreateTime: time.Now()},
+	}
+	// 分批创建,每批数量为2
+	db.Debug().CreateInBatches(users, 2)
+	// INSERT INTO "User" ("Name","Age","PhoneNumber","Address","CreateTime") OUTPUT INSERTED."Id" VALUES ('w1',18,'18888888888','beijing','2022-04-20 14:09:02.946'),('w2',19,'166666666','shanghai','2022-04-20 14:09:02.946');
+	// INSERT INTO "User" ("Name","Age","PhoneNumber","Address","CreateTime") OUTPUT INSERTED."Id" VALUES ('w3',20,'166666666','shanghai','2022-04-20 14:09:02.946'),('w4',21,'166666666','shanghai','2022-04-20 14:09:02.946');
+	// INSERT INTO "User" ("Name","Age","PhoneNumber","Address","CreateTime") OUTPUT INSERTED."Id" VALUES ('w5',22,'166666666','shanghai','2022-04-20 14:09:02.946'),('w6',23,'166666666','shanghai','2022-04-20 14:09:02.946');
 }
 
 // CreateByMap 根据Map创建

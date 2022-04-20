@@ -19,38 +19,36 @@ func main() {
 	Scan()
 }
 
-// First 查询单个对象(主键升序)
-func First() {
-	db.Debug().First(&user)
+// SelectSingle 查询单个对象,First 和 Last 会根据主键排序，分别查询第一条和最后一条。
+// 只有在目标 struct 是指针或者通过 db.Model() 指定 model 时，该方法才有效。
+// 此外，如果相关 model 没有定义主键，那么将按 model 的第一个字段进行排序
+func SelectSingle() {
+	var user User
+	db.Debug().First(&user) // 查询单个对象(主键升序)
 	// SELECT * FROM "User" ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 	fmt.Printf("user:%#v", user)
+
 	// 或者
-	user := new(User)
-	db.Debug().First(user)
-	fmt.Printf("user:%#v", user)
-}
+	user1 := new(User)
+	db.Debug().First(&user1)
+	// // SELECT * FROM "User" ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
+	fmt.Printf("%#v", user)
 
-// Take 查询单个对象(使用自然排序)
-func Take() {
-	db.Debug().Take(&user)
+	var user2 User
+	db.Debug().Take(&user2) // 	查询单个对象(使用自然排序)
 	// SELECT * FROM "User" ORDER BY "Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
-}
 
-// Last 查询单个对象(主键倒序)
-func Last() {
-	db.Debug().Last(&user)
+	var user3 User
+	db.Debug().Last(&user3) // 查询单个对象(主键倒序)
 	// SELECT * FROM "User" ORDER BY "User"."Id" DESC OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
 }
 
-// SelectByIntPrimaryKey 主键查询,主键为int类型
+// SelectByIntPrimaryKey 主键查询
 func SelectByIntPrimaryKey() {
-	db.Debug().First(&user, 1)
+	db.Debug().First(&user, 1) // 主键为int类型
 	// SELECT * FROM "User" WHERE "User"."Id" = 1 ORDER BY "User"."Id" OFFSET 0 ROW FETCH NEXT 1 ROWS ONLY
-}
 
-// SelectByStringPrimaryKey 主键查询,主键为string类型可以这么写
-func SelectByStringPrimaryKey() {
-	db.Debug().First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a")
+	db.Debug().First(&user, "id = ?", "1b74413f-f3b8-409f-ac47-e8c062e3472a") // 主键为string类型
 	// SELECT * FROM "User" WHERE "User"."Id" = "1b74413f-f3b8-409f-ac47-e8c062e3472a"
 }
 
