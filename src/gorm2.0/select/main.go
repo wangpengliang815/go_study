@@ -16,7 +16,7 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	LimitAndOffset()
+	Distinct()
 }
 
 // First 查询单个对象(主键升序)
@@ -219,41 +219,40 @@ func LimitAndOffset() {
 // GroupAndHaving Group分组及Having
 func GroupAndHaving() {
 	type Result struct {
-		name  string
-		total int
+		Name  string
+		Total int
 	}
-
 	var result []Result
-	db.Model(&User{}).Select("name, sum(age) as total").Group("name").Debug().Find(&result)
-	// SELECT name, sum(age) as total FROM "User" WHERE "User"."deleted_at" IS NULL GROUP BY "name"
-	fmt.Printf("result:%#v", result)
+	db.Model(new(User)).Select("Name, sum(age) as total").Group("name").Debug().Find(&result)
+	// SELECT Name, sum(age) as total FROM "User" GROUP BY "name"
+	fmt.Println(result)
 
-	db.Model(&User{}).Select("name, sum(age) as total").Group("name").Having("name = ?", "wangpengliang").Debug().Find(&result)
-	// SELECT name, sum(age) as total FROM "User" WHERE "User"."deleted_at" IS NULL GROUP BY "name" HAVING name = 'wangpengliang'
+	db.Model(new(User)).Select("name, sum(age) as total").Group("name").Having("name = ?", "wangpengliang").Debug().Find(&result)
+	// SELECT name, sum(age) as total FROM "User" GROUP BY "name" HAVING name = 'wangpengliang'
 
-	rows, _ := db.Table("user").Select("name, sum(age) as total").Group("name").Debug().Rows()
+	rows, _ := db.Table("User").Select("name, sum(age) as total").Group("name").Debug().Rows()
 	// SELECT name, sum(age) as total FROM "user" GROUP BY "name"
 	defer rows.Close()
-
 	for rows.Next() {
 		//
 	}
 
-	rows2, _ := db.Table("user").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 10).Debug().Rows()
-	// SELECT name, sum(age) as total FROM "user" GROUP BY "name" HAVING sum(age) > 10
+	rows2, _ := db.Table("User").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 10).Debug().Rows()
+	// SELECT name, sum(age) as total FROM "User" GROUP BY "name" HAVING sum(age) > 10
 	defer rows2.Close()
 	for rows2.Next() {
 		//
 	}
 
-	db.Table("user").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 30).Debug().Scan(&result)
+	db.Table("User").Select("name, sum(age) as total").Group("name").Having("sum(age) > ?", 30).Debug().Scan(&result)
 	// SELECT name, sum(age) as total FROM "user" GROUP BY "name" HAVING sum(age) > 30
+	fmt.Println(result)
 }
 
 // Distinct 去重复
 func Distinct() {
-	db.Distinct("name", "age").Order("name, age desc").Debug().Find(&user)
-	// SELECT DISTINCT "name","age" FROM "User" WHERE "User"."deleted_at" IS NULL ORDER BY name, age desc
+	db.Distinct("name,age").Order("name,age desc").Debug().Find(&user)
+	// SELECT DISTINCT name,age FROM "User" ORDER BY name,age desc
 }
 
 // Join 联表操作

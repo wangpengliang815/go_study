@@ -25,7 +25,6 @@ func CreateDbConn() *gorm.DB {
 
 	// 启用自动迁移生成表
 	_ = db.AutoMigrate(&User{})
-	//_ = db.AutoMigrate(&Person{})
-	_ = db.AutoMigrate(&Address{})
+	_ = db.AutoMigrate(&UserInfo{})
 	return db
 }
