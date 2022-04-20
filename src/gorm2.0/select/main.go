@@ -16,7 +16,7 @@ var users User
 var db = CreateDbConn()
 
 func main() {
-	Distinct()
+	Scan()
 }
 
 // First 查询单个对象(主键升序)
@@ -258,20 +258,45 @@ func Distinct() {
 // Join 联表操作
 func Join() {
 	type Result struct {
-		name      string
-		age       int
-		emailName string
+		Name        string
+		Age         int
+		Description string
 	}
-	db.Model(&User{}).Select("User.name,User.age,Address.Province,Address.City,Address.Area").Joins("left join Address on Address.user_id = User.id").Debug().Scan(&Result{})
-	// SELECT users.name, emails.email FROM `users` left join emails on emails.user_id = users.id
+	var result []Result
+	db.Model(new(User)).Select("[User].name,[User].age,UserInfo.Description").Joins("left join UserInfo on UserInfo.UserId = [User].Id").Debug().Scan(&result)
+	// SELECT [User].name,[User].age,UserInfo.Description FROM "User" left join UserInfo on UserInfo.UserId = [User].Id
+	for _, value := range result {
+		fmt.Println(value.Name, value.Age, value.Description)
+	}
 
-	//rows, err := db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Rows()
-	//for rows.Next() {
-	//	...
-	//}
-	//
-	//db.Table("users").Select("users.name, emails.email").Joins("left join emails on emails.user_id = users.id").Scan(&results)
-	//
-	//// 带参数的多表连接
-	//db.Joins("JOIN emails ON emails.user_id = users.id AND emails.email = ?", "jinzhu@example.org").Joins("JOIN credit_cards ON credit_cards.user_id = users.id").Where("credit_cards.number = ?", "411111111111").Find(&user)
+	db.Table("User").Select("[User].name, UserInfo.Description").Joins("left join UserInfo on UserInfo.UserId = [User].Id").Debug().Rows()
+	// SELECT [User].name, UserInfo.Description FROM "User" left join UserInfo on UserInfo.UserId = [User].Id
+
+	var result2 []Result
+	db.Table("User").Select("[User].name, UserInfo.Description").Joins("left join UserInfo on UserInfo.UserId = [User].Id").Debug().Scan(&result2)
+	for _, value := range result2 {
+		fmt.Println(value.Name, value.Age, value.Description)
+	}
+
+	// 带参数的多表连接
+	db.Joins("JOIN UserInfo ON UserInfo.UserId = [User].Id AND [User].Name = ?", "wangpengliang").Debug().Find(new([]User))
+	// SELECT "User"."Id","User"."Name","User"."Age","User"."PhoneNumber","User"."Address","User"."CreateTime" FROM "User" JOIN UserInfo ON UserInfo.UserId = [User].Id AND [User].Name = 'wangpengliang'
+
+	// TODO:Joins预加载
+}
+
+// Scan 将结果到至 struct，用法与 Find 类似
+func Scan() {
+	type Result struct {
+		Name string
+		Age  int
+	}
+
+	var result Result
+	db.Table("User").Select("name", "age").Where("name = ?", "wangpengliang").Scan(&result)
+	fmt.Println(result)
+
+	// 原生 SQL
+	db.Raw("SELECT name, age FROM [User] WHERE name = ?", "wangpengliang").Scan(&result)
+	fmt.Println(result)
 }
