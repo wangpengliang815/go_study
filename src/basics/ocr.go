@@ -41,7 +41,7 @@ func main() {
 	query.Set("access_token", accessToken)
 	uri.RawQuery = query.Encode()
 
-	filebytes, err := ioutil.ReadFile("C:/Users/Administrator/Desktop/小票样例/1628421144000304.jpg")
+	filebytes, err := ioutil.ReadFile("C:/Users/Administrator/Desktop/小票样例/test.png")
 	if err != nil {
 		fmt.Println(err)
 	}
