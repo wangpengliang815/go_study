@@ -19,7 +19,7 @@ func CreateDbConn() *gorm.DB {
 	// 数据库连接字符串
 	connString := fmt.Sprintf("server=%s;port=%d;database=%s;user id=%s;password=%s", server, port, database, user, password)
 	db, err := gorm.Open(sqlserver.Open(connString), &gorm.Config{
-		QueryFields: true, // QueryFields 模式会根据当前 model 的所有字段名称进行 select
+		//	QueryFields: true, // QueryFields 模式会根据当前 model 的所有字段名称进行 select
 	})
 	if err != nil {
 		log.Fatal("create connString failed!:" + err.Error())
