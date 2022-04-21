@@ -4,12 +4,13 @@ import (
 	"database/sql"
 	"fmt"
 	. "goProject/gorm2.0/common"
+	"gorm.io/gorm"
 )
 
 var db = CreateDbConn()
 
 func main() {
-	FirstOrInit()
+	FindInBatches()
 }
 
 // SelectField 自动选择字段,其实就是定义了一个小的结构体gorm内部反射进行名称匹配赋值
@@ -129,5 +130,45 @@ func FirstOrInit() {
 
 // FirstOrCreate 获取第一条匹配的记录，或者根据给定的条件创建一条新纪录（仅支持 struct 和 map 条件）
 func FirstOrCreate() {
+	// 未找到 user，则根据给定条件创建一条新纪录
+	db.Debug().FirstOrCreate(&User{}, User{Name: "w7", Age: 20})
+	//  INSERT INTO "User" ("Name","Age","PhoneNumber","Address","CreateTime") OUTPUT INSERTED."Id" VALUES ('w7',20,'','','0000-00-00 00:00:00');
 
+	// 找到 name = w1 的 user
+	var user User
+	db.Where(User{Name: "w1"}).FirstOrCreate(&user)
+	fmt.Println(user)
+	// {1 w1 18 18888888888 beijing 2022-04-20 14:09:02.9464344 +0800 +0800}
+}
+
+// RowNext 通过行进行迭代
+func RowNext() {
+	rows, _ := db.Model(&User{}).Where("name = ?", "w1").Rows()
+	defer func(rows *sql.Rows) {
+		_ = rows.Close()
+	}(rows)
+
+	for rows.Next() {
+		var user User
+		// ScanRows 方法用于将一行记录扫描至结构体
+		_ = db.ScanRows(rows, &user)
+		fmt.Println(user)
+	}
+}
+
+// FindInBatches 用于批量查询并处理记录
+func FindInBatches() {
+	var users []User
+	// 每次批量处理 2 条
+	result := db.Where("address = ?", "shanghai").
+		FindInBatches(&users, 2, func(tx *gorm.DB, batch int) error {
+			for _, v := range users {
+				// 批量处理找到的记录
+				v.Address = "_test"
+			}
+			tx.Debug().Save(&users)
+			// 如果返回错误会终止后续批量操作
+			return nil
+		})
+	fmt.Println(result.Error, result.RowsAffected) // returned error/整个批量操作影响的记录数
 }
