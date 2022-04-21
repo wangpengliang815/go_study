@@ -10,7 +10,7 @@ import (
 var db = CreateDbConn()
 
 func main() {
-	FindInBatches()
+	Count()
 }
 
 // SelectField 自动选择字段,其实就是定义了一个小的结构体gorm内部反射进行名称匹配赋值
@@ -158,7 +158,7 @@ func RowNext() {
 
 // FindInBatches 用于批量查询并处理记录
 func FindInBatches() {
-	var users []User
+	var users []*User
 	// 每次批量处理 2 条
 	result := db.Where("address = ?", "shanghai").
 		FindInBatches(&users, 2, func(tx *gorm.DB, batch int) error {
@@ -171,4 +171,78 @@ func FindInBatches() {
 			return nil
 		})
 	fmt.Println(result.Error, result.RowsAffected) // returned error/整个批量操作影响的记录数
+}
+
+// Pluck 用于从数据库查询单个列，并将结果扫描到切片
+func Pluck() {
+	var ages []int64
+	db.Model(new(User)).Pluck("age", &ages)
+	fmt.Println(ages)
+
+	var names []string
+	db.Model(&User{}).Pluck("name", &names)
+	fmt.Println(names)
+
+	// Distinct Pluck
+	db.Model(&User{}).Distinct().Pluck("Name", &names)
+	fmt.Println(names)
+
+	// 超过一列的查询，应该使用 `Scan` 或者 `Find`，例如：
+	var user []User
+	db.Model(new(User)).Select("Name", "Age").Debug().Scan(&user)
+	fmt.Println(user)
+	db.Model(new(User)).Select("Name", "Age").Debug().Find(&user)
+	fmt.Println(user)
+}
+
+func AgeGreaterThan18(db *gorm.DB) *gorm.DB {
+	return db.Where("age > ?", 18)
+}
+
+func AddressEqualsShanghai(db *gorm.DB) *gorm.DB {
+	return db.Where("address = ?", "shanghai")
+}
+
+func Id(ids []int) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		return db.Where("id IN (?)", ids)
+	}
+}
+
+// Scope Scopes 允许指定常用查询，可以在调用方法时引用这些查询
+func Scope() {
+	var users []User
+	// 查找age大于18的数据
+	db.Scopes(AgeGreaterThan18).Debug().Find(&users)
+	// SELECT * FROM "User" WHERE age > 18
+
+	var users1 []User
+	db.Scopes(AgeGreaterThan18, AddressEqualsShanghai).Debug().Find(&users1)
+	// SELECT * FROM "User" WHERE age > 18 AND address = 'shanghai'
+
+	var users2 []User
+	db.Scopes(AgeGreaterThan18, Id([]int{1, 2})).Debug().Find(&users2)
+	// SELECT * FROM "User" WHERE age > 18 AND id IN (1,2)
+}
+
+func Count() {
+	var count int64
+	db.Model(&User{}).Where("name = ?", "w1").Or("name = ?", "w1 2").Debug().Count(&count)
+	// SELECT count(*) FROM "User" WHERE name = 'w1' OR name = 'w1 2'
+
+	db.Model(&User{}).Where("name = ?", "w3").Debug().Count(&count)
+	// SELECT count(*) FROM "User" WHERE name = 'w3'
+
+	db.Table("User").Debug().Count(&count)
+	// SELECT count(*) FROM "User"
+
+	// Count with Distinct
+	db.Model(&User{}).Distinct("address").Debug().Count(&count)
+	// SELECT COUNT(DISTINCT("address")) FROM "User"
+
+	db.Table("User").Select("count(distinct(name))").Debug().Count(&count)
+	// SELECT count(distinct(name)) FROM "User
+
+	db.Model(&User{}).Group("name").Debug().Count(&count)
+	// SELECT count(*) FROM "User" GROUP BY "name"
 }
